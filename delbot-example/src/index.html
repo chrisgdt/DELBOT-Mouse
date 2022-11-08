@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dessin Stage</title>
+</head>
+<body style="background-color:#eeeeee;">
+  <h1>Delbot-Mouse</h1>
+  <p>Cette page est un exemple d'utilisation de la librairie Delbot-Mouse (Deep Learning Bot Detector).</p>
+  <p>Le but de reconnaître les bots des humains en fonction des mouvements de souris.</p>
+  <p>La vérification peut se faire par le biais d'un dessin ou de manière passive en arrière-plan.</p>
+
+  <h2>Pour récupérer les données brutes.</h2>
+  <button id="circle" style="margin-bottom: 50px">Cercle</button>
+  <br>
+
+  <h2>Pour tester :</h2>
+  <button id="circle_mod3" style="margin-bottom: 50px">Modèle LSTM 3</button>
+  <button id="circle_mod2" style="margin-bottom: 50px">Modèle LSTM 2</button>
+  <button id="circle_mod1" style="margin-bottom: 50px">Modèle LSTM 1</button>
+
+  <p>Christophe Grandmont, stagiaire au Bureau404, étudiant de l'université de Mons.</p>
+
+  <img src="https://www.bureau404.fr/logo.png" alt="404" style="width:30%;height:30%;">
+  <img src="https://web.umons.ac.be/app/uploads/2018/02/UMONS-EN-rvb.png" alt="404" style="width:20%;height:20%;">
+  <img src="https://web.umons.ac.be/app/uploads/2018/02/Sciencesvert-rouge.png" alt="404" style="width:8%;height:8%;">
+
+  <!-- Import Tensorflow.js to use tf variable -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.0.0/dist/tf.min.js"></script>
+
+  <!--script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.0.2/dist/delbot.js"></script-->
+  <script src="../../delbot-core/dist/delbot.js"></script>
+
+  <script type="module">
+    import {DrawElementSample, DrawElementTesting} from "./drawing.js";
+
+    new DrawElementSample('circle', 'Dessinez un cercle !', 'circleCanvas', 'circleHide');
+
+    new DrawElementTesting('circle_mod3', 'Dessinez un cercle.', 'circleCanvasTest3', 'circleTestHide3', delbot.Models.rnn3);
+    new DrawElementTesting('circle_mod2', 'Dessinez un cercle.', 'circleCanvasTest2', 'circleTestHide2', delbot.Models.rnn2);
+    new DrawElementTesting('circle_mod1', 'Dessinez un cercle.', 'circleCanvasTest1', 'circleTestHide1', delbot.Models.rnn1);
+  </script>
+</body>
+</html>

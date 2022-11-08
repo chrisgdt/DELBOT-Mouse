@@ -1,0 +1,28 @@
+{
+  "name": "@chrisgdt/delbot-example",
+  "version": "0.0.0",
+  "description": "Example of delbot-mouse library usage.",
+  "private": false,
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf esm/ && rimraf lib/ && rimraf dist/",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:umd",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:umd": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrisgdt/DELBOT-Mouse.git",
+    "directory": "delbot-example"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "@chrisgdt/delbot-mouse": "^1.0.0",
+    "@tensorflow/tfjs": "^4.0.0",
+    "@tensorflow/tfjs-node": "^4.0.0"
+  }
+}

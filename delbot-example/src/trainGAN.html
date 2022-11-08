@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TensorFlow.js Model mouse</title>
+
+  <!-- Import TensorFlow.js (max v1.1.2 otherwise you get weird error about shapes) and tfjs-vis -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.1.0/dist/delbot.js"></script>
+  <!--script src="../../delbot-core/dist/delbot.js"></script-->
+
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-training@1.1.0/dist/delbot-training.js"></script>
+  <!--script src="../../delbot-training/dist/delbot-training.js"></script-->
+
+  <script>
+    // Delay for tfjs-vis
+    document.addEventListener('DOMContentLoaded', () => {
+      const gan = new delbotrain.GAN({
+        dataTraining: new delbotrain.DataTraining(new delbot.data.DataSimplePosition({
+          xSize: 35,
+          shouldCompleteXSize: false,
+          numClasses: 1
+        }),true, "../../python/sessions_human_only.json"),
+        epoch: 1000,
+        batchSize: 64,
+        generatorSeedSize: 100,
+        useTfjsVis: true,
+        consoleInfo: true,
+        downloadModels: 50,
+        downloadSample: true
+      });
+
+      gan.train(36);
+    });
+  </script>
+
+</head>
+
+<body>
+</body>
+</html>

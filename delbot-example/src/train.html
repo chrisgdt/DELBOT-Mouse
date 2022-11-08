@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TensorFlow.js Model mouse</title>
+
+  <!-- Import TensorFlow.js and tfjs-vis -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.0.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.1.0/dist/delbot.js"></script>
+  <!--script src="../../delbot-core/dist/delbot.js"></script-->
+
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-training@1.1.0/dist/delbot-training.js"></script>
+  <!--script src="../../delbot-training/dist/delbot-training.js"></script-->
+
+  <script>
+    const dataMatrix = new delbotrain.DataTraining(new delbot.data.DataMovementMatrix({numClasses:2}, false));
+    const dataSimplePos = new delbotrain.DataTraining(new delbot.data.DataSimplePosition({numClasses:2}));
+    const dataOffsetPos = new delbotrain.DataTraining(new delbot.data.DataOffsetPosition({numClasses:2}));
+    const dataFeatures = new delbotrain.DataTraining(new delbot.data.DataFeatures({numClasses:2}));
+    const dataFeatures2 = new delbotrain.DataTraining(new delbot.data.DataFeatures2({numClasses:2}));
+
+
+    const modelConvMovement = new delbotrain.ModelConvolutional({
+      dataTraining: dataMatrix,
+      nameToSave: "downloads://model-conv-matrix",
+      epoch: 30,
+      useTfjsVis: true,
+      consoleInfo: true,
+      optimizer: tf.train.adam(.001),
+    });
+
+    const modelDenseMatrix = new delbotrain.ModelDense({
+      dataTraining: dataMatrix,
+      nameToSave: "downloads://model-dense-matrix",
+      epoch: 30,
+      useTfjsVis: true
+    });
+    const modelDenseFeatures = new delbotrain.ModelDense({
+      dataTraining: dataFeatures,
+      nameToSave: "downloads://model-features",
+      epoch: 30,
+      useTfjsVis: true
+    });
+    const modelDenseSimplePos = new delbotrain.ModelDense({
+      dataTraining: dataSimplePos,
+      nameToSave: "downloads://model-dense-simple-pos",
+      epoch: 30,
+      useTfjsVis: true
+    });
+    const modelDenseOffsetPos = new delbotrain.ModelDense({
+      dataTraining: dataOffsetPos,
+      nameToSave: "downloads://model-dense-offset-pos",
+      epoch: 30,
+      useTfjsVis: true
+    });
+
+
+    const rnnSimplePos = new delbotrain.ModelRNN3({
+      dataTraining: dataSimplePos,
+      nameToSave: "downloads://model-rnn-simple-pos",
+      epoch: 15,
+      useTfjsVis: true,
+    });
+    const rnnOffsetPos = new delbotrain.ModelRNN3({
+      dataTraining: dataOffsetPos,
+      nameToSave: "downloads://model-rnn-offset-pos",
+      epoch: 15,
+      useTfjsVis: true
+    });
+
+    const rnn1Features = new delbotrain.ModelRNN({
+      dataTraining: dataFeatures,
+      nameToSave: "downloads://model-rnn1-features",
+      epoch: 20,
+      useTfjsVis: true
+    });
+    const rnn2Features = new delbotrain.ModelRNN2({
+      dataTraining: dataFeatures,
+      nameToSave: "downloads://model-rnn2-features",
+      epoch: 20,
+      useTfjsVis: true
+    });
+    const rnn3Features = new delbotrain.ModelRNN3({
+      dataTraining: dataFeatures,
+      nameToSave: "downloads://model-rnn3-features",
+      epoch: 20,
+      useTfjsVis: true
+    });
+
+    const rnn1Features2 = new delbotrain.ModelRNN({
+      dataTraining: dataFeatures2,
+      nameToSave: "downloads://model-rnn1-features2",
+      epoch: 20,
+      useTfjsVis: true
+    });
+    const rnn2Features2 = new delbotrain.ModelRNN2({
+      dataTraining: dataFeatures2,
+      nameToSave: "downloads://model-rnn2-features2",
+      epoch: 20,
+      useTfjsVis: true
+    });
+    const rnn3Features2 = new delbotrain.ModelRNN3({
+      dataTraining: dataFeatures2,
+      nameToSave: "downloads://model-rnn3-features2",
+      epoch: 20,
+      useTfjsVis: true,
+      consoleInfo: true
+    });
+
+    // Delay for tfjs-vis
+    document.addEventListener('DOMContentLoaded', () => {rnn3Features2.run()});
+  </script>
+
+</head>
+
+<body>
+</body>
+</html>
