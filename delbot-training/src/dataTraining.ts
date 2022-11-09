@@ -13,6 +13,29 @@ export interface TensorData {
   ys: tf.Tensor<tf.Rank>;
 }
 
+export interface DataTrainingProperties {
+  /**
+   * The data objet to parse raw datas with {@link delbot.data.Data.loadDataSet}.
+   */
+  data: delbot.data.Data;
+
+  /**
+   * A boolean, be default to true, to know if we let the default
+   * normalization of the datas. If false, set the normalization to 1.
+   */
+  normalize?: boolean;
+
+  /**
+   * The path to a json file containing an object {@link Session}. Default to "../../python/sessions.json".
+   */
+  filePath?: string;
+
+  /**
+   * A number between 0 and 1, the %/100 of the training set compared to the whole dataset, default to 0.85 for 85%.
+   */
+  trainingRatio?: number;
+}
+
 /**
  *  Utility class to load raw datas from your computer, parse them with a Data objet and get final
  *  tensors for a model. You first need a json file that represents a {@link Session} object, with
@@ -39,6 +62,7 @@ export class DataTraining {
   public readonly data: delbot.data.Data;
   public readonly filePath: string;
   public readonly normalize: boolean;
+  public readonly trainingRatio: number;
 
   public nbrTrainElements: number = -1;
   public nbrTestElements: number = -1;
@@ -52,15 +76,24 @@ export class DataTraining {
   private testLabels: number[][] = [];
 
   /**
-   * @param data The data objet to parse raw datas with {@link delbot.data.Data.loadDataSet}.
-   * @param normalize A boolean, be default to true, to know if we let the default normalization of
-   *                  the datas. If false, set the normalization to 1.
-   * @param filePath The path to a json file containing an object {@link Session}.
+   * Constructor of the DataTraining object, it takes parameters :
+   * <ul>
+   *   <li>data : The data objet to parse raw datas with {@link delbot.data.Data.loadDataSet}.</li>
+   *   <li>normalize A boolean, be default to true, to know if we let the default normalization of
+   *                 the datas. If false, set the normalization to 1 so no data is normalized.</li>
+   *   <li>filePath : The path to a json file containing an object {@link Session},
+   *                  default to "../../python/sessions.json"</li>
+   *   <li>trainingRatio : A number between 0 and 1, the %/100 of the training set
+   *                       compared to the whole dataset, default to 0.85 for 85%.</li>
+   * </ul>
    */
-  constructor(data: delbot.data.Data, normalize: boolean=true, filePath: string="../../python/sessions.json") {
-    this.data = data;
-    this.filePath = filePath;
-    this.normalize = normalize;
+  constructor(args: delbot.data.Data | DataTrainingProperties) {
+    if (args instanceof delbot.data.Data) args = {data: args};
+
+    this.data = args.data;
+    this.filePath = args.filePath == null ? "../../python/sessions.json" : args.filePath;
+    this.normalize = args.normalize == null ? true : args.normalize;
+    this.trainingRatio = args.trainingRatio == null ? .85 : args.trainingRatio;
   }
 
   /**
@@ -76,10 +109,8 @@ export class DataTraining {
    * training data set and testing dataset, with a shuffle. The parameter gives
    * the ratio, by default you will have 85% of your dataset as training and 15% as
    * testing.
-   * @param trainingRatio A number between 0 and 1, the %/100 of the training set
-   *                      compared to the whole dataset, default to 0.85 for 85%.
    */
-  async load(trainingRatio: number=.85) {
+  async load(consoleInfo: boolean=false) {
     let datasetData: number[][][] = [];
     let datasetLabels: number[][] = [];
 
@@ -99,11 +130,11 @@ export class DataTraining {
         datasetData = datasetData.concat(datas.datasetData);
         datasetLabels = datasetLabels.concat(datas.datasetLabels);
       }
-      console.log(`debug: total length of data set with ${user}=${datasetData.length}`);
+      if (consoleInfo) console.log(`debug: total length of data set with ${user}=${datasetData.length}`);
     }
 
     const nbrDatasetElements = datasetData.length;
-    this.nbrTrainElements = Math.round(nbrDatasetElements * trainingRatio); // default to 85%
+    this.nbrTrainElements = Math.round(nbrDatasetElements * this.trainingRatio); // default to 85%
     this.nbrTestElements = nbrDatasetElements - this.nbrTrainElements;
 
     let shuffledIndices = tf.util.createShuffledIndices(nbrDatasetElements);
@@ -124,7 +155,7 @@ export class DataTraining {
       index = testIndices.next()
     }
 
-    console.log(`debug: trainSize=${this.trainImages.length}, testSize=${this.testImages.length}`);
+    if (consoleInfo) console.log(`debug: trainSize=${this.trainImages.length}, testSize=${this.testImages.length}`);
   }
 
   /**

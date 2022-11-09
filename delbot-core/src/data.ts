@@ -96,6 +96,7 @@ export interface DataMovementMatrixProperties extends DataProperties{
   xMaxMov?: number;
   yMinMov?: number;
   yMaxMov?: number;
+  neighbourRange?: number;
   steps?: number[];
 }
 
@@ -107,7 +108,7 @@ export interface DataMovementMatrixProperties extends DataProperties{
  * in the trajectory. We repeat that until there are no sample left, then for the next N.
  * <br>
  * If a value should be outside the matrix, we put it on the edge. The default size
- * is 70x70 and steps are [50, 100, 150, 200, 250].
+ * is 50x50 (range -25 to 25) and default steps are [25, 50, 100, 150, 200, 250].
  * @see Data
  */
 export class DataMovementMatrix extends Data {
@@ -115,53 +116,85 @@ export class DataMovementMatrix extends Data {
   protected readonly xMaxMov: number;
   protected readonly yMinMov: number;
   protected readonly yMaxMov: number;
+  protected readonly neighbourRange: number;
   protected readonly steps: number[];
 
   constructor(args: DataMovementMatrixProperties={}) {
     super(args);
 
-    // manual testings lead to high max offset values
-    // In practical, we regroup every movement greater than 100 in the same plot
-    this.xMinMov = args.xMinMov == null ? -35 : args.xMinMov;
-    this.xMaxMov = args.xMaxMov == null ? 35 : args.xMaxMov;
-    this.yMinMov = args.yMinMov == null ? -35 : args.yMinMov;
-    this.yMaxMov = args.yMaxMov == null ? 35 : args.yMaxMov;
+    this.xMinMov = args.xMinMov == null ? -25 : args.xMinMov;
+    this.xMaxMov = args.xMaxMov == null ? 25 : args.xMaxMov;
+    this.yMinMov = args.yMinMov == null ? -25 : args.yMinMov;
+    this.yMaxMov = args.yMaxMov == null ? 25 : args.yMaxMov;
 
-    this.steps = args.steps == null ? [50, 100, 150, 200, 250] : args.steps;
+    this.neighbourRange = args.neighbourRange == null ? 3 : args.neighbourRange;
+    this.steps = args.steps == null ? [25, 50, 100, 150, 200, 250] : args.steps;
 
     this.xSize = this.xMaxMov - this.xMinMov;
     this.ySize = this.yMaxMov - this.yMinMov;
   }
 
+  /**
+   * Create a new empty 0-matrix of size xSize times ySize.
+   * @private
+   */
   private newEmptyData(): number[][] {
     return tf.zeros([this.xSize, this.ySize]).arraySync() as number[][];
   }
 
-  private getInRangeForArray(min: number, max: number, value: number) {
-    value = Math.round(value);
+  /**
+   * Force the value to stand in `[0, max-min[` for index of matrix, so
+   * min is the first index 0 and max the last index. If the value is
+   * greater than max or less than min, we consider the bound.
+   * @param min An integer, lower bound of initial domain.
+   * @param max An integer, upper bound of initial domain.
+   * @param value An integer, the value to constraint.
+   * @return The value in the new integer domain starting from 0.
+   * @private
+   */
+  private getInRangeForArray(min: number, max: number, value: number): number {
     if (value < min) {
       return 0;
     } else if (value >= max) {
       return max-min-1;
     } else {
-      return Math.round(value-min);
+      return value-min;
     }
+  }
+
+  /**
+   * Get integer neighbours of the given value within a distance of range and
+   * return a list of unique elements of this neighbourhood (in case the value
+   * is on an edge, there will be less than range squared values).
+   * @private
+   */
+  private getNeighbour(min: number, max: number, value: number): number[] {
+    value = Math.round(value);
+    const neighbour = [];
+    for (let i = -this.neighbourRange; i <= this.neighbourRange; i++) {
+      const element = this.getInRangeForArray(min, max, value+i);
+      if (!neighbour.includes(element)) {
+        neighbour.push(element);
+      }
+    }
+    return neighbour;
   }
 
   loadDataSet(recorder: Recorder, userIndex: number=-1): Dataset {
     const datasetData = [];
     const datasetLabels = [];
 
-    const inc = 1 / this.steps[this.steps.length-1];
-
     let data = this.newEmptyData();
     for (let step of this.steps) {
+      const inc = 1/step;
       let stepModulo = 0;
       for (let line of recorder.getRecords()) {
         if (line.type == null ||line.type.includes("Move")) {
-          data[this.getInRangeForArray(this.xMinMov, this.xMaxMov, line.dx)]
-              [this.getInRangeForArray(this.yMinMov, this.yMaxMov, line.dy)] += inc;
-          // before : += (1/step) to normalize, but now we use the biggest step to simulate time (unfinished drawing)
+          for (let dx of this.getNeighbour(this.xMinMov, this.xMaxMov, line.dx)) {
+            for (let dy of this.getNeighbour(this.yMinMov, this.yMaxMov, line.dy)) {
+              data[dx][dy] += inc;
+            }
+          }
           if (++stepModulo >= step) {
             datasetData.push(data);
             this.addLabel(datasetLabels, userIndex);

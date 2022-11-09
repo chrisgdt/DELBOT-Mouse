@@ -11,21 +11,26 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js"></script>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.1.0/dist/delbot.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.1.1/dist/delbot.js"></script>
   <!--script src="../../delbot-core/dist/delbot.js"></script-->
 
-  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-training@1.1.0/dist/delbot-training.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-training@1.1.1/dist/delbot-training.js"></script>
   <!--script src="../../delbot-training/dist/delbot-training.js"></script-->
 
   <script>
     // Delay for tfjs-vis
     document.addEventListener('DOMContentLoaded', () => {
       const gan = new delbotrain.GAN({
-        dataTraining: new delbotrain.DataTraining(new delbot.data.DataSimplePosition({
-          xSize: 35,
-          shouldCompleteXSize: false,
-          numClasses: 1
-        }),true, "../../python/sessions_human_only.json"),
+        dataTraining: new delbotrain.DataTraining({
+          data: new delbot.data.DataSimplePosition({
+            xSize: 35,
+            shouldCompleteXSize: false,
+            numClasses: 1
+          }),
+          normalize: true,
+          path: "../../python/sessions_human_only.json",
+          trainingRatio: 1
+        }),
         epoch: 1000,
         batchSize: 64,
         generatorSeedSize: 100,

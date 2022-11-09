@@ -6,7 +6,6 @@ import pyautogui
 import pyHM
 from pyclick import HumanClicker
 from pynput.mouse import Button, Controller
-from bezmouse.mouse import connected_bez
 
 
 url = "https://chrisgdt.github.io/mouse-drawing/"

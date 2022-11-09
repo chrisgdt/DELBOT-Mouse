@@ -67,16 +67,16 @@ export interface Result {
 export class Model {
   private model: null | tf.LayersModel;
 
-  private readonly url: string;
+  private readonly loadingPath: string;
   private readonly data: Data;
 
   /**
-   * @param url The url or the way to load the model, e.g. localstorage or indexeddb.
+   * @param loadingPath The loadingPath (url, localstorage, indexeddb, ...) to load with {@link tf.loadLayersModel}.
    * @param data The {@link Data} instance related to this model.
    */
-  constructor(url: string, data: Data) {
+  constructor(loadingPath: string, data: Data) {
     this.model = null;
-    this.url = url;
+    this.loadingPath = loadingPath;
     this.data = data;
   }
 
@@ -86,7 +86,7 @@ export class Model {
    */
   async getModel(): Promise<tf.LayersModel> {
     if (this.model === null) {
-      this.model = await tf.loadLayersModel(this.url);
+      this.model = await tf.loadLayersModel(this.loadingPath);
     }
     return this.model;
   }

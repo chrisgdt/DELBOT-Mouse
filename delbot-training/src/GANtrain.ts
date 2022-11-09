@@ -253,7 +253,7 @@ export class GAN {
    */
   async train(ganTest: number = 35) {
     if (!this.data.isLoaded()) {
-      await this.data.load(1);
+      await this.data.load(this.consoleInfo);
     }
     if (this.consoleInfo) console.log("TRAINING GAN");
 
@@ -262,10 +262,10 @@ export class GAN {
 
     for (let i=0; i < this.epoch; i++) {
 
-      generatorHistory.push(this.trainGenerator());
-      discriminatorHistory.push(this.trainDiscriminator());
+      generatorHistory.push(await this.trainGenerator());
+      discriminatorHistory.push(await this.trainDiscriminator());
 
-      if (this.consoleInfo) console.log(`epoch=${i} [Discriminator : ${Object.values(discriminatorHistory[discriminatorHistory.length-1])}] [Generator : ${Object.values(generatorHistory[generatorHistory.length-1])}`);
+      if (this.consoleInfo) console.log(`epoch=${i} [Discriminator : ${Object.values(discriminatorHistory[discriminatorHistory.length-1])}] [Generator : ${Object.values(generatorHistory[generatorHistory.length-1])}]`);
       if (this.useTfjsVis) {
         await tfvis.show.history({name: 'Discriminator Training', tab: 'Training'}, discriminatorHistory, ['loss', 'acc']);
         await tfvis.show.history({name: 'Generator Training', tab: 'Training'}, generatorHistory, ['loss', 'acc']);

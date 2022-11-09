@@ -3,6 +3,8 @@ esm
 umd
 dist
 
+.idea
+
 # Logs
 logs
 *.log

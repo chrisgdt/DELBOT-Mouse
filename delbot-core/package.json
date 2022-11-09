@@ -1,6 +1,6 @@
 {
   "name": "@chrisgdt/delbot-mouse",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A small deep-learning library to distinguish human and bot from their mouse movements.",
   "author": "Christophe Grandmont",
   "license": "Apache-2.0",

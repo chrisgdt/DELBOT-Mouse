@@ -129,7 +129,7 @@ export abstract class Model {
    * If field {@link nameToSave} is specified, it save the model by calling {@link tf.LayersModel.save}.
    */
   async run() {
-    await this.data.load();
+    await this.data.load(this.consoleInfo);
 
     if (this.nameToLoad == null) {
 
@@ -198,6 +198,8 @@ export abstract class Model {
         d.ys
       ];
     });
+
+    if (this.consoleInfo) console.log("Test data", testXs.arraySync(), testYs.arraySync());
 
     return this.model.fit(trainXs, trainYs, {
       batchSize: this.batchSize,
