@@ -73,10 +73,10 @@ To import delbot-training, use `import * as delbotrain from "@chrisgdt/delbot-tr
 
 Once you have loaded delbot mouse in your browser, everything is packed in the single variable `delbot`, same for
 the variable `delbotrain` with delbot-training. Everything is exported from `src/index.ts`, check the
-[doc of delbot-core](https://chrisgdt.github.io/DELBOT-Mouse/delbot-core/docs/index.html) or the
-[doc of delbot-training](https://chrisgdt.github.io/DELBOT-Mouse/delbot-training/docs/index.html) for more information.
+[doc of delbot-core](https://chrisgdt.github.io/DELBOT-Mouse/delbot-core/docs/modules/index.html) or the
+[doc of delbot-training](https://chrisgdt.github.io/DELBOT-Mouse/delbot-training/docs/modules/index.html) for more information.
 
 The folder `trained-models/` contains some pre-trained models that you can use easily from delbot-core with, for example,
 `delbot.Models.rnn3`.
 
-Otherwise, you have an entire example of usage in `/delbot-example/` [here](chrisgdt.github.io/DELBOT-Mouse/delbot-example/src/index.html).
+Otherwise, you have an entire example of usage without the training in `/delbot-example/` [here](https://chrisgdt.github.io/DELBOT-Mouse/delbot-example/src/index.html).
