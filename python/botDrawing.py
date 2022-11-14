@@ -8,37 +8,29 @@ from pyclick import HumanClicker
 from pynput.mouse import Button, Controller
 
 
-url = "https://chrisgdt.github.io/mouse-drawing/"
-#url = "http://localhost:63342/TFJS_mouse_balabit/index.html?_ijt=dnc6ho2bpbbeahi8trv35jkg6b"
+url = "https://chrisgdt.github.io/DELBOT-Mouse/delbot-example/src/index.html"
 
 def start_driver():
+    # WITH OPERA
+    path_to_binary = "C:\\Users\\chris\\AppData\\Local\\Programs\\Opera GX\\91.0.4516.95\\opera.exe"
+    path_to_driver = "C:\\webdrivers\\operadriver_105.exe"
     options = Options()
     #options.add_argument('--headless')
     #options.add_argument('--hide-scrollbars')
     #options.add_argument('--disable-gpu')
     options.add_argument("--log-level=3")  # fatal
-    #options.add_argument("--incognito")
-    #options.add_experimental_option("debuggerAddress", "127.0.0.1:55217/devtools/browser/88fbb9aa-d582-40b5-b47c-bcf3a9586d3d")
-    options.binary_location = r"C:\Users\chris\AppData\Local\Programs\Opera GX\91.0.4516.95\opera.exe"
-    driver = webdriver.Opera(executable_path=r"C:\webdrivers\operadriver_105.exe", options=options)
+    options.binary_location = path_to_binary
+    driver = webdriver.Opera(executable_path=path_to_driver, options=options)
 
-    #driver = webdriver.Chrome('C:\\webdrivers\\chromedriver.exe')
     driver.get(url)
-
     return driver
+
+    # WITH CHROME
+    #return webdriver.Chrome('C:\\webdrivers\\chromedriver.exe')
 
 
 def click_circle(driver):
     return _open_drawing_canvas(driver, "circle")
-
-def click_sheep(driver):
-    return _open_drawing_canvas(driver, "sheep")
-
-def click_cloud(driver):
-    return _open_drawing_canvas(driver, "cloud")
-
-def click_sun(driver):
-    return _open_drawing_canvas(driver, "sun")
 
 def _open_drawing_canvas(driver, buttonId):
     canvas = driver.find_element(By.ID, f"{buttonId}Canvas")
@@ -53,6 +45,31 @@ def _open_drawing_canvas(driver, buttonId):
 
 
 def get_circle_points(radius, step):
+    """
+    Create a circle and returns its points. It is actually
+    a polygon with step sides, so if step if high it looks
+    like a circle.
+
+    There are some random values to start from a random
+    points around the circle, go clockwise or counterclockwise,
+    stretch the circle to do an actual ellipsis, add
+    some offset between each points so this is not a perfect
+    ellipsis.
+
+    The center is the middle of the screen.
+
+    Parameters
+    ----------
+    radius : int
+        The radius of the circle.
+    step : int
+        The number of sides of the polygon to imitate a circle.
+
+    Returns
+    -------
+    list
+        A list of 2-uples (x,y) coordinates.
+    """
     x_size, y_size = pyautogui.size()
     center = pyautogui.position(x_size/2, y_size/2.2)
 
@@ -91,6 +108,36 @@ def wait_gaussian(duration, step, i):
 
 
 def circle_automated(driver, move_type=5):
+    """
+    Make the Selenium Driver draw multiple circles.
+    The parameter move_type describes how to draw
+    the circle (which library to use) by an integer
+    from 1 to 5.
+
+    If 1, we use pyautogui and we get different radius,
+    steps, durations and eases for the trajectory.
+
+    If 2, we use pynput with different radius, steps,
+    durations and all three wait functions (wait_linear,
+    wait_quadratic and wait_gaussian) for the waiting
+    time between two consecutive points of the circle.
+
+    If 3, it is pyHM with multiple radius and steps.
+
+    If 4, we use PyClick (HumanClicker).
+
+    If 5, we use NaturalMouseMovement, a Java program jar
+    that we call with all points. Notice that it needs to
+    have the screen scale to 100%, otherwise this JAVA program
+    won't work.
+
+    Parameters
+    ----------
+    driver : webdriver
+        The Selenium driver to navigate through the page.
+    move_type : int
+        How to draw circles, from 1 to 5, as described above.
+    """
     export_button, close_button = click_circle(driver)
     get_points_function = get_circle_points
 
@@ -177,7 +224,7 @@ def circle_automated(driver, move_type=5):
                     points.append(points[0])
 
                     pyHM.mouse.down()
-                    # Need to put the screen scale to 100%, otherwise NaturalMouseMotion dosn't work
+                    # Need to put the screen scale to 100%, otherwise NaturalMouseMotion doesn't work
                     # The code of this jar is simply json parsing then factory.build(x, y).move();
                     subprocess.run(f"java -jar NaturalMouseMotionUsage-jar-with-dependencies.jar {motion} {json.dumps(points[1:])}")
                     pyHM.mouse.up()

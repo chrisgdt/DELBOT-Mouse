@@ -173,6 +173,9 @@ export class DrawElementTesting extends DrawElement {
   constructor(showButtonId, headerText, canvasId, nameId, model) {
     super(showButtonId, headerText, canvasId, nameId);
     this.model = model;
+    if (!this.model.getData().mayNormalize()) {
+      this.records.normalizer = [1,1];
+    }
   }
 
   createDraw(showButtonId, headerText, canvasId, nameId, buttons="") {

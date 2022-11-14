@@ -5,6 +5,9 @@ dist
 
 .idea
 
+GAN*
+circleHide*
+
 # Logs
 logs
 *.log

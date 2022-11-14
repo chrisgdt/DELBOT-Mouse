@@ -17,11 +17,11 @@ export interface ModelProperties {
 
 /**
  * Abstract class used to create a new TensorFlow.js model and train it
- * from a dataset {@link DataTraining}. Call
+ * from a dataset {@link dataTraining!DataTraining}. Call
  * <br>
  * The constructor takes an object with parameters :
  * <ul>
- *   <li>dataTraining : a {@link DataTraining} instance to load datas.</li>
+ *   <li>dataTraining : a {@link dataTraining!DataTraining} instance to load datas.</li>
  *   <li>epoch : integer number of times to iterate over the training data arrays. Default to 10</li>
  *   <li>batchSize : number of samples per gradient update. If unspecified, it will default to 128.</li>
  *   <li>trainingRatio : a number between 0 and 1, default to 1, the %/100 of the training set used during training.</li>
@@ -91,7 +91,7 @@ export abstract class Model {
    * The last layer is dense with 'varianceScaling' kernel initializer,
    * and we look at accuracy metric.
    * <br>
-   * When there is only one class in {@link DataTraining} ([0] for human,
+   * When there is only one class in {@link dataTraining!DataTraining} ([0] for human,
    * [1] for bot), we use a binaryCrossentropy loss function and the
    * activation of the dense layer is the sigmoid function. If we have
    * two classes ([1,0] for human, [0,1] for bot), it is the categoricalCrossentropy
@@ -124,9 +124,9 @@ export abstract class Model {
 
   /**
    * Run the entire training process, from data loading to model training, then
-   * model testing with accuracy and confusion matrix. If field {@link nameToLoad}
+   * model testing with accuracy and confusion matrix. If field {@link ModelProperties.nameToLoad}
    * is specified, training is ignored because we directly call {@link loadExistingModel}.
-   * If field {@link nameToSave} is specified, it save the model by calling {@link tf.LayersModel.save}.
+   * If field {@link ModelProperties.nameToSave} is specified, it save the model by calling {@link tf.LayersModel.save}.
    */
   async run() {
     await this.data.load(this.consoleInfo);
@@ -171,8 +171,8 @@ export abstract class Model {
 
   /**
    * Train the model with {@link tf.LayersModel.fit}. We first get a fragment
-   * of training and testing datas according to {@link trainingRatio} and
-   * {@link testingRatio}, default set to 1 and 0.9 respectively.
+   * of training and testing datas according to {@link ModelProperties.trainingRatio} and
+   * {@link ModelProperties.testingRatio}, default set to 1 and 0.9 respectively.
    * Then we fit the model with the corresponding batchSize and epochs.
    */
   async train() {
@@ -216,30 +216,30 @@ export abstract class Model {
    * Gets a sample of test datas and returns the model output, with some basic operations
    * to reshape the output as 1d tensor.
    * @param size Default to 1000, the batch size for the sample.
-   * @return A 1d tensor corresponding to a list [b1, b2, ...] of size {@link size} of
+   * @return A 1d tensor corresponding to a list [b1, b2, ...] of the given size of
    *         booleans 0 or 1 for each batch element to be a bot trajectory (1 means bot).
    */
   doPredictionBatch(size = 1000): tf.Tensor1D[] {
     const testData = this.data.nextTestBatch(size);
-    const testxs = testData.xs.reshape(this.model.inputs[0].shape.length === 4
+    const testXs = testData.xs.reshape(this.model.inputs[0].shape.length === 4
       ? [size, this.data.data.getXSize(), this.data.data.getYSize(), 1]
       : [size, this.data.data.getXSize(), this.data.data.getYSize()]);
     let labels = testData.ys;
-    let preds = this.model.predict(testxs) as tf.Tensor;
-    if (!preds.isFinite().all()) {
+    let predicts = this.model.predict(testXs) as tf.Tensor;
+    if (!predicts.isFinite().all()) {
       console.warn("Warning, model predicted at least one NaN value.");
     }
 
-    if (preds.shape[1] === 1) {
+    if (predicts.shape[1] === 1) {
       labels = labels.reshape([labels.size]).round();
-      preds = preds.reshape([preds.size]).round();
+      predicts = predicts.reshape([predicts.size]).round();
     } else {
       labels = labels.argMax(-1);
-      preds = preds.argMax(-1);
+      predicts = predicts.argMax(-1);
     }
 
-    testxs.dispose();
-    return [preds as tf.Tensor1D, labels as tf.Tensor1D];
+    testXs.dispose();
+    return [predicts as tf.Tensor1D, labels as tf.Tensor1D];
   }
 
   /**
@@ -248,8 +248,8 @@ export abstract class Model {
    * @param size Default to 1000, the batch size for the sample.
    */
   async getClassAccuracy(size = 1000): Promise<{ accuracy: number, count: number }[]> {
-    const [preds, labels] = this.doPredictionBatch();
-    const classAccuracy = await tfvis.metrics.perClassAccuracy(labels, preds);
+    const [predicts, labels] = this.doPredictionBatch();
+    const classAccuracy = await tfvis.metrics.perClassAccuracy(labels, predicts);
     labels.dispose();
     return classAccuracy;
   }
@@ -260,8 +260,8 @@ export abstract class Model {
    * @param size Default to 1000, the batch size for the sample.
    */
   async getConfusionMatrix(size = 1000): Promise<number[][]> {
-    const [preds, labels] = this.doPredictionBatch();
-    const confusionMatrix = await tfvis.metrics.confusionMatrix(labels, preds);
+    const [predicts, labels] = this.doPredictionBatch();
+    const confusionMatrix = await tfvis.metrics.confusionMatrix(labels, predicts);
     labels.dispose();
     return confusionMatrix;
   }

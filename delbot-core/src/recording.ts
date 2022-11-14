@@ -72,7 +72,7 @@ export class Model {
 
   /**
    * @param loadingPath The loadingPath (url, localstorage, indexeddb, ...) to load with {@link tf.loadLayersModel}.
-   * @param data The {@link Data} instance related to this model.
+   * @param data The {@link data!Data} instance related to this model.
    */
   constructor(loadingPath: string, data: Data) {
     this.model = null;
@@ -108,7 +108,7 @@ export class Model {
 
 /**
  * Recorder class to keep track of previously recorded mouse actions, mainly for move events.
- * It automatically computes all mouse features needed for {@link Data} format.
+ * It automatically computes all mouse features needed for {@link data!Data} format.
  * <br>
  * A simple usage would be to
  * <ol>
@@ -307,7 +307,7 @@ export class Recorder {
 
   /**
    * This function takes a model {@link Model} containing a Tensorflow.js layer model
-   * and a {@link Data} instance and returns the list of probabilities for each batch
+   * and a {@link data!Data} instance and returns the list of probabilities for each batch
    * element to be a bot trajectory. The batch is obtained from {@link currentRecord}.
    * <br>
    * This function may be heavy for smaller configurations, be careful not to call it too often.
@@ -325,7 +325,7 @@ export class Recorder {
     const tfjsModel = await model.getModel();
 
     // We could reshape to have one batch and more time-steps if the model accepts a variable number of
-    // timesteps, but we may lose some accuracy since the model trained on a fix time-step.
+    // time steps, but we may lose some accuracy since the model trained on a fix time-step.
     const datasetTensor = tf.tensor3d(dataset).reshape(tfjsModel.inputs[0].shape.length === 4
       ? [dataset.length, model.getData().getXSize(), model.getData().getYSize(), 1]
       : [dataset.length, model.getData().getXSize(), model.getData().getYSize()]);
@@ -351,7 +351,7 @@ export class Recorder {
 
   /**
    * This function takes a model {@link Model} containing a Tensorflow.js layer model
-   * and a {@link Data} instance and returns whether the trajectory stored in
+   * and a {@link data!Data} instance and returns whether the trajectory stored in
    * {@link currentRecord} is considered as human or bot for the model.
    * <br>
    * There may be more than one input batch for the prediction, leading to more than
@@ -372,10 +372,10 @@ export class Recorder {
    * </ul>
    * @see getPrediction
    */
-  async isHuman(model: Model, threshold: number=.2): Promise<Result> {
+  async isHuman(model: Model, threshold: number = 0.2): Promise<Result> {
     const predictions = await this.getPrediction(model);
     if (predictions.length === 0) {
-      return {result:false, reason:Recorder.notEnoughProvidedDatas};
+      return { result: false, reason: Recorder.notEnoughProvidedDatas };
     }
     const average = tf.mean(predictions).arraySync();
 
@@ -383,10 +383,9 @@ export class Recorder {
     console.log("pred=", predictions, "average=", average);
 
     if (average <= threshold) {
-      return {result:true, reason:Recorder.success};
+      return { result: true, reason: Recorder.success };
     } else {
-      return {result:false, reason:Recorder.fail};
+      return { result: false, reason: Recorder.fail };
     }
   }
 }
-

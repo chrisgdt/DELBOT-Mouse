@@ -12,7 +12,7 @@ export interface Dataset {
 }
 
 /**
- * An abstract class that extracts some mouse features from {@link Recorder}
+ * An abstract class that extracts some mouse features from {@link recording!Recorder}
  * and format them with {@link loadDataSet} to create an input of a tf.js model.
  * This input is an array, but you can call {@link tf.tensor3d} and {@link tf.reshape}
  * to get the tensor. It is always a 3D tensor, each element of the dataset being a matrix
@@ -34,18 +34,20 @@ export interface Dataset {
  * <br>
  * Extend this class and implement the method {@link loadDataSet} to create your own logic and
  * data format. Your implementation has to look something like 1. empty data and label
- * arrays, 2. iterate through {@link Recorder.getRecords} and 3. add labels userIndex is positive.
- * You can also check if {@link SingleRecord.type} is null or includes "Move" to filter only
+ * arrays, 2. iterate through {@link recording!Recorder.getRecords} and 3. add labels userIndex is positive.
+ * You can also check if {@link recording!SingleRecord.type} is null or includes "Move" to filter only
  * move actions.
  */
 export abstract class Data {
   readonly numClasses: number;
   protected xSize: number;
   protected ySize: number;
+  public mayNormalizeData;
 
   protected constructor(args: DataProperties={}) {
     // if 2 classes: ['human', 'bot'], if 1 class ['bot'] (proba p to be a bot according to the model)
     this.numClasses = args.numClasses == null ? 2 : args.numClasses;
+    this.mayNormalizeData = true;
   }
 
   /**
@@ -88,6 +90,10 @@ export abstract class Data {
   public getYSize(): number {
     return this.ySize;
   }
+
+  public mayNormalize(): boolean {
+    return this.mayNormalizeData;
+  }
 }
 
 
@@ -127,11 +133,20 @@ export class DataMovementMatrix extends Data {
     this.yMinMov = args.yMinMov == null ? -25 : args.yMinMov;
     this.yMaxMov = args.yMaxMov == null ? 25 : args.yMaxMov;
 
+    if (this.xMinMov >= this.xMaxMov) {
+      throw Error(`Cannot create DataMovementMatrix instance because xMin >= xMax (${this.xMinMov} >= ${this.xMaxMov}.`);
+    }
+    if (this.yMinMov >= this.yMaxMov) {
+      throw Error(`Cannot create DataMovementMatrix instance because yMin >= yMax (${this.yMinMov} >= ${this.yMaxMov}.`);
+    }
+
     this.neighbourRange = args.neighbourRange == null ? 3 : args.neighbourRange;
     this.steps = args.steps == null ? [25, 50, 100, 150, 200, 250] : args.steps;
 
     this.xSize = this.xMaxMov - this.xMinMov;
     this.ySize = this.yMaxMov - this.yMinMov;
+
+    this.mayNormalizeData = false;
   }
 
   /**
@@ -189,7 +204,7 @@ export class DataMovementMatrix extends Data {
       const inc = 1/step;
       let stepModulo = 0;
       for (let line of recorder.getRecords()) {
-        if (line.type == null ||line.type.includes("Move")) {
+        if (line.type == null || line.type.includes("Move")) {
           for (let dx of this.getNeighbour(this.xMinMov, this.xMaxMov, line.dx)) {
             for (let dy of this.getNeighbour(this.yMinMov, this.yMaxMov, line.dy)) {
               data[dx][dy] += inc;
@@ -216,7 +231,7 @@ export interface DataFeaturesProperties extends DataProperties {
 
 /**
  * A Data class that represents chunks of mouse features selected from
- * the {@link Recorder} objet. The field {@link xSize} is the chunk size,
+ * the {@link recording!Recorder} objet. The field {@link xSize} is the chunk size,
  * default to 24, and {@link ySize} the number of extracted features.
  * <br>
  * The dataset there is a list of chunks of mouse features.
@@ -227,14 +242,14 @@ export interface DataFeaturesProperties extends DataProperties {
  * <br>
  * This class takes 8 features :
  * <ol>
- *   <li>{@link SingleRecord.dx}</li>
- *   <li>{@link SingleRecord.dy}</li>
- *   <li>{@link SingleRecord.speedX}</li>
- *   <li>{@link SingleRecord.speedY}</li>
- *   <li>{@link SingleRecord.speed}</li>
- *   <li>{@link SingleRecord.accel}</li>
- *   <li>{@link SingleRecord.distance}</li>
- *   <li>{@link SingleRecord.timeDiff}</li>
+ *   <li>{@link recording!SingleRecord.dx}</li>
+ *   <li>{@link recording!SingleRecord.dy}</li>
+ *   <li>{@link recording!SingleRecord.speedX}</li>
+ *   <li>{@link recording!SingleRecord.speedY}</li>
+ *   <li>{@link recording!SingleRecord.speed}</li>
+ *   <li>{@link recording!SingleRecord.accel}</li>
+ *   <li>{@link recording!SingleRecord.distance}</li>
+ *   <li>{@link recording!SingleRecord.timeDiff}</li>
  * </ol>
  * @see Data
  */
@@ -297,16 +312,16 @@ export class DataFeatures extends Data {
 /**
  * This class extends {@link DataFeatures} and takes 10 features :
  * <ol>
- *   <li>{@link SingleRecord.dx}</li>
- *   <li>{@link SingleRecord.dy}</li>
- *   <li>{@link SingleRecord.speedX}</li>
- *   <li>{@link SingleRecord.speedY}</li>
- *   <li>{@link SingleRecord.speed}</li>
- *   <li>{@link SingleRecord.accel}</li>
- *   <li>{@link SingleRecord.distance}</li>
- *   <li>{@link SingleRecord.timeDiff}</li>
- *   <li>{@link SingleRecord.jerk}</li>
- *   <li>{@link SingleRecord.angle}</li>
+ *   <li>{@link recording!SingleRecord.dx}</li>
+ *   <li>{@link recording!SingleRecord.dy}</li>
+ *   <li>{@link recording!SingleRecord.speedX}</li>
+ *   <li>{@link recording!SingleRecord.speedY}</li>
+ *   <li>{@link recording!SingleRecord.speed}</li>
+ *   <li>{@link recording!SingleRecord.accel}</li>
+ *   <li>{@link recording!SingleRecord.distance}</li>
+ *   <li>{@link recording!SingleRecord.timeDiff}</li>
+ *   <li>{@link recording!SingleRecord.jerk}</li>
+ *   <li>{@link recording!SingleRecord.angle}</li>
  * </ol>
  * @see DataFeatures
  */
@@ -330,19 +345,19 @@ export class DataFeatures2 extends DataFeatures {
 /**
  * This class extends {@link DataFeatures} and takes 13 features :
  * <ol>
- *   <li>{@link SingleRecord.dx}</li>
- *   <li>{@link SingleRecord.dy}</li>
- *   <li>{@link SingleRecord.speedX}</li>
- *   <li>{@link SingleRecord.speedY}</li>
- *   <li>{@link SingleRecord.accelX}</li>
- *   <li>{@link SingleRecord.accelY}</li>
- *   <li>{@link SingleRecord.speedXAgainstDistance}</li>
- *   <li>{@link SingleRecord.speedYAgainstDistance}</li>
- *   <li>{@link SingleRecord.accelXAgainstDistance}</li>
- *   <li>{@link SingleRecord.accelYAgainstDistance}</li>
- *   <li>{@link SingleRecord.distance}</li>
- *   <li>{@link SingleRecord.averageSpeedAgainstDistance}</li>
- *   <li>{@link SingleRecord.averageAccelAgainstDistance}</li>
+ *   <li>{@link recording!SingleRecord.dx}</li>
+ *   <li>{@link recording!SingleRecord.dy}</li>
+ *   <li>{@link recording!SingleRecord.speedX}</li>
+ *   <li>{@link recording!SingleRecord.speedY}</li>
+ *   <li>{@link recording!SingleRecord.accelX}</li>
+ *   <li>{@link recording!SingleRecord.accelY}</li>
+ *   <li>{@link recording!SingleRecord.speedXAgainstDistance}</li>
+ *   <li>{@link recording!SingleRecord.speedYAgainstDistance}</li>
+ *   <li>{@link recording!SingleRecord.accelXAgainstDistance}</li>
+ *   <li>{@link recording!SingleRecord.accelYAgainstDistance}</li>
+ *   <li>{@link recording!SingleRecord.distance}</li>
+ *   <li>{@link recording!SingleRecord.averageSpeedAgainstDistance}</li>
+ *   <li>{@link recording!SingleRecord.averageAccelAgainstDistance}</li>
  * </ol>
  * @see DataFeatures
  */
@@ -369,8 +384,8 @@ export class DataMoreFeatures extends DataFeatures {
 /**
  * This class extends {@link DataFeatures} and takes 2 features :
  * <ol>
- *   <li>{@link SingleRecord.x}</li>
- *   <li>{@link SingleRecord.y}</li>
+ *   <li>{@link recording!SingleRecord.x}</li>
+ *   <li>{@link recording!SingleRecord.y}</li>
  * </ol>
  * @see DataFeatures
  */
@@ -389,8 +404,8 @@ export class DataSimplePosition extends DataFeatures {
 /**
  * This class extends {@link DataFeatures} and takes 2 features :
  * <ol>
- *   <li>{@link SingleRecord.dx}</li>
- *   <li>{@link SingleRecord.dy}</li>
+ *   <li>{@link recording!SingleRecord.dx}</li>
+ *   <li>{@link recording!SingleRecord.dy}</li>
  * </ol>
  * @see DataFeatures
  */

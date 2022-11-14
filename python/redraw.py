@@ -1,8 +1,41 @@
 import os, sys, math, matplotlib
 import matplotlib.pyplot as plt
 
-def readSession(file, normalize=False):
-    operations = []
+def readSession(file, normalize=False) -> list:
+    """
+    Read and parse a session file, containing
+    trajectories where each line contains
+    'timestamp,type,x,y' and the first line
+    describe the screen resolution to normalize
+    all x and y. For example, a valid format is :
+
+    resolution:1536,864
+    9131.1,Pressed,717,361
+    9134.8,Move,717,361
+    9151.8,Move,717,361
+    ...
+    10402.3,Move,722,360
+    10419.1,Move,718,358
+    10425.8,Released,717,360
+
+    The parser gets all lines and returns a list
+    of all coordinates where an object of this list
+    is a dict with keys x,y,type,time,speed.
+
+    Parameters
+    ----------
+    file : string
+        Path to the sample file.
+    normalize : boolean
+        Default to false, if true and the first line
+        is "resolution:x;y" then we ignore it.
+
+    Returns
+    -------
+    list
+        A list of dict containing the input file.
+    """
+    parsedSession = []
     with open(file, 'r') as f:
         prev_line = None
         for line in f:
@@ -13,41 +46,58 @@ def readSession(file, normalize=False):
                     screenX, screenY = 1, 1
                 continue
             line = line.strip().split(",")
-            line[0] = float(line[0])
-            line[4] = float(line[4]) / screenX
-            line[5] = float(line[5]) / screenY
 
-            if "Move" in line[3]:
+            parsedLine = {
+                'time':float(line[0]),
+                'x':float(line[2]) / screenX,
+                'y':float(line[3]) / screenY,
+                'type':line[1]
+            }
+            if "Move" in parsedLine['type']:
                 if prev_line == None:
-                    line.append(0)
+                    parsedLine['speed'] = 0
                 else:
-                    dx = line[4] - prev_line[4]
-                    dy = line[5] - prev_line[5]
+                    dx = parsedLine['x'] - prev_line['x']
+                    dy = parsedLine['y'] - prev_line['y']
                     dist = math.sqrt(dx*dx + dy*dy)
-                    time = line[0] - prev_line[0]
-                    line.append(0 if time == 0 else dist/time)
-                prev_line = line
+                    time = parsedLine['time'] - prev_line['time']
+                    parsedLine['speed'] = 0 if time == 0 else dist/time
 
-            operations.append(line)
+                prev_line = parsedLine
 
-    return operations
+            parsedSession.append(parsedLine)
+
+    return parsedSession
 
 def reDraw(parsedSession, sessName, show=False):
+    """
+    Get a parsed session loaded from readSession()
+    and draw the trajectory with matplotlib.
+
+    Parameters
+    ----------
+    parsedSession : list
+        The list of dict returned by readSession().
+    sessName : string
+        The name of the jpg file of the image.
+    show : boolean
+        Default to false, if true then the image is shown.
+    """
     draw = False
     x_values, y_values = [], []
-    for action in parsedSession:
-        if "Move" in action[3] and draw:
-            x_values.append(action[4])
-            y_values.append(action[5])
-            plt.plot(action[4], action[5], marker='o', color='red')
-        elif "Released" in action[3]:
+    for line in parsedSession:
+        if "Move" in line['type'] and draw:
+            x_values.append(line['x'])
+            y_values.append(line['y'])
+            plt.plot(line['x'], line['y'], marker='o', color='red')
+        elif "Released" in line['type']:
             plt.plot(x_values, y_values, color='blue')
-            #plt.plot(action[4], action[5], marker='o', color='green')
+            #plt.plot(line['x'], line['y'], marker='o', color='green')
             x_values.clear()
             y_values.clear()
             draw = False
-        elif "Pressed" in action[3]:
-            #plt.plot(action[4], action[5], marker='o', color='red')
+        elif "Pressed" in line['type']:
+            #plt.plot(line['x'], line['y'], marker='o', color='red')
             draw = True
 
     plt.savefig(sessName + '.jpg')
@@ -56,11 +106,24 @@ def reDraw(parsedSession, sessName, show=False):
     plt.close()
 
 def velocity(parsedSession, sessName, show=False):
+    """
+    Get a parsed session loaded from readSession()
+    and draw the velocity function with matplotlib.
+
+    Parameters
+    ----------
+    parsedSession : list
+        The list of dict returned by readSession().
+    sessName : string
+        The name of the jpg file of the image.
+    show : boolean
+        Default to false, if true then the image is shown.
+    """
     time, speed = [], []
-    for action in parsedSession:
-        if not "Move" in action[3]: continue
-        time.append(action[0])
-        speed.append(action[6])
+    for line in parsedSession:
+        if not "Move" in line['type']: continue
+        time.append(line['time'])
+        speed.append(line['speed'])
 
     plt.plot(time, speed, color='blue')
     plt.savefig(sessName + '_velocity.jpg')

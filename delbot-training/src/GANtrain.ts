@@ -22,7 +22,7 @@ export interface GANProperties {
  * <br>
  * The constructor takes an object with parameters :
  * <ul>
- *   <li>dataTraining : a {@link DataTraining} instance to load datas.</li>
+ *   <li>dataTraining : a {@link dataTraining!DataTraining} instance to load datas.</li>
  *   <li>epoch : integer number of times to iterate over a random batch. Default to 500</li>
  *   <li>batchSize : number of samples per gradient update. If unspecified, it will default to 64.</li>
  *   <li>generatorSeedSize : the input size of the generator for random numbers.</li>

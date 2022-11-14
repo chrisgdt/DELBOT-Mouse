@@ -20,12 +20,6 @@ export interface DataTrainingProperties {
   data: delbot.data.Data;
 
   /**
-   * A boolean, be default to true, to know if we let the default
-   * normalization of the datas. If false, set the normalization to 1.
-   */
-  normalize?: boolean;
-
-  /**
    * The path to a json file containing an object {@link Session}. Default to "../../python/sessions.json".
    */
   filePath?: string;
@@ -61,7 +55,6 @@ export interface DataTrainingProperties {
 export class DataTraining {
   public readonly data: delbot.data.Data;
   public readonly filePath: string;
-  public readonly normalize: boolean;
   public readonly trainingRatio: number;
 
   public nbrTrainElements: number = -1;
@@ -79,8 +72,6 @@ export class DataTraining {
    * Constructor of the DataTraining object, it takes parameters :
    * <ul>
    *   <li>data : The data objet to parse raw datas with {@link delbot.data.Data.loadDataSet}.</li>
-   *   <li>normalize A boolean, be default to true, to know if we let the default normalization of
-   *                 the datas. If false, set the normalization to 1 so no data is normalized.</li>
    *   <li>filePath : The path to a json file containing an object {@link Session},
    *                  default to "../../python/sessions.json"</li>
    *   <li>trainingRatio : A number between 0 and 1, the %/100 of the training set
@@ -92,7 +83,6 @@ export class DataTraining {
 
     this.data = args.data;
     this.filePath = args.filePath == null ? "../../python/sessions.json" : args.filePath;
-    this.normalize = args.normalize == null ? true : args.normalize;
     this.trainingRatio = args.trainingRatio == null ? .85 : args.trainingRatio;
   }
 
@@ -125,7 +115,7 @@ export class DataTraining {
       userIndex++;
       //if (userIndex >= this.numClasses) continue;
       for (let sess of sessions[user]) {
-        recorder.loadRecordsFromString(await loadFile(sess), this.normalize ? -1 : 1, this.normalize ? -1 : 1);
+        recorder.loadRecordsFromString(await loadFile(sess), this.data.mayNormalize() ? -1 : 1, this.data.mayNormalize() ? -1 : 1);
         const datas = this.data.loadDataSet(recorder, userIndex);
         datasetData = datasetData.concat(datas.datasetData);
         datasetLabels = datasetLabels.concat(datas.datasetLabels);

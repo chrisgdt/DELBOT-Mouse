@@ -39,7 +39,7 @@ export function download(content: string, fileName: string) {
   } else {
     writeFile(fileName, content, 'utf8', function (err) {
       if (err) {
-        console.log("An error occured while writing JSON Object to File.");
+        console.log("An error occurred while writing JSON Object to File.");
         return console.log(err);
       }
     });
