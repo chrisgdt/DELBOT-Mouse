@@ -1,11 +1,21 @@
 import * as tf from '@tensorflow/tfjs';
 import {Recorder, SingleRecord} from "./recording";
 
-
+/**
+ * Data Property, parameter of constructor describing the number of
+ * classes the model should have.
+ */
 export interface DataProperties {
+  /**
+   * The number of class for labels and model output, 1 or 2 for binary classification.
+   */
   numClasses?: 1 | 2;
 }
 
+/**
+ * The dataset loading containing a 3d array of number for
+ * data and 2d array of boolean (number 0 or 1) for labels.
+ */
 export interface Dataset {
   datasetData: number[][][];
   datasetLabels: number[][];
@@ -39,10 +49,29 @@ export interface Dataset {
  * move actions.
  */
 export abstract class Data {
-  readonly numClasses: number;
+  /**
+   * The number of class for labels and model output, 1 or 2 for binary classification.
+   */
+  readonly numClasses: 1 | 2;
+
+  /**
+   * The second shape of 3d tensor (or first in case we ignore the batch size), defined in subclasses.
+   * @protected
+   */
   protected xSize: number;
+
+  /**
+   * The third shape of 3d tensor (or second in case we ignore the batch size), defined in subclasses.
+   * @protected
+   */
   protected ySize: number;
-  public mayNormalizeData;
+
+  /**
+   * Boolean to know if we may normalize data. If false, then
+   * it means that some operations will fail or datas will be useless
+   * in case datas are normalized.
+   */
+  protected mayNormalizeData: boolean;
 
   protected constructor(args: DataProperties={}) {
     // if 2 classes: ['human', 'bot'], if 1 class ['bot'] (proba p to be a bot according to the model)
@@ -96,8 +125,11 @@ export abstract class Data {
   }
 }
 
-
-export interface DataMovementMatrixProperties extends DataProperties{
+/**
+ * Properties for {@link DataMovementMatrix} constructor, containing all
+ * previous features of {@link DataProperties} and six new parameters.
+ */
+export interface DataMovementMatrixProperties extends DataProperties {
   xMinMov?: number;
   xMaxMov?: number;
   yMinMov?: number;
@@ -223,10 +255,24 @@ export class DataMovementMatrix extends Data {
   }
 }
 
-
+/**
+ * Properties for {@link DataFeatures} constructor, containing all
+ * previous features of {@link DataProperties} and two new parameters.
+ */
 export interface DataFeaturesProperties extends DataProperties {
-  shouldCompleteXSize?: boolean;
+  /**
+   * The second shape of 3d tensor (or first in case we ignore the batch size), representing
+   * here the chunk length. The last shape is arbitrary given by the number of mouse features
+   * for each chunk.
+   */
   xSize?: number;
+
+  /**
+   * In case that a chunk is not fully complete after reading the
+   * record, this field describes whether we should complete it manually
+   * with trailing zeros.
+   */
+  shouldCompleteXSize?: boolean;
 }
 
 /**
@@ -338,45 +384,6 @@ export class DataFeatures2 extends DataFeatures {
       line.speed, line.accel, // 4, 5
       line.distance, line.timeDiff, // 6, 7
       line.angle, line.jerk, // 8, 9
-    ]
-  }
-}
-
-/**
- * This class extends {@link DataFeatures} and takes 13 features :
- * <ol>
- *   <li>{@link recording!SingleRecord.dx}</li>
- *   <li>{@link recording!SingleRecord.dy}</li>
- *   <li>{@link recording!SingleRecord.speedX}</li>
- *   <li>{@link recording!SingleRecord.speedY}</li>
- *   <li>{@link recording!SingleRecord.accelX}</li>
- *   <li>{@link recording!SingleRecord.accelY}</li>
- *   <li>{@link recording!SingleRecord.speedXAgainstDistance}</li>
- *   <li>{@link recording!SingleRecord.speedYAgainstDistance}</li>
- *   <li>{@link recording!SingleRecord.accelXAgainstDistance}</li>
- *   <li>{@link recording!SingleRecord.accelYAgainstDistance}</li>
- *   <li>{@link recording!SingleRecord.distance}</li>
- *   <li>{@link recording!SingleRecord.averageSpeedAgainstDistance}</li>
- *   <li>{@link recording!SingleRecord.averageAccelAgainstDistance}</li>
- * </ol>
- * @see DataFeatures
- */
-export class DataMoreFeatures extends DataFeatures {
-  constructor(args: DataFeaturesProperties={}) {
-    super(args);
-    this.ySize = 13; // nbr features
-  }
-
-  protected getChunkElement(line: SingleRecord): number[] {
-    return [
-      line.dx, line.dy, // 0, 1
-      line.speedX, line.speedY, // 2, 3
-      line.accelX, line.accelY, // 4, 5
-      line.speedXAgainstDistance, line.speedYAgainstDistance, // 6, 7
-      line.accelXAgainstDistance, line.accelYAgainstDistance, // 8, 9
-      line.distance, // 10
-      line.averageSpeedAgainstDistance, // 11
-      line.averageAccelAgainstDistance // 12
     ]
   }
 }

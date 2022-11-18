@@ -1,5 +1,7 @@
 import * as tf from '@tensorflow/tfjs';
-import {Data} from "./data";
+import { RandomForestClassifier } from 'ml-random-forest';
+import { Data } from "./data";
+import { loadFile } from "./utils";
 
 /**
  * Represent a generic instance of a single recorded mouse action. It must contain at least
@@ -8,7 +10,7 @@ import {Data} from "./data";
  */
 export interface SingleRecord {
   /**
-   * The time stamp when this movement was recorded, often given by the field event.timeStamp.
+   * The time stamp when this movement was recorded, often given by `event.timeStamp`.
    */
   time: number;
 
@@ -30,28 +32,120 @@ export interface SingleRecord {
    */
   type?: string;
 
+  /**
+   * The difference `dt` between two consecutive times.
+   */
   timeDiff?: number;
+
+  /**
+   * The x offset between the current point and the previous one.
+   */
   dx?: number;
+
+  /**
+   * The y offset between the current point and the previous one.
+   */
   dy?: number;
+
+  /**
+   * The speed in X axis between the current point and the previous one, calculated with `dx/dt`.
+   */
   speedX?: number;
+
+  /**
+   * The speed in Y axis between the current point and the previous one, calculated with `dy/dt`.
+   */
   speedY?: number;
+
+  /**
+   * The acceleration in X axis between the current point and the previous one, calculated with
+   * the difference of two consecutive speed x divided by `dt`.
+   */
   accelX?: number;
+
+  /**
+   * The acceleration in Y axis between the current point and the previous one, calculated with
+   * the difference of two consecutive speed y divided by `dt`.
+   */
   accelY?: number;
-  speed?: number;
-  accel?: number;
+
+  /**
+   * The total euclidean distance between the current point and the previous one.
+   */
   distance?: number;
-  speedXAgainstDistance?: number;
-  speedYAgainstDistance?: number;
-  accelXAgainstDistance?: number;
-  accelYAgainstDistance?: number;
-  averageSpeedAgainstDistance?: number;
-  averageAccelAgainstDistance?: number;
+
+  /**
+   * The total speed between the current point and the previous one, calculated with `distance/dt`.
+   */
+  speed?: number;
+
+  /**
+   * The total acceleration between the current point and the previous one,
+   * calculated the difference of two consecutive speed divided by `dt`.
+   */
+  accel?: number;
+
+  /**
+   * The difference of acceleration between the current point and the previous one divided by `dt`.
+   */
   jerk?: number;
+
+  /**
+   * The speed x divided by distance.
+   */
+  speedXAgainstDistance?: number;
+
+  /**
+   * The speed y divided by distance.
+   */
+  speedYAgainstDistance?: number;
+
+  /**
+   * The acceleration x divided by distance.
+   */
+  accelXAgainstDistance?: number;
+
+  /**
+   * The acceleration y divided by distance.
+   */
+  accelYAgainstDistance?: number;
+
+  /**
+   * The average speed from the first recorded point divided by the distance.
+   */
+  averageSpeedAgainstDistance?: number;
+
+  /**
+   * The average acceleration from the first recorded point divided by the distance.
+   */
+  averageAccelAgainstDistance?: number;
+
+  /**
+   * The angle between the current point and the previous one, calculated by `atan(dy/dx)`.
+   */
   angle?: number;
 }
 
+/**
+ * Represents the result of the model to decide whether the record was human or not.
+ * It's simply a boolean with a reason.
+ */
 export interface Result {
+
+  /**
+   * The simple boolean, true if the recording was considered as human. Otherwise,
+   * the {@link Result.reason} gives more details.
+   */
   result: boolean;
+
+  /**
+   * One of the three static field of Recorder class :
+   * <ul>
+   *   <li>{@link Recorder.success} if the record was considered as human.</li>
+   *   <li>{@link Recorder.fail} if the record was considered as bot.</li>
+   *   <li>{@link Recorder.notEnoughProvidedDatas} if there were not enough provided datas.</li>
+   * </ul>
+   */
   reason: Symbol;
 }
 
@@ -62,13 +156,14 @@ export interface Result {
  * model.json file. Then the data object is only used to format the raw datas
  * from {@link Recorder} and reshape the input tensors.
  * <br>
- * The model never loads if you never call {@link getModel}.
+ * The model never loads if you never call {@link getModel}, so you can instantiate
+ * this class multiple times without troubles.
  */
-export class Model {
-  private model: null | tf.LayersModel;
+export abstract class Model<G> {
+  protected model: null | G;
 
-  private readonly loadingPath: string;
-  private readonly data: Data;
+  protected readonly loadingPath: string;
+  protected readonly data: Data;
 
   /**
    * @param loadingPath The loadingPath (url, localstorage, indexeddb, ...) to load with {@link tf.loadLayersModel}.
@@ -80,10 +175,31 @@ export class Model {
     this.data = data;
   }
 
+  getData(): Data {
+    return this.data;
+  }
+
+  /**
+   * Get the model instance after at least one call of {@link getModel} that loads it once.
+   */
+  getLoadedModel(): G {
+    if (this.model == null) {
+      throw new Error("You have to load the model with getModel() first before trying to get the model synchronously.")
+    }
+    return this.model
+  }
+
+  abstract predict(record: Recorder): Promise<number[]>;
+
   /**
    * Loads the model if it has never been done before, then returns it.
    * @return A promise of the loaded layer model.
    */
+  abstract getModel(): Promise<G>;
+}
+
+export class TensorflowModel extends Model<tf.LayersModel> {
+
   async getModel(): Promise<tf.LayersModel> {
     if (this.model === null) {
       this.model = await tf.loadLayersModel(this.loadingPath);
@@ -91,18 +207,64 @@ export class Model {
     return this.model;
   }
 
-  /**
-   * Get the model instance after at least one call of {@link getModel} that loads it once.
-   */
-  getLoadedModel(): tf.LayersModel {
-    if (this.model == null) {
-      throw new Error("You have to load the model with getModel() first before trying to get the model synchronously.")
+  async predict(record: Recorder): Promise<number[]> {
+    const dataset = this.getData().loadDataSet(record).datasetData;
+
+    if (dataset.length === 0) {
+      return [];
     }
-    return this.model
+
+    const tfjsModel = await this.getModel();
+
+    // We could reshape to have one batch and more time-steps if the model accepts a variable number of
+    // time steps, but we may lose some accuracy since the model trained on a fix time-step.
+    const datasetTensor = tf.tensor3d(dataset).reshape(tfjsModel.inputs[0].shape.length === 4
+      ? [dataset.length, this.getData().getXSize(), this.getData().getYSize(), 1]
+      : [dataset.length, this.getData().getXSize(), this.getData().getYSize()]);
+    let predictions = tfjsModel.predict(datasetTensor) as tf.Tensor;
+    if (predictions.shape[1] === 1) {
+      predictions = tf.reshape(predictions, [predictions.size]);//.round();
+    } else {
+      // Get the bot probability p from prediction [1-p, p] for respectively human and bot,
+      // get [p] if p > 1/2 and [1-p] otherwise. If we want to output 0 or 1 and not the
+      // proba p, just use 'predictions = tf.argMax(predictions, -1)'.
+      const {values, indices} = tf.topk(predictions, 1);
+      // abs(1 - idx_max - p) = what we need
+      predictions = tf.abs(tf.scalar(1).sub(indices).sub(values));
+      predictions = tf.reshape(predictions, [predictions.size]);
+    }
+    const output = predictions.arraySync() as number[];
+
+    datasetTensor.dispose();
+    predictions.dispose();
+
+    return output;
+  }
+}
+
+export class RandomForestModel extends Model<RandomForestClassifier> {
+
+  async getModel(): Promise<RandomForestClassifier> {
+    if (this.model === null) {
+      if (this.data.numClasses !== 1) {
+        throw Error("Random Forest should have one class as 'numClasses' !");
+      }
+      this.model = new RandomForestClassifier({});
+      this.model = RandomForestClassifier.load(JSON.parse(await loadFile(this.loadingPath)));
+    }
+    return this.model;
   }
 
-  getData(): Data {
-    return this.data;
+  async predict(record: Recorder): Promise<number[]> {
+    const dataset = this.getData().loadDataSet(record).datasetData;
+
+    if (dataset.length === 0) {
+      return [];
+    }
+
+    const randomForest = await this.getModel();
+    const reshapedDataset = await tf.reshape(dataset, [dataset.length, dataset[0].length*dataset[0][0].length]).array() as number[][];
+    return randomForest.predict(reshapedDataset);
   }
 }
 
@@ -205,8 +367,8 @@ export class Recorder {
 
     line.timeDiff = line.time - this.previousLine.time;
 
-    // TODO: do we need to keep the type of action to filter move only ?
-    //if (line.type == null || line.type.includes("Move")) {
+    // Compute features for all action, even pressed or released clicks,
+    // to not get high values if not pressed (but let the user choose)
     line.dx = line.x - this.previousLine.x;
     line.dy = line.y - this.previousLine.y;
 
@@ -216,12 +378,12 @@ export class Recorder {
     line.accelY = (line.speedY - this.previousLine.speedY) / line.timeDiff;
 
     line.distance = Math.sqrt(line.dx * line.dx + line.dy * line.dy);
-    this.totalDistance += line.distance;
+    this.totalDistance += !Number.isFinite(line.distance) || Number.isNaN(line.distance) ? 0 : line.distance;
 
     line.speed = line.distance / line.timeDiff;
     line.accel = (line.speed - this.previousLine.speed) / line.timeDiff;
-    this.totalSpeed += line.speed;
-    this.totalAccel += line.accel;
+    this.totalSpeed += !Number.isFinite(line.speed) || Number.isNaN(line.speed) ? 0 : line.speed;
+    this.totalAccel += !Number.isFinite(line.accel) || Number.isNaN(line.accel) ? 0 : line.accel;
 
     line.speedXAgainstDistance = line.speed / line.dx;
     line.accelXAgainstDistance = line.accel / line.dx;
@@ -241,7 +403,7 @@ export class Recorder {
         line[key] = 0;
       }
     }
-    //}
+
     this.previousLine = line;
 
     this.currentRecord.push(line);
@@ -311,42 +473,12 @@ export class Recorder {
    * element to be a bot trajectory. The batch is obtained from {@link currentRecord}.
    * <br>
    * This function may be heavy for smaller configurations, be careful not to call it too often.
-   * @param model A {@link Model} instance, with at least `getData()` and `getModel()`.
+   * @param model A {@link Model} instance, with at least `predict()`.
    * @return A list of probabilities, empty list if is not enough datas.
    * @see isHuman
    */
-  async getPrediction(model: Model): Promise<number[]> {
-    const dataset = model.getData().loadDataSet(this).datasetData;
-
-    if (dataset.length === 0) {
-      return [];
-    }
-
-    const tfjsModel = await model.getModel();
-
-    // We could reshape to have one batch and more time-steps if the model accepts a variable number of
-    // time steps, but we may lose some accuracy since the model trained on a fix time-step.
-    const datasetTensor = tf.tensor3d(dataset).reshape(tfjsModel.inputs[0].shape.length === 4
-      ? [dataset.length, model.getData().getXSize(), model.getData().getYSize(), 1]
-      : [dataset.length, model.getData().getXSize(), model.getData().getYSize()]);
-    let predictions = tfjsModel.predict(datasetTensor) as tf.Tensor;
-    if (predictions.shape[1] === 1) {
-      predictions = tf.reshape(predictions, [predictions.size]);//.round();
-    } else {
-      // Get the bot probability p from prediction [1-p, p] for respectively human and bot,
-      // get [p] if p > 1/2 and [1-p] otherwise. If we want to output 0 or 1 and not the
-      // proba p, just use 'predictions = tf.argMax(predictions, -1)'.
-      const {values, indices} = tf.topk(predictions, 1);
-      // abs(1 - idx_max - p) = what we need
-      predictions = tf.abs(tf.scalar(1).sub(indices).sub(values));
-      predictions = tf.reshape(predictions, [predictions.size]);
-    }
-    const output = predictions.arraySync() as number[];
-
-    datasetTensor.dispose();
-    predictions.dispose();
-
-    return output;
+  async getPrediction(model: Model<any>): Promise<number[]> {
+    return model.predict(this);
   }
 
   /**
@@ -365,6 +497,7 @@ export class Recorder {
    * @param model A {@link Model} instance, with at least `getData()` and `getModel()`.
    * @param threshold A number between 0 and 1, if the average probability to be a bot is less
    *                  than this value, we consider the trajectory as human.
+   * @param consoleInfo Default to false, if true then it prints the prediction to console.
    * @return A promise of an instance of {@link Result} with two fields:
    * <ul>
    *     <li>result, the boolean `true` iff it is a human trajectory</li>
@@ -372,15 +505,14 @@ export class Recorder {
    * </ul>
    * @see getPrediction
    */
-  async isHuman(model: Model, threshold: number = 0.2): Promise<Result> {
+  async isHuman(model: Model<any>, threshold: number = 0.2, consoleInfo: boolean = false): Promise<Result> {
     const predictions = await this.getPrediction(model);
     if (predictions.length === 0) {
       return { result: false, reason: Recorder.notEnoughProvidedDatas };
     }
     const average = tf.mean(predictions).arraySync();
 
-    // TODO: debug
-    console.log("pred=", predictions, "average=", average);
+    if (consoleInfo) console.log("pred=", predictions, "average=", average);
 
     if (average <= threshold) {
       return { result: true, reason: Recorder.success };

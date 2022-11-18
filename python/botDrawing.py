@@ -43,6 +43,10 @@ def _open_drawing_canvas(driver, buttonId):
 
     return export_button, close_button
 
+def get_random_points(x_range, y_range, number_points_range):
+    return [(random.randint(*x_range), random.randint(*y_range))
+             for _ in range(random.randint(*number_points_range))]
+
 
 def get_circle_points(radius, step):
     """
@@ -129,7 +133,8 @@ def circle_automated(driver, move_type=5):
     If 5, we use NaturalMouseMovement, a Java program jar
     that we call with all points. Notice that it needs to
     have the screen scale to 100%, otherwise this JAVA program
-    won't work.
+    won't work. We use different motions : default, GrannyMotion,
+    FastGamerMotion and AverageComputerUserMotion.
 
     Parameters
     ----------

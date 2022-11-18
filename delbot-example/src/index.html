@@ -15,10 +15,10 @@
   <br>
 
   <h2>Pour tester :</h2>
-  <button id="circle_mod3" style="margin-bottom: 50px">Modèle LSTM 3</button>
-  <button id="circle_mod1" style="margin-bottom: 50px">Modèle LSTM 1</button>
-  <button id="circle_mod_dense" style="margin-bottom: 50px">Modèle Dense Matrice</button>
-  <button id="circle_mod_conv" style="margin-bottom: 50px">Modèle Convolutif</button>
+  <button id="circle_rnn3_new" style="margin-bottom: 50px">Modèle LSTM 3 (new)</button>
+  <button id="circle_rnn3" style="margin-bottom: 50px">Modèle LSTM 3</button>
+  <button id="circle_rnn1" style="margin-bottom: 50px">Modèle LSTM 1</button>
+  <button id="circle_rf" style="margin-bottom: 50px">Random Forest</button>
 
   <p>Christophe Grandmont, stagiaire au Bureau404, étudiant de l'université de Mons.</p>
 
@@ -29,7 +29,7 @@
   <!-- Import Tensorflow.js to use tf variable -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.0.0/dist/tf.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.1.2/dist/delbot.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.2.0/dist/delbot.js"></script>
   <!--script src="../../delbot-core/dist/delbot.js"></script-->
 
   <script type="module">
@@ -37,10 +37,10 @@
 
     new DrawElementSample('circle', 'Dessinez un cercle !', 'circleCanvas', 'circleHide');
 
-    new DrawElementTesting('circle_mod3', 'Dessinez un cercle.', 'circleCanvasTest3', 'circleTestHide3', delbot.Models.rnn3);
-    new DrawElementTesting('circle_mod1', 'Dessinez un cercle.', 'circleCanvasTest1', 'circleTestHide1', delbot.Models.rnn1);
-    new DrawElementTesting('circle_mod_dense', 'Dessinez un cercle.', 'circleCanvasTestDense', 'circleTestHideDense', delbot.Models.denseMatrix);
-    new DrawElementTesting('circle_mod_conv', 'Dessinez un cercle.', 'circleCanvasTestConv', 'circleTestHideConv', delbot.Models.convolutional);
+    new DrawElementTesting('circle_rnn3_new', 'Dessinez un cercle.', 'circleCanvasTest1', 'circleTestHide1', delbot.Models.rnn3New);
+    new DrawElementTesting('circle_rnn3', 'Dessinez un cercle.', 'circleCanvasTest2', 'circleTestHide2', delbot.Models.rnn3);
+    new DrawElementTesting('circle_rnn1', 'Dessinez un cercle.', 'circleCanvasTest3', 'circleTestHide3', delbot.Models.rnn1);
+    new DrawElementTesting('circle_rf', 'Dessinez un cercle.', 'circleCanvasTestRF', 'circleTestHideRF', delbot.Models.randomForest);
   </script>
 </body>
 </html>

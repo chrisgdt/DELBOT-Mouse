@@ -1,17 +1,202 @@
 import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
+import * as delbot from "@chrisgdt/delbot-mouse";
 import {DataTraining} from "./dataTraining";
+
 
 export interface ModelProperties {
   dataTraining: DataTraining;
-  epoch?: number;
-  batchSize?: number;
-  trainingRatio?: number;
-  testingRatio?: number;
   nameToSave?: string;
   nameToLoad?: string;
   useTfjsVis?: boolean;
   consoleInfo?: boolean;
+  epoch?: number;
+  batchSize?: number;
+}
+
+export abstract class Model {
+  protected readonly data: DataTraining;
+  protected readonly nameToSave: string;
+  protected readonly nameToLoad: string;
+  protected readonly useTfjsVis: boolean;
+  protected readonly consoleInfo: boolean;
+  protected readonly epoch: number;
+  protected readonly batchSize: number;
+
+  protected constructor(args: ModelProperties | DataTraining) {
+    if (args instanceof DataTraining) args = {dataTraining: args};
+
+    this.data = args.dataTraining;
+    this.useTfjsVis = args.useTfjsVis == null ? false : args.useTfjsVis;
+    this.consoleInfo = args.consoleInfo == null ? false : args.consoleInfo;
+    this.nameToSave = args.nameToSave;
+    this.nameToLoad = args.nameToLoad;
+
+    this.epoch = args.epoch == null ? 10 : args.epoch;
+    this.batchSize = args.batchSize == null ? 128 : args.batchSize;
+  }
+
+  async testingModel(predicts: tf.Tensor1D, labels: tf.Tensor1D, name: string = "validation") {
+    const classAccuracy = await this.getClassAccuracy(predicts, labels);
+    const confusionMatrix = await this.getConfusionMatrix(predicts, labels);
+    labels.dispose();
+    predicts.dispose();
+    if (this.useTfjsVis) {
+      await tfvis.show.perClassAccuracy({name: `Accuracy ${name}`, tab: 'Evaluation'}, classAccuracy, ['human', 'bot']);
+      await tfvis.render.confusionMatrix({name: `Confusion Matrix ${name}`, tab: 'Evaluation'}, {
+        values: confusionMatrix,
+        tickLabels: ['human', 'bot']
+      });
+    }
+    if (this.consoleInfo) {
+      console.log("Class Accuracy", confusionMatrix);
+      console.log("Confusion Matrix", confusionMatrix);
+    }
+  }
+
+  /**
+   * Call {@link doPredictionBatch} and compare the model output with the
+   * real data labels, then show the accuracy with tfjs-vis or directly to the console.
+   * @param predicts
+   * @param labels
+   */
+  async getClassAccuracy(predicts: tf.Tensor1D, labels: tf.Tensor1D): Promise<{ accuracy: number, count: number }[]> {
+    return await tfvis.metrics.perClassAccuracy(labels, predicts);
+  }
+
+  /**
+   * Call {@link doPredictionBatch} and compare the model output with the
+   * real data labels, then show the confusion matrix with tfjs-vis or directly to the console.
+   * @param predicts
+   * @param labels
+   */
+  async getConfusionMatrix(predicts: tf.Tensor1D, labels: tf.Tensor1D): Promise<number[][]> {
+    return await tfvis.metrics.confusionMatrix(labels, predicts);
+  }
+
+  abstract run();
+
+  abstract train();
+
+  abstract saveModel();
+
+  abstract loadExistingModel();
+
+  /**
+   * Gets a sample of test datas and returns the model output, with some basic operations
+   * to reshape the output as 1d tensor.
+   * @param size The batch size for the sample.
+   * @return A list of two elements that are 1d tensors corresponding to a list [b1, b2, ...].
+   *         These two list are 0-1 lists for each batch element to be a bot trajectory (1 means bot).
+   */
+  abstract doPredictionBatch(size: number): tf.Tensor1D[];
+}
+
+export interface RandomForestProperties extends ModelProperties {
+  nEstimators?: number;
+  maxDepth?: number;
+  maxFeatures?: 'auto' | 'sqrt' | 'log2' | number;
+  minSampleLeaf?: number;
+  minInfoGain?: 0;
+}
+
+export class RandomForestModel extends Model {
+  private randomForest: delbot.RandomForestClassifier;
+
+  constructor(args: RandomForestProperties | DataTraining) {
+    super(args);
+    this.randomForest = new delbot.RandomForestClassifier({
+    });
+    if (this.data.data.numClasses !== 1) {
+      throw Error("Random Forest should have one class as 'numClasses' !");
+    }
+  }
+
+  async loadExistingModel() {
+    const model = await delbot.utils.loadFile(this.nameToLoad);
+    this.randomForest = delbot.RandomForestClassifier.load(JSON.parse(model));
+  }
+
+  saveModel() {
+    delbot.utils.download(JSON.stringify(this.randomForest.toJSON()), this.nameToSave);
+  }
+
+  async run() {
+    await this.data.load(this.consoleInfo);
+
+    if (this.nameToLoad == null) {
+      if (this.consoleInfo) console.log("Training of RandomForest...");
+      await this.train();
+      if (this.consoleInfo) { // @ts-ignore - TODO: featureImportance is not in type file but is in source code...
+        console.log("Train finished ! Feature importance :", this.randomForest.featureImportance());
+      }
+
+      if (this.nameToSave != null) {
+        await this.saveModel();
+        if (this.consoleInfo) console.log("Saved !");
+      }
+
+    } else {
+      await this.loadExistingModel();
+    }
+
+    if (this.useTfjsVis || this.consoleInfo) {
+      const [predicts, labels] = this.doPredictionBatch();
+      await this.testingModel(predicts, labels);
+
+      if (this.randomForest.oobResults && this.randomForest.oobResults.length > 0) {
+        const oobPred = tf.tensor1d(this.randomForest.predictOOB());
+        const oobLabel = tf.tensor1d(this.randomForest.oobResults.map((v) => v.true));
+        await this.testingModel(oobPred, oobLabel, "OOB");
+      }
+    }
+
+    if (this.consoleInfo) console.log("-- end --");
+  }
+
+  async train() {
+    const test = this.data.nextTestBatchRaw(this.data.nbrTestElements);
+    const testX = await tf.reshape(test.xs, [test.xs.length, test.xs[0].length*test.xs[0][0].length]).array() as number[][];
+    const testY = tf.tensor1d(Array.prototype.slice.call(tf.util.flatten(test.ys)));
+
+    if (this.consoleInfo) console.log("Test data", testX, testY);
+
+    const history = [];
+
+    console.time('Time sync');
+    for (let epoch = 0; epoch < this.epoch; epoch++) {
+      const train = this.data.nextTrainBatchRaw(this.batchSize);
+      const trainX = await tf.reshape(train.xs, [train.xs.length, train.xs[0].length*train.xs[0][0].length]).array() as number[][];
+      const trainY = Array.prototype.slice.call(tf.util.flatten(train.ys));
+
+      this.randomForest.train(trainX, trainY);
+
+      if (this.useTfjsVis) {
+        const predY = tf.tensor1d(this.randomForest.predict(testX));
+        history.push({
+          loss: await tf.metrics.binaryCrossentropy(testY, predY).array(),
+          acc: await tf.metrics.binaryAccuracy(testY, predY).array()
+        });
+        await tfvis.show.history({name: 'Validation data', tab: 'Training'}, history, ['loss', 'acc']);
+      }
+    }
+    console.timeEnd('Time sync');
+    testY.dispose();
+  }
+
+  doPredictionBatch(size: number = 1000): tf.Tensor1D[] {
+    const testData = this.data.nextTestBatchRaw(size);
+    const xs = tf.reshape(testData.xs, [testData.xs.length, testData.xs[0].length*testData.xs[0][0].length]).arraySync() as number[][];
+    return [tf.tensor1d(this.randomForest.predict(xs)), tf.tensor1d(Array.prototype.slice.call(tf.util.flatten(testData.ys)))];
+  }
+}
+
+
+export interface TensorflowModelProperties extends ModelProperties {
+  epoch?: number;
+  batchSize?: number;
+  trainingRatio?: number;
+  testingRatio?: number;
   optimizer?: tf.Optimizer;
 }
 
@@ -42,34 +227,21 @@ export interface ModelProperties {
  * you can also override this one to modify the behavior of the last layers
  * or how to compile the model.
  */
-export abstract class Model {
-  private readonly nameToSave: string;
-  private readonly nameToLoad: string;
-  private readonly epoch: number;
-  private readonly batchSize: number;
-  private readonly trainingRatio: number;
-  private readonly testingRatio: number;
-  private readonly useTfjsVis: boolean;
-  private readonly consoleInfo: boolean;
+export abstract class TensorflowModel extends Model {
+  protected readonly trainingRatio: number;
+  protected readonly testingRatio: number;
   private readonly optimizer: tf.Optimizer;
 
-  protected readonly data: DataTraining;
   protected model: null | tf.LayersModel = null;
 
-  constructor(args: ModelProperties | DataTraining) {
+  protected constructor(args: TensorflowModelProperties | DataTraining) {
     if (args instanceof DataTraining) args = {dataTraining: args};
-
-    this.data = args.dataTraining;
-    this.epoch = args.epoch == null ? 10 : args.epoch;
-    this.batchSize = args.batchSize == null ? 128 : args.batchSize;
-    this.useTfjsVis = args.useTfjsVis == null ? false : args.useTfjsVis;
-    this.consoleInfo = args.consoleInfo == null ? false : args.consoleInfo;
-    this.nameToSave = args.nameToSave;
-    this.nameToLoad = args.nameToLoad;
-    this.optimizer = args.optimizer == null ? tf.train.adam(1e-3, .5, .999, 1e-8) : args.optimizer;
+    super(args);
 
     this.trainingRatio = args.trainingRatio == null ? 1 : args.trainingRatio;
     this.testingRatio = args.testingRatio == null ? .9 : args.testingRatio;
+
+    this.optimizer = args.optimizer == null ? tf.train.adam(1e-3, .5, .999, 1e-8) : args.optimizer;
   }
 
   /**
@@ -118,15 +290,20 @@ export abstract class Model {
   /**
    * Load an existing model with {@link tf.loadLayersModel} and return it.
    */
-  async loadExistingModel(): Promise<tf.LayersModel> {
-    return await tf.loadLayersModel(this.nameToLoad);
+  async loadExistingModel() {
+    this.model = await tf.loadLayersModel(this.nameToLoad);
+  }
+
+  async saveModel() {
+    const saveResult = await this.model.save(this.nameToSave);
+    if (this.consoleInfo) console.log("Saved !", saveResult);
   }
 
   /**
    * Run the entire training process, from data loading to model training, then
-   * model testing with accuracy and confusion matrix. If field {@link ModelProperties.nameToLoad}
+   * model testing with accuracy and confusion matrix. If field {@link TensorflowModelProperties.nameToLoad}
    * is specified, training is ignored because we directly call {@link loadExistingModel}.
-   * If field {@link ModelProperties.nameToSave} is specified, it save the model by calling {@link tf.LayersModel.save}.
+   * If field {@link TensorflowModelProperties.nameToSave} is specified, it save the model by calling {@link tf.LayersModel.save}.
    */
   async run() {
     await this.data.load(this.consoleInfo);
@@ -141,38 +318,26 @@ export abstract class Model {
       let history = await this.train();
       if (this.consoleInfo) console.log("Train finished ! history :", history);
 
-      if (this.nameToSave != null) {
-        const saveResult = await this.model.save(this.nameToSave);
-        if (this.consoleInfo) console.log("Saved !", saveResult);
-      }
+      if (this.nameToSave != null) await this.saveModel();
 
     } else {
 
-      this.model = await this.loadExistingModel();
+      await this.loadExistingModel();
       if (this.useTfjsVis) await tfvis.show.modelSummary({name: 'Model Architecture', tab: 'Model'}, this.model);
 
     }
 
     if (this.useTfjsVis || this.consoleInfo) {
-      const classAccuracy = await this.getClassAccuracy();
-      const confusionMatrix = await this.getConfusionMatrix();
-      if (this.useTfjsVis) {
-        await tfvis.show.perClassAccuracy({name: 'Accuracy', tab: 'Evaluation'}, classAccuracy, ['human', 'bot']);
-        await tfvis.render.confusionMatrix({name: 'Confusion Matrix', tab: 'Evaluation'}, {values: confusionMatrix, tickLabels: ['human', 'bot']});
-      }
-      if (this.consoleInfo) {
-        console.log("Class Accuracy", confusionMatrix);
-        console.log("Confusion Matrix", confusionMatrix);
-      }
+      const [predicts, labels] = this.doPredictionBatch();
+      await this.testingModel(predicts, labels);
     }
-
     if (this.consoleInfo) console.log("-- end --");
   }
 
   /**
    * Train the model with {@link tf.LayersModel.fit}. We first get a fragment
-   * of training and testing datas according to {@link ModelProperties.trainingRatio} and
-   * {@link ModelProperties.testingRatio}, default set to 1 and 0.9 respectively.
+   * of training and testing datas according to {@link TensorflowModelProperties.trainingRatio} and
+   * {@link TensorflowModelProperties.testingRatio}, default set to 1 and 0.9 respectively.
    * Then we fit the model with the corresponding batchSize and epochs.
    */
   async train() {
@@ -212,13 +377,6 @@ export abstract class Model {
     });
   }
 
-  /**
-   * Gets a sample of test datas and returns the model output, with some basic operations
-   * to reshape the output as 1d tensor.
-   * @param size Default to 1000, the batch size for the sample.
-   * @return A 1d tensor corresponding to a list [b1, b2, ...] of the given size of
-   *         booleans 0 or 1 for each batch element to be a bot trajectory (1 means bot).
-   */
   doPredictionBatch(size = 1000): tf.Tensor1D[] {
     const testData = this.data.nextTestBatch(size);
     const testXs = testData.xs.reshape(this.model.inputs[0].shape.length === 4
@@ -241,33 +399,9 @@ export abstract class Model {
     testXs.dispose();
     return [predicts as tf.Tensor1D, labels as tf.Tensor1D];
   }
-
-  /**
-   * Call {@link doPredictionBatch} and compare the model output with the
-   * real data labels, then show the accuracy with tfjs-vis or directly to the console.
-   * @param size Default to 1000, the batch size for the sample.
-   */
-  async getClassAccuracy(size = 1000): Promise<{ accuracy: number, count: number }[]> {
-    const [predicts, labels] = this.doPredictionBatch();
-    const classAccuracy = await tfvis.metrics.perClassAccuracy(labels, predicts);
-    labels.dispose();
-    return classAccuracy;
-  }
-
-  /**
-   * Call {@link doPredictionBatch} and compare the model output with the
-   * real data labels, then show the confusion matrix with tfjs-vis or directly to the console.
-   * @param size Default to 1000, the batch size for the sample.
-   */
-  async getConfusionMatrix(size = 1000): Promise<number[][]> {
-    const [predicts, labels] = this.doPredictionBatch();
-    const confusionMatrix = await tfvis.metrics.confusionMatrix(labels, predicts);
-    labels.dispose();
-    return confusionMatrix;
-  }
 }
 
-export class ModelConvolutional extends Model {
+export class ModelConvolutional extends TensorflowModel {
 
   initModel(): tf.Sequential {
     // Model from TFJS tutorial https://www.tensorflow.org/js/tutorials/training/handwritten_digit_cnn?hl=fr
@@ -296,7 +430,7 @@ export class ModelConvolutional extends Model {
   }
 }
 
-export class ModelDense extends Model {
+export class ModelDense extends TensorflowModel {
 
   initModel(): tf.Sequential {
     const model = tf.sequential();
@@ -318,7 +452,7 @@ export class ModelDense extends Model {
   }
 }
 
-export class ModelRNN extends Model {
+export class ModelRNN extends TensorflowModel {
 
   initModel(): tf.Sequential {
     const model = tf.sequential();
@@ -345,7 +479,7 @@ export class ModelRNN extends Model {
   }
 }
 
-export class ModelRNN2 extends Model {
+export class ModelRNN2 extends TensorflowModel {
   initModel(): tf.Sequential  {
     const model = tf.sequential();
 
@@ -370,7 +504,7 @@ export class ModelRNN2 extends Model {
   }
 }
 
-export class ModelRNN3 extends Model {
+export class ModelRNN3 extends TensorflowModel {
   initModel(): tf.Sequential {
     const model = tf.sequential();
 

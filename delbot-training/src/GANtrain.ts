@@ -1,8 +1,34 @@
 import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
 import {DataTraining} from './dataTraining';
-import {download, applyLayers, randomNormalBoxMuller} from "./util";
+import * as delbot from '@chrisgdt/delbot-mouse'
 
+/**
+ * Apply an array of layers to a symbolic input tensor and output a symbolic tensor.
+ * @param layers
+ * @param inputs
+ */
+export function applyLayers(layers: tf.layers.Layer[], inputs: tf.SymbolicTensor | tf.SymbolicTensor[]): tf.SymbolicTensor | tf.SymbolicTensor[] {
+  let outputs = inputs;
+  for (let layer of layers) {
+    outputs = layer.apply(outputs) as tf.SymbolicTensor | tf.SymbolicTensor[];
+  }
+  return outputs;
+}
+
+/**
+ * Returns a random number between 0 and 1 (exclusive) from a normal distribution
+ * from 0 and 1 (inclusive) with the Box-Muller transform.
+ */
+export function randomNormalBoxMuller(): number {
+  let u = Math.random(), v = Math.random();
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+  num = num / 10.0 + 0.5; // Translate to 0 -> 1
+  if (num > 1 || num < 0) return randomNormalBoxMuller(); // resample between 0 and 1
+  return num;
+}
 
 export interface GANProperties {
   dataTraining: DataTraining;
@@ -272,7 +298,7 @@ export class GAN {
       }
 
       if (this.downloadSample) {
-        download(JSON.stringify({
+        delbot.utils.download(JSON.stringify({
           discriminatorLoss: Object.values(discriminatorHistory[discriminatorHistory.length - 1]),
           generatorLoss: Object.values(generatorHistory[generatorHistory.length - 1]),
           sample: await this.sampleTrajectory()

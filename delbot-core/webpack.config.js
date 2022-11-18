@@ -27,7 +27,12 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: [".ts", ".js"],
+    fallback: {
+      "path": false,
+      "crypto": false,
+      "fs": false
+    }
   },
   externals: {
     '@tensorflow/tfjs': 'tf'

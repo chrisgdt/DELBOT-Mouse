@@ -1,16 +1,9 @@
 import * as tf from "@tensorflow/tfjs";
 import * as delbot from "@chrisgdt/delbot-mouse";
-import {loadFile} from "./util";
-
 
 export interface Session {
   human: string[];
   bot: string[];
-}
-
-export interface TensorData {
-  xs: tf.Tensor<tf.Rank>;
-  ys: tf.Tensor<tf.Rank>;
 }
 
 export interface DataTrainingProperties {
@@ -25,7 +18,7 @@ export interface DataTrainingProperties {
   filePath?: string;
 
   /**
-   * A number between 0 and 1, the %/100 of the training set compared to the whole dataset, default to 0.85 for 85%.
+   * A number between 0 and 1, the %/100 of the training set compared to the whole dataset, default to 0.8 for 80%.
    */
   trainingRatio?: number;
 }
@@ -75,7 +68,7 @@ export class DataTraining {
    *   <li>filePath : The path to a json file containing an object {@link Session},
    *                  default to "../../python/sessions.json"</li>
    *   <li>trainingRatio : A number between 0 and 1, the %/100 of the training set
-   *                       compared to the whole dataset, default to 0.85 for 85%.</li>
+   *                       compared to the whole dataset, default to 0.8 for 80%.</li>
    * </ul>
    */
   constructor(args: delbot.data.Data | DataTrainingProperties) {
@@ -83,7 +76,7 @@ export class DataTraining {
 
     this.data = args.data;
     this.filePath = args.filePath == null ? "../../python/sessions.json" : args.filePath;
-    this.trainingRatio = args.trainingRatio == null ? .85 : args.trainingRatio;
+    this.trainingRatio = args.trainingRatio == null ? .8 : args.trainingRatio;
   }
 
   /**
@@ -96,15 +89,13 @@ export class DataTraining {
   /**
    * Loads the json file {@link Session} containing every mouse trajectories and
    * their labels according to the {@link data} objet and separate the dataset into
-   * training data set and testing dataset, with a shuffle. The parameter gives
-   * the ratio, by default you will have 85% of your dataset as training and 15% as
-   * testing.
+   * training data set and testing dataset, with a shuffle.
    */
   async load(consoleInfo: boolean=false) {
     let datasetData: number[][][] = [];
     let datasetLabels: number[][] = [];
 
-    const sessions: Session = JSON.parse(await loadFile(this.filePath));
+    const sessions: Session = JSON.parse(await delbot.utils.loadFile(this.filePath));
     if (sessions == null) {
       throw Error(`The json file ${this.filePath} does not exist !`);
     }
@@ -115,7 +106,7 @@ export class DataTraining {
       userIndex++;
       //if (userIndex >= this.numClasses) continue;
       for (let sess of sessions[user]) {
-        recorder.loadRecordsFromString(await loadFile(sess), this.data.mayNormalize() ? -1 : 1, this.data.mayNormalize() ? -1 : 1);
+        recorder.loadRecordsFromString(await delbot.utils.loadFile(sess), this.data.mayNormalize() ? -1 : 1, this.data.mayNormalize() ? -1 : 1);
         const datas = this.data.loadDataSet(recorder, userIndex);
         datasetData = datasetData.concat(datas.datasetData);
         datasetLabels = datasetLabels.concat(datas.datasetLabels);
@@ -124,7 +115,7 @@ export class DataTraining {
     }
 
     const nbrDatasetElements = datasetData.length;
-    this.nbrTrainElements = Math.round(nbrDatasetElements * this.trainingRatio); // default to 85%
+    this.nbrTrainElements = Math.round(nbrDatasetElements * this.trainingRatio);
     this.nbrTestElements = nbrDatasetElements - this.nbrTrainElements;
 
     let shuffledIndices = tf.util.createShuffledIndices(nbrDatasetElements);
@@ -149,44 +140,60 @@ export class DataTraining {
   }
 
   /**
+   * Get a batch of datas and labels as number array from the training set.
+   * @param batchSize
+   */
+  nextTrainBatchRaw(batchSize: number): { xs: number[][][]; ys: number[][]; } {
+    const result = this.nextBatchRaw(batchSize, this.trainImages, this.trainLabels, this.shuffledTrainIndex);
+    this.shuffledTrainIndex = (this.shuffledTrainIndex + batchSize) % this.trainImages.length;
+    return result;
+  }
+
+  /**
    * Get a batch of tensor datas and labels from the training set.
    * @param batchSize The batch size.
    */
-  nextTrainBatch(batchSize: number): TensorData {
-    if (!this.isLoaded()) {
-      throw new Error("Cannot get a train batch when the training datas are not loaded !");
-    }
-    const img = [];
-    const lab = [];
-    for (let i=0; i<batchSize; i++) {
-      img.push(this.trainImages[this.shuffledTrainIndex]);
-      lab.push(this.trainLabels[this.shuffledTrainIndex]);
-      this.shuffledTrainIndex = (this.shuffledTrainIndex + 1) % this.nbrTrainElements;
-    }
+  nextTrainBatch(batchSize: number): { xs: tf.Tensor<tf.Rank>; ys: tf.Tensor<tf.Rank>; } {
+    const {xs, ys} = this.nextTrainBatchRaw(batchSize);
     return {
-      xs: tf.tensor3d(img),
-      ys: tf.tensor2d(lab)
-    };
+      xs: tf.tensor3d(xs),
+      ys: tf.tensor2d(ys)
+    }
+  }
+
+  /**
+   * Get a batch of datas and labels as number array from the testing set.
+   * @param batchSize The batch size.
+   */
+  nextTestBatchRaw(batchSize: number): { xs: number[][][]; ys: number[][]; } {
+    const result = this.nextBatchRaw(batchSize, this.testImages, this.testLabels, this.shuffledTestIndex);
+    this.shuffledTestIndex = (this.shuffledTestIndex + batchSize) % this.testImages.length;
+    return result;
   }
 
   /**
    * Get a batch of tensor datas and labels from the testing set.
    * @param batchSize The batch size.
    */
-  nextTestBatch(batchSize: number): TensorData {
+  nextTestBatch(batchSize: number): { xs: tf.Tensor<tf.Rank>; ys: tf.Tensor<tf.Rank>; } {
+    const {xs, ys} = this.nextTestBatchRaw(batchSize);
+    return {
+      xs: tf.tensor3d(xs),
+      ys: tf.tensor2d(ys)
+    }
+  }
+
+  private nextBatchRaw(batchSize: number, images: number[][][], labels: number[][], shuffledIndex: number): { xs: number[][][]; ys: number[][]; } {
     if (!this.isLoaded()) {
       throw new Error("Cannot get a train batch when the training datas are not loaded !");
     }
-    const img = [];
-    const lab = [];
-    for (let i=0; i<batchSize; i++) {
-      img.push(this.testImages[this.shuffledTestIndex]);
-      lab.push(this.testLabels[this.shuffledTestIndex]);
-      this.shuffledTestIndex = (this.shuffledTestIndex + 1) % this.nbrTestElements;
+    const xs = [];
+    const ys = [];
+    for (let i = 0; i < batchSize; i++) {
+      xs.push(images[shuffledIndex]);
+      ys.push(labels[shuffledIndex]);
+      shuffledIndex = (shuffledIndex + 1) % images.length;
     }
-    return {
-      xs: tf.tensor3d(img),
-      ys: tf.tensor2d(lab)
-    };
+    return { xs, ys };
   }
 }

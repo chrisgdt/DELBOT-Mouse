@@ -16,12 +16,16 @@
 <li><a href="../modules/recording.html">recording</a></li>
 <li><a href="recording.Result.html">Result</a></li></ul>
 <h1>Interface Result</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography"><p>Represents the result of the model to decide whether the record was human or not.
+It&#39;s simply a boolean with a reason.</p>
+</div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">Result</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/0293ae4/delbot-core/src/recording.ts#L53">recording.ts:53</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-core/src/recording.ts#L133">src/recording.ts:133</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -36,14 +40,23 @@
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="reason" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reason</span><a href="#reason" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
-<div class="tsd-signature">reason<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Symbol</span></div><aside class="tsd-sources">
+<div class="tsd-signature">reason<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Symbol</span></div>
+<div class="tsd-comment tsd-typography"><p>One of the three static field of Recorder class :</p>
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/0293ae4/delbot-core/src/recording.ts#L55">recording.ts:55</a></li></ul></aside></section>
+  <li>[success](../classes/recording.Recorder.html#success) if the record was considered as human.</li>
+  <li>[fail](../classes/recording.Recorder.html#fail) if the record was considered as bot.</li>
+  <li>[notEnoughProvidedDatas](../classes/recording.Recorder.html#notEnoughProvidedDatas) if there were not enough provided datas.</li>
+</ul></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-core/src/recording.ts#L149">src/recording.ts:149</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="result" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>result</span><a href="#result" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">result<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
+<div class="tsd-signature">result<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+<div class="tsd-comment tsd-typography"><p>The simple boolean, true if the recording was considered as human. Otherwise,
+the <a href="recording.Result.html#reason">reason</a> gives more details.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/0293ae4/delbot-core/src/recording.ts#L54">recording.ts:54</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-core/src/recording.ts#L139">src/recording.ts:139</a></li></ul></aside></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -67,7 +80,8 @@
 <ul>
 <li class="tsd-kind-module"><a href="../modules/data.html">data</a></li>
 <li class="tsd-kind-module"><a href="../modules/index.html">index</a></li>
-<li class="current tsd-kind-module"><a href="../modules/recording.html">recording</a></li></ul></li></ul></div></details></nav>
+<li class="current tsd-kind-module"><a href="../modules/recording.html">recording</a></li>
+<li class="tsd-kind-module"><a href="../modules/utils.html">utils</a></li></ul></li></ul></div></details></nav>
 <nav class="tsd-navigation secondary menu-sticky">
 <ul>
 <li class="current tsd-kind-interface tsd-parent-kind-module"><a href="recording.Result.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-256-path"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)" id="icon-256-text"></path></svg><span>Result</span></a>

@@ -37,11 +37,8 @@ export function download(content: string, fileName: string) {
     a.download = fileName;
     a.click();
   } else {
-    writeFile(fileName, content, 'utf8', function (err) {
-      if (err) {
-        console.log("An error occurred while writing JSON Object to File.");
-        return console.log(err);
-      }
+    writeFile(fileName, content, 'utf8', (err) => {
+      if (err) throw err;
     });
   }
 }
@@ -74,6 +71,7 @@ export async function loadFile(filePath: string): Promise<string> {
       };
       xhr.send();
     } else {
+      // TODO: Node with URL here
       readFile(filePath, 'utf8', function (err, data) {
         if (err) {
           reject(err);
@@ -84,30 +82,3 @@ export async function loadFile(filePath: string): Promise<string> {
   });
 }
 
-
-/**
- * Apply an array of layers to a symbolic input tensor and output a symbolic tensor.
- * @param layers
- * @param inputs
- */
-export function applyLayers(layers: tf.layers.Layer[], inputs: tf.SymbolicTensor | tf.SymbolicTensor[]): tf.SymbolicTensor | tf.SymbolicTensor[] {
-  let outputs = inputs;
-  for (let layer of layers) {
-    outputs = layer.apply(outputs) as tf.SymbolicTensor | tf.SymbolicTensor[];
-  }
-  return outputs;
-}
-
-/**
- * Returns a random number between 0 and 1 (exclusive) from a normal distribution
- * from 0 and 1 (inclusive) with the Box-Muller transform.
- */
-export function randomNormalBoxMuller(): number {
-  let u = Math.random(), v = Math.random();
-  while (u === 0) u = Math.random();
-  while (v === 0) v = Math.random();
-  let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-  num = num / 10.0 + 0.5; // Translate to 0 -> 1
-  if (num > 1 || num < 0) return randomNormalBoxMuller(); // resample between 0 and 1
-  return num;
-}
