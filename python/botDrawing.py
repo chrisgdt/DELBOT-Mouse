@@ -12,7 +12,7 @@ url = "https://chrisgdt.github.io/DELBOT-Mouse/delbot-example/src/index.html"
 
 def start_driver():
     # WITH OPERA
-    path_to_binary = "C:\\Users\\chris\\AppData\\Local\\Programs\\Opera GX\\91.0.4516.95\\opera.exe"
+    path_to_binary = "C:\\Users\\chris\\AppData\\Local\\Programs\\Opera GX\\92.0.4561.64\\opera.exe"
     path_to_driver = "C:\\webdrivers\\operadriver_105.exe"
     options = Options()
     #options.add_argument('--headless')
@@ -23,6 +23,7 @@ def start_driver():
     driver = webdriver.Opera(executable_path=path_to_driver, options=options)
 
     driver.get(url)
+    driver.maximize_window()
     return driver
 
     # WITH CHROME

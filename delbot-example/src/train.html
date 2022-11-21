@@ -98,7 +98,7 @@
       optimizer: tf.train.adam(2e-4, .5, .99, 1e-8),
       useTfjsVis: true,
       consoleInfo: true
-    }); // human	0.9504	363 bot	0.9451	637 -> 94.7%
+    }); // human 0.949 314, bot 0.9417 686 -> 94.4%
 
     const rfFeature2 = new delbotrain.RandomForestModel({
       dataTraining: new delbotrain.DataTraining({filepath, data: new delbot.data.DataFeatures2({numClasses:1})}),
