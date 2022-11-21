@@ -15,7 +15,6 @@
   <br>
 
   <h2>Pour tester :</h2>
-  <button id="circle_rnn3_new" style="margin-bottom: 50px">Modèle LSTM 3 (new)</button>
   <button id="circle_rnn3" style="margin-bottom: 50px">Modèle LSTM 3</button>
   <button id="circle_rnn1" style="margin-bottom: 50px">Modèle LSTM 1</button>
   <button id="circle_rf" style="margin-bottom: 50px">Random Forest</button>
@@ -37,7 +36,6 @@
 
     new DrawElementSample('circle', 'Dessinez un cercle !', 'circleCanvas', 'circleHide');
 
-    new DrawElementTesting('circle_rnn3_new', 'Dessinez un cercle.', 'circleCanvasTest1', 'circleTestHide1', delbot.Models.rnn3New);
     new DrawElementTesting('circle_rnn3', 'Dessinez un cercle.', 'circleCanvasTest2', 'circleTestHide2', delbot.Models.rnn3);
     new DrawElementTesting('circle_rnn1', 'Dessinez un cercle.', 'circleCanvasTest3', 'circleTestHide3', delbot.Models.rnn1);
     new DrawElementTesting('circle_rf', 'Dessinez un cercle.', 'circleCanvasTestRF', 'circleTestHideRF', delbot.Models.randomForest);

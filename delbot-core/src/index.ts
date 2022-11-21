@@ -25,14 +25,6 @@ export const Models = Object.freeze({
       xSize: 24,
       shouldCompleteXSize: false
     })),
-  rnn3New: new TensorflowModel(
-    "https://raw.githubusercontent.com/chrisgdt/DELBOT-Mouse/master/trained-models/rnn3-new/model-rnn3-features2.json",
-    new DataFeatures2({
-      // Default parameters
-      numClasses: 2,
-      xSize: 24,
-      shouldCompleteXSize: false
-    })),
   rnn1: new TensorflowModel(
     "https://raw.githubusercontent.com/chrisgdt/DELBOT-Mouse/master/trained-models/rnn1/model-rnn1-features2.json",
     new DataFeatures2({

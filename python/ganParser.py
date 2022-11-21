@@ -147,12 +147,12 @@ def writeSession(file, samples, xScale=1536, yScale=864):
     """
     with open(f"circles_forbidden_gan/{file}", "w") as f:
         f.write(f"resolution:{xScale},{yScale}\n")
-        f.write(f"0,0,Button,Pressed,{samples[0][0]*xScale},{samples[0][1]*yScale}\n")
+        f.write(f"0,Pressed,{samples[0][0]*xScale},{samples[0][1]*yScale}\n")
         time = random.uniform(5, 23)
         for point in samples:
-            f.write(f"{time},{time},NoButton,Move,{point[0]*xScale},{point[1]*yScale}\n")
+            f.write(f"{time},Move,{point[0]*xScale},{point[1]*yScale}\n")
             time += random.uniform(5, 23)
-        f.write(f"{time},{time},Button,Released,{samples[-1][0]*xScale},{samples[-1][1]*yScale}")
+        f.write(f"{time},Released,{samples[-1][0]*xScale},{samples[-1][1]*yScale}")
 
 
 if __name__ == "__main__":

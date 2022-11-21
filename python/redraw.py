@@ -135,7 +135,7 @@ def velocity(parsedSession, sessName, show=False):
 if __name__ == "__main__":
     normalize = len(sys.argv) >= 2 and sys.argv[1].lower() == "true"
     matplotlib.use('Agg')
-    for folder in ["circles_bot_naturalmousemotion"]:
+    for folder in ["circles_bot_gan"]:
         print(">>", folder, "...")
         for file in os.listdir(folder):
             if not ".txt" in file or ".jpg" in file: continue

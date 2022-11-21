@@ -306,7 +306,9 @@ export abstract class TensorflowModel extends Model {
    * If field {@link TensorflowModelProperties.nameToSave} is specified, it save the model by calling {@link tf.LayersModel.save}.
    */
   async run() {
-    await this.data.load(this.consoleInfo);
+    if (!this.data.isLoaded()) {
+      await this.data.load(this.consoleInfo);
+    }
 
     if (this.nameToLoad == null) {
 
