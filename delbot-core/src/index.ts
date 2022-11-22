@@ -9,7 +9,7 @@ export * as data from "./data";
 export * from "./recording";
 
 // Pre-trained model, easy to use with class Model and Recorder.
-// Default parameters of data are numClasses: 2, xSize: 24, shouldCompleteXSize: false
+// Default parameters of feature datas are numClasses: 2, xSize: 24, shouldCompleteXSize: false
 export const Models = Object.freeze({
   randomForest: new RandomForestModel(
     "https://raw.githubusercontent.com/chrisgdt/DELBOT-Mouse/master/trained-models/random-forest/random-forest-features2_1024.txt",
@@ -28,7 +28,13 @@ export const Models = Object.freeze({
   rnn1: new TensorflowModel(
     "https://raw.githubusercontent.com/chrisgdt/DELBOT-Mouse/master/trained-models/rnn1/model-rnn1-features2.json",
     new DataFeatures2({
-      // Default parameters
+      numClasses: 2,
+      xSize: 24,
+      shouldCompleteXSize: false
+    })),
+  rnn1Faster: new TensorflowModel(
+    "https://raw.githubusercontent.com/chrisgdt/DELBOT-Mouse/master/trained-models/rnn1-faster/model-rnn1-smaller-features2.json",
+    new DataFeatures2({
       numClasses: 2,
       xSize: 24,
       shouldCompleteXSize: false
