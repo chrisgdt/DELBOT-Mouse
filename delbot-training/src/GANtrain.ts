@@ -31,14 +31,56 @@ export function randomNormalBoxMuller(): number {
 }
 
 export interface GANProperties {
+  /**
+   * Data training instance to know how to format input data and give
+   * them to the models. Once loaded, it should contain human data, real bot
+   * data are not used here.
+   */
   dataTraining: DataTraining;
+
+  /**
+   * The number of epochs to train our models. Default to 500.
+   */
   epoch?: number;
+
+  /**
+   * The size of the batch for each epoch. Default to 64.
+   */
   batchSize?: number;
+
+  /**
+   * The seed size for the generator, the number of random numbers
+   * normally distributed between 0 and 1 for generator input.
+   */
   generatorSeedSize?: number;
+
+  /**
+   * Default to false, if true and used by a web browser, tfjs-vis shows information
+   * of models and during the training.
+   */
   useTfjsVis?: boolean;
+
+  /**
+   * Default to false, if true then some information are printed to the console.
+   */
   consoleInfo?: boolean;
+
+  /**
+   * Default to -1. If set to a positive number `n`, Both models are downloaded
+   * every `downloadModels` epochs and after the training.
+   */
   downloadModels?: number;
+
+  /**
+   * Default to false. If true, then after each epoch we download a sample of generator
+   * and the output of the step (loss and accuracy) as json file.
+   */
   downloadSample?: boolean;
+
+  /**
+   *  A {@link tf.Optimizer} instance for the training of both discriminator
+   *  and generator. If unspecified, it will default to `tf.train.adam(1e-4, .5, .999, 1e-8)`
+   */
   optimizer?: tf.Optimizer;
 }
 
@@ -48,7 +90,7 @@ export interface GANProperties {
  * <br>
  * The constructor takes an object with parameters :
  * <ul>
- *   <li>dataTraining : a {@link dataTraining!DataTraining} instance to load datas.</li>
+ *   <li>dataTraining : a {@link dataTraining!DataTraining} instance to load data.</li>
  *   <li>epoch : integer number of times to iterate over a random batch. Default to 500</li>
  *   <li>batchSize : number of samples per gradient update. If unspecified, it will default to 64.</li>
  *   <li>generatorSeedSize : the input size of the generator for random numbers.</li>
@@ -88,7 +130,18 @@ export class GAN {
   protected readonly downloadModels: number;
   protected readonly downloadSample: boolean;
 
+  /**
+   * The 2d tensor that represents an entire batch (of size batchSize) of human labels.
+   * For a single batch, it is [0] if there is one binary class (data.data.numClasses),
+   * otherwise [1,0].
+   */
   public readonly humanLabel: tf.Tensor;
+
+  /**
+   * The 2d tensor that represents an entire batch (of size batchSize) of human labels.
+   * For a single batch, it is [1] if there is one binary class (data.data.numClasses),
+   * otherwise [0,1].
+   */
   public readonly botLabel: tf.Tensor;
 
   constructor(args: GANProperties | DataTraining) {
@@ -141,6 +194,7 @@ export class GAN {
     // adversarialModel (generator -> discriminator), so only generator's layers are trained and
     // the first discriminator can be trained alone, more details : https://github.com/keras-team/keras/issues/8585
     // Alternatively, we could have created a custom layer with custom loss function to simulate the discriminator.
+    // However, with custom layers we might get uncommon errors according to the Tensorflow version.
     const discriminatorFrozen = tf.model({
       inputs:discriminatorInputs,
       outputs:discriminatorOutputs,
@@ -189,7 +243,7 @@ export class GAN {
   }
 
   /**
-   * Asynchronoysly sample a batch of trajectories from the generator.
+   * Asynchronously sample a batch of trajectories from the generator.
    * @param batch The number of trajectories to return.
    */
   async sampleTrajectory(batch: number=1): Promise<number[][]> {
@@ -213,6 +267,8 @@ export class GAN {
    *   })
    *   ```
    * or something similar to keep a classifier structure.
+   * <br>
+   * Override this method to create a new generator structure.
    */
   getNewDiscriminatorLayers(): tf.layers.Layer[] {
     // LeakyRelu and dropout are used to prevent over fitting
@@ -246,8 +302,11 @@ export class GAN {
   }
 
   /**
-   * Return a list of all generator layers, no need to specify the input shape. must contain
-   * series of 2 units to output the trajectory (or 3 if you want to include the time).
+   * Return a list of all generator layers, no need to specify the input shape. It must contain
+   * pairs of 2 units to output the trajectory (or 3 if you want to include the time, but
+   * adapt discriminator if so).
+   * <br>
+   * Override this method to create a new generator structure.
    */
   getNewGeneratorLayers(): tf.layers.Layer[] {
     return [
@@ -275,7 +334,7 @@ export class GAN {
   /**
    * Train the generator and discriminator and save samples or model
    * according to {@link downloadModels} and {@link downloadSample} values.
-   * @param ganTest A number to enumerate outputs so your n+1-th train does not override your n-th one.
+   * @param ganTest A number to enumerate downloaded models so your n+1-th train does not override your n-th one.
    */
   async train(ganTest: number = 35) {
     if (!this.data.isLoaded()) {
@@ -349,7 +408,7 @@ export class GAN {
   }
 
   /**
-   * Return an input random tensor to run the generator.
+   * Returns an input random tensor to run the generator.
    * @param batchSize The batchSize of the input, number of times we want generator random values.
    * @protected
    */
@@ -358,7 +417,7 @@ export class GAN {
   }
 
   /**
-   *
+   * Initializes the discriminator according to layers of {@link getNewDiscriminatorLayers} and returns it.
    * @protected
    */
   protected initDiscriminator(): { discriminator: tf.LayersModel, discriminatorInputs: tf.SymbolicTensor, discriminatorOutputs: tf.SymbolicTensor } {
@@ -371,6 +430,10 @@ export class GAN {
     };
   }
 
+  /**
+   * Initializes the generator according to layers of {@link getNewGeneratorLayers} and returns it.
+   * @protected
+   */
   protected initGenerator(): { generator: tf.LayersModel, generatorInputs: tf.SymbolicTensor, generatorOutputs: tf.SymbolicTensor } {
     const inputs = tf.input({shape: [this.generatorOutputSize, this.generatorNodes]});
     const outputs = applyLayers(this.getNewGeneratorLayers(), inputs) as tf.SymbolicTensor;
@@ -381,6 +444,12 @@ export class GAN {
     };
   }
 
+  /**
+   * Gets a 2d array of loss and accuracy values of shape [[loss1,...,loss_n], [acc1,...,acc_n]] and
+   * returns the average values for both losses and accuracies.
+   * @param history The 2d array with loss and accuracy values.
+   * @protected
+   */
   protected parseHistory(history: number[][]): {loss: number, acc: number} {
     // mean on the first dimension, so by columns to get [loss, acc] for all history
     const average = tf.mean(history, 0).arraySync();
@@ -390,6 +459,11 @@ export class GAN {
     };
   }
 
+  /**
+   * Sample a generator trajectory as tensor.
+   * @param batch The number of trajectories to sample.
+   * @protected
+   */
   protected getTrajectory(batch: number): tf.Tensor<tf.Rank> {
     return this.generator.predict(this.getNoise(batch)) as tf.Tensor;
   }

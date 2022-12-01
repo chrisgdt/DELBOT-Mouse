@@ -17,17 +17,17 @@
 <li><a href="dataTraining.DataTraining.html">DataTraining</a></li></ul>
 <h1>Class DataTraining</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>Utility class to load raw datas from your computer, parse them with a Data objet and get final
- tensors for a model. You first need a json file that represents a <a href="../interfaces/dataTraining.Session.html">Session</a> object, with
- a list of files containing human or bot trajectories. Each files must be something like:</p>
-<pre><code><span class="hl-11">resolution</span><span class="hl-1">:</span><span class="hl-9">1536</span><span class="hl-1">,</span><span class="hl-9">864</span><br/><span class="hl-9">9131.1</span><span class="hl-1">,</span><span class="hl-0">Pressed</span><span class="hl-1">,</span><span class="hl-9">717</span><span class="hl-1">,</span><span class="hl-9">361</span><br/><span class="hl-9">9134.8</span><span class="hl-1">,</span><span class="hl-0">Move</span><span class="hl-1">,</span><span class="hl-9">717</span><span class="hl-1">,</span><span class="hl-9">361</span><br/><span class="hl-9">9151.8</span><span class="hl-1">,</span><span class="hl-0">Move</span><span class="hl-1">,</span><span class="hl-9">717</span><span class="hl-1">,</span><span class="hl-9">361</span><br/><span class="hl-1">[...]</span><br/><span class="hl-9">10402.3</span><span class="hl-1">,</span><span class="hl-0">Move</span><span class="hl-1">,</span><span class="hl-9">722</span><span class="hl-1">,</span><span class="hl-9">360</span><br/><span class="hl-9">10419.1</span><span class="hl-1">,</span><span class="hl-0">Move</span><span class="hl-1">,</span><span class="hl-9">718</span><span class="hl-1">,</span><span class="hl-9">358</span><br/><span class="hl-9">10425.8</span><span class="hl-1">,</span><span class="hl-0">Released</span><span class="hl-1">,</span><span class="hl-9">717</span><span class="hl-1">,</span><span class="hl-9">360</span>
+<div class="tsd-comment tsd-typography"><p>Utility class to load raw data from your computer, parse them with a Data object and get final
+ tensors for a model. You first need a JSON file that represents a <a href="../interfaces/dataTraining.Session.html">Session</a> object, with
+ a list of files containing human or bot trajectories. Each file must be something like:</p>
+<pre><code><span class="hl-14">resolution</span><span class="hl-1">:</span><span class="hl-12">1536</span><span class="hl-1">,</span><span class="hl-12">864</span><br/><span class="hl-12">9131.1</span><span class="hl-1">,</span><span class="hl-0">Pressed</span><span class="hl-1">,</span><span class="hl-12">717</span><span class="hl-1">,</span><span class="hl-12">361</span><br/><span class="hl-12">9134.8</span><span class="hl-1">,</span><span class="hl-0">Move</span><span class="hl-1">,</span><span class="hl-12">717</span><span class="hl-1">,</span><span class="hl-12">361</span><br/><span class="hl-12">9151.8</span><span class="hl-1">,</span><span class="hl-0">Move</span><span class="hl-1">,</span><span class="hl-12">717</span><span class="hl-1">,</span><span class="hl-12">361</span><br/><span class="hl-1">[...]</span><br/><span class="hl-12">10402.3</span><span class="hl-1">,</span><span class="hl-0">Move</span><span class="hl-1">,</span><span class="hl-12">722</span><span class="hl-1">,</span><span class="hl-12">360</span><br/><span class="hl-12">10419.1</span><span class="hl-1">,</span><span class="hl-0">Move</span><span class="hl-1">,</span><span class="hl-12">718</span><span class="hl-1">,</span><span class="hl-12">358</span><br/><span class="hl-12">10425.8</span><span class="hl-1">,</span><span class="hl-0">Released</span><span class="hl-1">,</span><span class="hl-12">717</span><span class="hl-1">,</span><span class="hl-12">360</span>
 </code></pre>
-<p>were, as first line, the resolution to normalize X and Y and
+<p>Were, as first line, the resolution to normalize X and Y and
 the following lines are <code>timestamp,actionType,x,y</code>.
 <br>
-A part of the dataset if used as training datas and the other part for testing.
+A part of the dataset if used as training data and the other part for testing.
 <br>
-To use this class, just call <a href="dataTraining.DataTraining.html#load">load</a> then you can call
+To use this class, just call <a href="dataTraining.DataTraining.html#load">load</a>, then you can call
 <a href="dataTraining.DataTraining.html#nextTrainBatch">nextTrainBatch</a> and <a href="dataTraining.DataTraining.html#nextTestBatch">nextTestBatch</a>.</p>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
@@ -35,7 +35,7 @@ To use this class, just call <a href="dataTraining.DataTraining.html#load">load<
 <ul class="tsd-hierarchy">
 <li><span class="target">DataTraining</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L48">dataTraining.ts:48</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L48">dataTraining.ts:48</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -53,10 +53,10 @@ To use this class, just call <a href="dataTraining.DataTraining.html#load">load<
 <a href="dataTraining.DataTraining.html#nbrTrainElements" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>nbr<wbr/>Train<wbr/>Elements</span></a>
 <a href="dataTraining.DataTraining.html#shuffledTestIndex" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>shuffled<wbr/>Test<wbr/>Index</span></a>
 <a href="dataTraining.DataTraining.html#shuffledTrainIndex" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>shuffled<wbr/>Train<wbr/>Index</span></a>
-<a href="dataTraining.DataTraining.html#testImages" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>test<wbr/>Images</span></a>
-<a href="dataTraining.DataTraining.html#testLabels" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>test<wbr/>Labels</span></a>
-<a href="dataTraining.DataTraining.html#trainImages" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>train<wbr/>Images</span></a>
-<a href="dataTraining.DataTraining.html#trainLabels" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>train<wbr/>Labels</span></a>
+<a href="dataTraining.DataTraining.html#testData" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>test<wbr/>Data</span></a>
+<a href="dataTraining.DataTraining.html#testLabel" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>test<wbr/>Label</span></a>
+<a href="dataTraining.DataTraining.html#trainData" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>train<wbr/>Data</span></a>
+<a href="dataTraining.DataTraining.html#trainLabel" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>train<wbr/>Label</span></a>
 <a href="dataTraining.DataTraining.html#trainingRatio" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>training<wbr/>Ratio</span></a>
 </div></section>
 <section class="tsd-index-section">
@@ -78,8 +78,8 @@ To use this class, just call <a href="dataTraining.DataTraining.html#load">load<
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Constructor of the DataTraining object, it takes parameters :</p>
 <ul>
-  <li>data : The data objet to parse raw datas with delbot.data.Data.loadDataSet.</li>
-  <li>filePath : The path to a json file containing an object [Session](../interfaces/dataTraining.Session.html),
+  <li>data : The data object to parse raw data with delbot.data.Data.loadDataSet.</li>
+  <li>filePath : The path to a JSON file containing an object [Session](../interfaces/dataTraining.Session.html),
                  default to "../../python/sessions.json"</li>
   <li>trainingRatio : A number between 0 and 1, the %/100 of the training set
                       compared to the whole dataset, default to 0.8 for 80%.</li>
@@ -91,64 +91,70 @@ To use this class, just call <a href="dataTraining.DataTraining.html#load">load<
 <h5>args: <span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/dataTraining.DataTrainingProperties.html" class="tsd-signature-type" data-tsd-kind="Interface">DataTrainingProperties</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="dataTraining.DataTraining.html" class="tsd-signature-type" data-tsd-kind="Class">DataTraining</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L74">dataTraining.ts:74</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L85">dataTraining.ts:85</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="data" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>data</span><a href="#data" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Data</span></div><aside class="tsd-sources">
+<div class="tsd-signature">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Data</span></div>
+<div class="tsd-comment tsd-typography"><p>The data object to parse raw data with delbot.data.Data.loadDataSet.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L49">dataTraining.ts:49</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L52">dataTraining.ts:52</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="filePath" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>file<wbr/>Path</span><a href="#filePath" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">file<wbr/>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<div class="tsd-signature">file<wbr/>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+<div class="tsd-comment tsd-typography"><p>The path to a JSON file containing an object <a href="../interfaces/dataTraining.Session.html">Session</a>. Default to &quot;../../python/sessions.json&quot;.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L50">dataTraining.ts:50</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L57">dataTraining.ts:57</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="nbrTestElements" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>nbr<wbr/>Test<wbr/>Elements</span><a href="#nbrTestElements" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">nbr<wbr/>Test<wbr/>Elements<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = -1</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L54">dataTraining.ts:54</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L65">dataTraining.ts:65</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="nbrTrainElements" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>nbr<wbr/>Train<wbr/>Elements</span><a href="#nbrTrainElements" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">nbr<wbr/>Train<wbr/>Elements<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = -1</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L53">dataTraining.ts:53</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L64">dataTraining.ts:64</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="shuffledTestIndex" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>shuffled<wbr/>Test<wbr/>Index</span><a href="#shuffledTestIndex" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">shuffled<wbr/>Test<wbr/>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L56">dataTraining.ts:56</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L67">dataTraining.ts:67</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="shuffledTrainIndex" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>shuffled<wbr/>Train<wbr/>Index</span><a href="#shuffledTrainIndex" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">shuffled<wbr/>Train<wbr/>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L57">dataTraining.ts:57</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="testImages" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>test<wbr/>Images</span><a href="#testImages" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">test<wbr/>Images<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L68">dataTraining.ts:68</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="testData" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>test<wbr/>Data</span><a href="#testData" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">test<wbr/>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L61">dataTraining.ts:61</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="testLabels" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>test<wbr/>Labels</span><a href="#testLabels" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">test<wbr/>Labels<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L72">dataTraining.ts:72</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="testLabel" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>test<wbr/>Label</span><a href="#testLabel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">test<wbr/>Label<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L62">dataTraining.ts:62</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="trainImages" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>train<wbr/>Images</span><a href="#trainImages" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">train<wbr/>Images<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L73">dataTraining.ts:73</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="trainData" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>train<wbr/>Data</span><a href="#trainData" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">train<wbr/>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L59">dataTraining.ts:59</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="trainLabels" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>train<wbr/>Labels</span><a href="#trainLabels" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">train<wbr/>Labels<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L70">dataTraining.ts:70</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="trainLabel" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>train<wbr/>Label</span><a href="#trainLabel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">train<wbr/>Label<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L60">dataTraining.ts:60</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L71">dataTraining.ts:71</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="trainingRatio" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>training<wbr/>Ratio</span><a href="#trainingRatio" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">training<wbr/>Ratio<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<div class="tsd-signature">training<wbr/>Ratio<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography"><p>A number between 0 and 1, the %/100 of the training set compared to the whole dataset, default to 0.8 for 80%.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L51">dataTraining.ts:51</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L62">dataTraining.ts:62</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="isLoaded" class="tsd-anchor"></a>
@@ -156,18 +162,18 @@ To use this class, just call <a href="dataTraining.DataTraining.html#load">load<
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="isLoaded.isLoaded-1">is<wbr/>Loaded<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#isLoaded.isLoaded-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Return whether datas have been loaded.</p>
+<div class="tsd-comment tsd-typography"><p>Return whether data have been loaded.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L85">dataTraining.ts:85</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L96">dataTraining.ts:96</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="load" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>load</span><a href="#load" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="load.load-1">load<span class="tsd-signature-symbol">(</span>consoleInfo<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#load.load-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Loads the json file <a href="../interfaces/dataTraining.Session.html">Session</a> containing every mouse trajectories and
-their labels according to the <a href="dataTraining.DataTraining.html#data">data</a> objet and separate the dataset into
+<div class="tsd-comment tsd-typography"><p>Loads the JSON file <a href="../interfaces/dataTraining.Session.html">Session</a> containing every mouse trajectories and
+their labels according to the <a href="dataTraining.DataTraining.html#data">data</a> object and separate the dataset into
 training data set and testing dataset, with a shuffle.</p>
 </div>
 <div class="tsd-parameters">
@@ -177,7 +183,7 @@ training data set and testing dataset, with a shuffle.</p>
 <h5>consoleInfo: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L94">dataTraining.ts:94</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L105">dataTraining.ts:105</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="nextBatchRaw" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>next<wbr/>Batch<wbr/>Raw</span><a href="#nextBatchRaw" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -201,13 +207,13 @@ training data set and testing dataset, with a shuffle.</p>
 <li class="tsd-parameter">
 <h5>ys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h5></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L186">dataTraining.ts:186</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L197">dataTraining.ts:197</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="nextTestBatch" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>next<wbr/>Test<wbr/>Batch</span><a href="#nextTestBatch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="nextTestBatch.nextTestBatch-1">next<wbr/>Test<wbr/>Batch<span class="tsd-signature-symbol">(</span>batchSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span>xs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Rank</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>ys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Rank</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><a href="#nextTestBatch.nextTestBatch-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get a batch of tensor datas and labels from the testing set.</p>
+<div class="tsd-comment tsd-typography"><p>Get a batch of tensor data and labels from the testing set.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -223,13 +229,13 @@ training data set and testing dataset, with a shuffle.</p>
 <li class="tsd-parameter">
 <h5>ys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Rank</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L178">dataTraining.ts:178</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L189">dataTraining.ts:189</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="nextTestBatchRaw" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>next<wbr/>Test<wbr/>Batch<wbr/>Raw</span><a href="#nextTestBatchRaw" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="nextTestBatchRaw.nextTestBatchRaw-1">next<wbr/>Test<wbr/>Batch<wbr/>Raw<span class="tsd-signature-symbol">(</span>batchSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span>xs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>ys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><a href="#nextTestBatchRaw.nextTestBatchRaw-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get a batch of datas and labels as number array from the testing set.</p>
+<div class="tsd-comment tsd-typography"><p>Get a batch of data and labels as number array from the testing set.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -245,13 +251,13 @@ training data set and testing dataset, with a shuffle.</p>
 <li class="tsd-parameter">
 <h5>ys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h5></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L168">dataTraining.ts:168</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L179">dataTraining.ts:179</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="nextTrainBatch" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>next<wbr/>Train<wbr/>Batch</span><a href="#nextTrainBatch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="nextTrainBatch.nextTrainBatch-1">next<wbr/>Train<wbr/>Batch<span class="tsd-signature-symbol">(</span>batchSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span>xs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Rank</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>ys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Rank</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><a href="#nextTrainBatch.nextTrainBatch-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get a batch of tensor datas and labels from the training set.</p>
+<div class="tsd-comment tsd-typography"><p>Get a batch of tensor data and labels from the training set.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -267,13 +273,13 @@ training data set and testing dataset, with a shuffle.</p>
 <li class="tsd-parameter">
 <h5>ys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Rank</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L156">dataTraining.ts:156</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L167">dataTraining.ts:167</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="nextTrainBatchRaw" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>next<wbr/>Train<wbr/>Batch<wbr/>Raw</span><a href="#nextTrainBatchRaw" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="nextTrainBatchRaw.nextTrainBatchRaw-1">next<wbr/>Train<wbr/>Batch<wbr/>Raw<span class="tsd-signature-symbol">(</span>batchSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span>xs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>ys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><a href="#nextTrainBatchRaw.nextTrainBatchRaw-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get a batch of datas and labels as number array from the training set.</p>
+<div class="tsd-comment tsd-typography"><p>Get a batch of data and labels as number array from the training set.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -287,7 +293,7 @@ training data set and testing dataset, with a shuffle.</p>
 <li class="tsd-parameter">
 <h5>ys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h5></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/dataTraining.ts#L146">dataTraining.ts:146</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/dataTraining.ts#L157">dataTraining.ts:157</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -324,10 +330,10 @@ training data set and testing dataset, with a shuffle.</p>
 <li class="tsd-kind-property tsd-parent-kind-class"><a href="dataTraining.DataTraining.html#nbrTrainElements" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>nbr<wbr/>Train<wbr/>Elements</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dataTraining.DataTraining.html#shuffledTestIndex" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>shuffled<wbr/>Test<wbr/>Index</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dataTraining.DataTraining.html#shuffledTrainIndex" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>shuffled<wbr/>Train<wbr/>Index</a></li>
-<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dataTraining.DataTraining.html#testImages" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>test<wbr/>Images</a></li>
-<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dataTraining.DataTraining.html#testLabels" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>test<wbr/>Labels</a></li>
-<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dataTraining.DataTraining.html#trainImages" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>train<wbr/>Images</a></li>
-<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dataTraining.DataTraining.html#trainLabels" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>train<wbr/>Labels</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dataTraining.DataTraining.html#testData" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>test<wbr/>Data</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dataTraining.DataTraining.html#testLabel" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>test<wbr/>Label</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dataTraining.DataTraining.html#trainData" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>train<wbr/>Data</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dataTraining.DataTraining.html#trainLabel" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>train<wbr/>Label</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class"><a href="dataTraining.DataTraining.html#trainingRatio" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>training<wbr/>Ratio</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="dataTraining.DataTraining.html#isLoaded" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>is<wbr/>Loaded</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="dataTraining.DataTraining.html#load" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>load</a></li>

@@ -13,15 +13,6 @@ export interface DataProperties {
 }
 
 /**
- * The dataset loading containing a 3d array of number for
- * data and 2d array of boolean (number 0 or 1) for labels.
- */
-export interface Dataset {
-  datasetData: number[][][];
-  datasetLabels: number[][];
-}
-
-/**
  * An abstract class that extracts some mouse features from {@link recording!Recorder}
  * and format them with {@link loadDataSet} to create an input of a tf.js model.
  * This input is an array, but you can call {@link tf.tensor3d} and {@link tf.reshape}
@@ -29,7 +20,7 @@ export interface Dataset {
  * {@link xSize} x {@link ySize}.
  * <br>
  * You can also specify an integer `userIndex` to work with labels for training.
- * While dataset is a 3D array with first dimension representing the size of the dataset,
+ * While dataset is a 3D array with the first dimension representing the size of the dataset,
  * labels are represented by a 2D array with the same first dimension and the second one
  * is the label of the corresponding sample.
  * <br>
@@ -55,7 +46,7 @@ export abstract class Data {
   readonly numClasses: 1 | 2;
 
   /**
-   * The second shape of 3d tensor (or first in case we ignore the batch size), defined in subclasses.
+   * The second shape of all 3d tensors (or first in case we ignore the batch size), defined in subclasses.
    * @protected
    */
   protected xSize: number;
@@ -68,8 +59,8 @@ export abstract class Data {
 
   /**
    * Boolean to know if we may normalize data. If false, then
-   * it means that some operations will fail or datas will be useless
-   * in case datas are normalized.
+   * data must not be normalized, otherwise some operations
+   * of the model will fail.
    */
   protected mayNormalizeData: boolean;
 
@@ -101,16 +92,16 @@ export abstract class Data {
   }
 
   /**
-   * This method gets a recorder object and loads it as a {@link Dataset} instance
+   * This method gets a recorder object and loads it as a Dataset object
    * with the right format. The return value might contain empty arrays if the
    * recorder as too few elements. The userIndex is an integer that says what is the
    * class index for the label, in our case of binary classifier human-bot, 0 means
    * human and 1 means bot.
    * @param recorder The recorder containing loaded records and features.
    * @param userIndex The index of the class from record, if unspecified or negative,
-   *                  the label array of the return value {@link Dataset} is empty.
+   *                  the label array of the return object is empty.
    */
-  abstract loadDataSet(recorder: Recorder, userIndex?: number): Dataset;
+  abstract loadDataSet(recorder: Recorder, userIndex?: number): { datasetData: number[][][], datasetLabels: number[][] };
 
   public getXSize(): number {
     return this.xSize;
@@ -227,7 +218,7 @@ export class DataMovementMatrix extends Data {
     return neighbour;
   }
 
-  loadDataSet(recorder: Recorder, userIndex: number=-1): Dataset {
+  loadDataSet(recorder: Recorder, userIndex: number=-1): { datasetData: number[][][], datasetLabels: number[][] } {
     const datasetData = [];
     const datasetLabels = [];
 
@@ -261,8 +252,8 @@ export class DataMovementMatrix extends Data {
  */
 export interface DataFeaturesProperties extends DataProperties {
   /**
-   * The second shape of 3d tensor (or first in case we ignore the batch size), representing
-   * here the chunk length. The last shape is arbitrary given by the number of mouse features
+   * The second shape of all 3d tensors (or first in case we ignore the batch size), representing
+   * here the chunk length. The last shape is arbitrary, given by the number of mouse features
    * for each chunk.
    */
   xSize?: number;
@@ -277,7 +268,7 @@ export interface DataFeaturesProperties extends DataProperties {
 
 /**
  * A Data class that represents chunks of mouse features selected from
- * the {@link recording!Recorder} objet. The field {@link xSize} is the chunk size,
+ * the {@link recording!Recorder} object. The field {@link xSize} is the chunk size,
  * default to 24, and {@link ySize} the number of extracted features.
  * <br>
  * The dataset there is a list of chunks of mouse features.
@@ -324,7 +315,7 @@ export class DataFeatures extends Data {
     ];
   }
 
-  public loadDataSet(recorder: Recorder, userIndex: number=-1): Dataset {
+  public loadDataSet(recorder: Recorder, userIndex: number=-1): { datasetData: number[][][], datasetLabels: number[][] } {
     const datasetData = [];
     const datasetLabels = [];
 

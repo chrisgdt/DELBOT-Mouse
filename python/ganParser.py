@@ -21,7 +21,7 @@ def drawAllGAN(folder):
 def drawFromGAN(data, name, xScale=1, yScale=1, show=False):
     """
     Redraw a sample output from an GAN generator
-    with matplotlib, the data objet is a dict
+    with matplotlib, the data object is a dict
     with at least "sample":[[[x1,y1],[x2,y2],...,[x_n,y_n]]].
 
     Parameters

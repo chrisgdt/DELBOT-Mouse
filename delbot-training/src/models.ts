@@ -14,6 +14,13 @@ export interface ModelProperties {
   batchSize?: number;
 }
 
+/**
+ * An abstract class to represent a model that we can train from a {@link DataTraining} instance.
+ * This model is originally meant to be used as a classifier. There are two main implementations
+ * : {@link RandomForestModel} for Random Forest and {@link TensorFlowModel} for Neural Networks.
+ * <br>
+ * You can extend this class to create a brand-new classifier architecture.
+ */
 export abstract class Model {
   protected readonly data: DataTraining;
   protected readonly nameToSave: string;
@@ -36,6 +43,14 @@ export abstract class Model {
     this.batchSize = args.batchSize == null ? 128 : args.batchSize;
   }
 
+  /**
+   * Get the model prediction batch and its corresponding labels as 1D tensors and
+   * show with tfjs-vis or in console (according to {@link useTfjsVis} and {@link consoleInfo})
+   * the accuracy of each class and the confusion matrix.
+   * @param predicts The model prediction reshaped as 1D tensor of 0 (human) or 1 (bot).
+   * @param labels The true labels, 1d tensor of 0 or 1.
+   * @param name Default to "validation", used in the container name of tfjs-vis.
+   */
   async testingModel(predicts: tf.Tensor1D, labels: tf.Tensor1D, name: string = "validation") {
     const classAccuracy = await this.getClassAccuracy(predicts, labels);
     const confusionMatrix = await this.getConfusionMatrix(predicts, labels);
@@ -55,25 +70,28 @@ export abstract class Model {
   }
 
   /**
-   * Call {@link doPredictionBatch} and compare the model output with the
-   * real data labels, then show the accuracy with tfjs-vis or directly to the console.
-   * @param predicts
-   * @param labels
+   * Get prediction and labels and return the accuracy per class.
+   * @param predicts The model prediction reshaped as 1D tensor of 0 (human) or 1 (bot).
+   * @param labels The true labels, 1d tensor of 0 or 1.
    */
   async getClassAccuracy(predicts: tf.Tensor1D, labels: tf.Tensor1D): Promise<{ accuracy: number, count: number }[]> {
     return await tfvis.metrics.perClassAccuracy(labels, predicts);
   }
 
   /**
-   * Call {@link doPredictionBatch} and compare the model output with the
-   * real data labels, then show the confusion matrix with tfjs-vis or directly to the console.
-   * @param predicts
-   * @param labels
+   * Get prediction and labels and return the confusion matrix.
+   * @param predicts The model prediction reshaped as 1D tensor of 0 (human) or 1 (bot).
+   * @param labels The true labels, 1d tensor of 0 or 1.
    */
   async getConfusionMatrix(predicts: tf.Tensor1D, labels: tf.Tensor1D): Promise<number[][]> {
     return await tfvis.metrics.confusionMatrix(labels, predicts);
   }
 
+  /**
+   * Run the entire model logic, including loading (if {@link nameToLoad} is not null), load all data,
+   * train the model, save it (if {@link nameToSave} is not null), test it and show all additional information
+   * with tfjs-vis or in the console.
+   */
   abstract run();
 
   abstract train();
@@ -83,7 +101,7 @@ export abstract class Model {
   abstract loadExistingModel();
 
   /**
-   * Gets a sample of test datas and returns the model output, with some basic operations
+   * Gets a sample of test data and returns the model output, with some basic operations
    * to reshape the output as 1d tensor.
    * @param size The batch size for the sample.
    * @return A list of two elements that are 1d tensors corresponding to a list [b1, b2, ...].
@@ -91,6 +109,7 @@ export abstract class Model {
    */
   abstract doPredictionBatch(size: number): tf.Tensor1D[];
 }
+
 
 export interface RandomForestProperties extends ModelProperties {
   nEstimators?: number;
@@ -100,6 +119,13 @@ export interface RandomForestProperties extends ModelProperties {
   minInfoGain?: 0;
 }
 
+/**
+ * A class that represents a RandomForest factory, for training and saving.
+ * The training can be done multiple times if epoch is strictly greater than 1,
+ * but it is not relevant since it resets the trees.
+ * <br>
+ * Data must be 2d arrays, so the code reshapes data to have bigger chunks and remove one dimension.
+ */
 export class RandomForestModel extends Model {
   private randomForest: delbot.RandomForestClassifier;
 
@@ -192,7 +218,7 @@ export class RandomForestModel extends Model {
 }
 
 
-export interface TensorflowModelProperties extends ModelProperties {
+export interface TensorFlowModelProperties extends ModelProperties {
   epoch?: number;
   batchSize?: number;
   trainingRatio?: number;
@@ -206,7 +232,7 @@ export interface TensorflowModelProperties extends ModelProperties {
  * <br>
  * The constructor takes an object with parameters :
  * <ul>
- *   <li>dataTraining : a {@link dataTraining!DataTraining} instance to load datas.</li>
+ *   <li>dataTraining : a {@link dataTraining!DataTraining} instance to load data.</li>
  *   <li>epoch : integer number of times to iterate over the training data arrays. Default to 10</li>
  *   <li>batchSize : number of samples per gradient update. If unspecified, it will default to 128.</li>
  *   <li>trainingRatio : a number between 0 and 1, default to 1, the %/100 of the training set used during training.</li>
@@ -227,14 +253,14 @@ export interface TensorflowModelProperties extends ModelProperties {
  * you can also override this one to modify the behavior of the last layers
  * or how to compile the model.
  */
-export abstract class TensorflowModel extends Model {
+export abstract class TensorFlowModel extends Model {
   protected readonly trainingRatio: number;
   protected readonly testingRatio: number;
   private readonly optimizer: tf.Optimizer;
 
   protected model: null | tf.LayersModel = null;
 
-  protected constructor(args: TensorflowModelProperties | DataTraining) {
+  protected constructor(args: TensorFlowModelProperties | DataTraining) {
     if (args instanceof DataTraining) args = {dataTraining: args};
     super(args);
 
@@ -269,7 +295,7 @@ export abstract class TensorflowModel extends Model {
    * two classes ([1,0] for human, [0,1] for bot), it is the categoricalCrossentropy
    * loss function and softmax activation.
    * @param model The model returned by {@link initModel}.
-   * @return The same model as input but compiled.
+   * @return The same model as input that has been compiled.
    */
   finalizeModel(model: tf.Sequential): tf.Sequential {
     model.add(tf.layers.dense({
@@ -301,9 +327,9 @@ export abstract class TensorflowModel extends Model {
 
   /**
    * Run the entire training process, from data loading to model training, then
-   * model testing with accuracy and confusion matrix. If field {@link TensorflowModelProperties.nameToLoad}
+   * model testing with accuracy and confusion matrix. If field {@link TensorFlowModelProperties.nameToLoad}
    * is specified, training is ignored because we directly call {@link loadExistingModel}.
-   * If field {@link TensorflowModelProperties.nameToSave} is specified, it save the model by calling {@link tf.LayersModel.save}.
+   * If field {@link TensorFlowModelProperties.nameToSave} is specified, it save the model by calling {@link tf.LayersModel.save}.
    */
   async run() {
     if (!this.data.isLoaded()) {
@@ -338,8 +364,8 @@ export abstract class TensorflowModel extends Model {
 
   /**
    * Train the model with {@link tf.LayersModel.fit}. We first get a fragment
-   * of training and testing datas according to {@link TensorflowModelProperties.trainingRatio} and
-   * {@link TensorflowModelProperties.testingRatio}, default set to 1 and 0.9 respectively.
+   * of training and testing data according to {@link TensorFlowModelProperties.trainingRatio} and
+   * {@link TensorFlowModelProperties.testingRatio}, default set to 1 and 0.9 respectively.
    * Then we fit the model with the corresponding batchSize and epochs.
    */
   async train() {
@@ -403,10 +429,10 @@ export abstract class TensorflowModel extends Model {
   }
 }
 
-export class ModelConvolutional extends TensorflowModel {
+export class ModelConvolutional extends TensorFlowModel {
 
   initModel(): tf.Sequential {
-    // Model from TFJS tutorial https://www.tensorflow.org/js/tutorials/training/handwritten_digit_cnn?hl=fr
+    // Model from TFJS tutorial https://www.tensorflow.org/js/tutorials/training/handwritten_digit_cnn
     const model = tf.sequential();
 
     model.add(tf.layers.conv2d({
@@ -432,7 +458,7 @@ export class ModelConvolutional extends TensorflowModel {
   }
 }
 
-export class ModelDense extends TensorflowModel {
+export class ModelDense extends TensorFlowModel {
 
   initModel(): tf.Sequential {
     const model = tf.sequential();
@@ -454,7 +480,7 @@ export class ModelDense extends TensorflowModel {
   }
 }
 
-export class ModelRNN extends TensorflowModel {
+export class ModelRNN extends TensorFlowModel {
 
   initModel(): tf.Sequential {
     const model = tf.sequential();
@@ -481,7 +507,7 @@ export class ModelRNN extends TensorflowModel {
   }
 }
 
-export class ModelRNN2 extends TensorflowModel {
+export class ModelRNN2 extends TensorFlowModel {
   initModel(): tf.Sequential  {
     const model = tf.sequential();
 
@@ -506,7 +532,7 @@ export class ModelRNN2 extends TensorflowModel {
   }
 }
 
-export class ModelRNN3 extends TensorflowModel {
+export class ModelRNN3 extends TensorFlowModel {
   initModel(): tf.Sequential {
     const model = tf.sequential();
 

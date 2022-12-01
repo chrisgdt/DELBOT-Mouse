@@ -17,11 +17,10 @@
 <li><a href="recording.Model.html">Model</a></li></ul>
 <h1>Class Model&lt;G&gt;<code class="tsd-tag ts-flagAbstract">Abstract</code> </h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>A class that represents a model with its associated data used during the
+<div class="tsd-comment tsd-typography"><p>An abstract class that represents a model with its associated data used during the
 training. Concretely, you can give to the constructor a way to load a
-Tensorflow.js model from tf.loadLayersModel, like a URL to the
-model.json file. Then the data object is only used to format the raw datas
-from <a href="recording.Recorder.html">Recorder</a> and reshape the input tensors.
+model with <a href="recording.Model.html#getModel">getModel</a> and describe how to use this model to in method
+<a href="recording.Model.html#predict">predict</a> with parsed data from the given record and <a href="../modules/data.html">data</a>.
 <br>
 The model never loads if you never call <a href="recording.Model.html#getModel">getModel</a>, so you can instantiate
 this class multiple times without troubles.</p>
@@ -36,10 +35,10 @@ this class multiple times without troubles.</p>
 <ul class="tsd-hierarchy">
 <li><span class="target">Model</span>
 <ul class="tsd-hierarchy">
-<li><a href="recording.TensorflowModel.html" class="tsd-signature-type" data-tsd-kind="Class">TensorflowModel</a></li>
+<li><a href="recording.TensorFlowModel.html" class="tsd-signature-type" data-tsd-kind="Class">TensorFlowModel</a></li>
 <li><a href="recording.RandomForestModel.html" class="tsd-signature-type" data-tsd-kind="Class">RandomForestModel</a></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L162">src/recording.ts:162</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L161">src/recording.ts:161</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -79,7 +78,7 @@ this class multiple times without troubles.</p>
 <ul class="tsd-parameter-list">
 <li>
 <h5>loadingPath: <span class="tsd-signature-type">string</span></h5>
-<div class="tsd-comment tsd-typography"><p>The loadingPath (url, localstorage, indexeddb, ...) to load with tf.loadLayersModel.</p>
+<div class="tsd-comment tsd-typography"><p>The loadingPath (url, localstorage, indexeddb, ...) to load the model.</p>
 </div></li>
 <li>
 <h5>data: <a href="data.Data.html" class="tsd-signature-type" data-tsd-kind="Class">Data</a></h5>
@@ -87,24 +86,31 @@ this class multiple times without troubles.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="recording.Model.html" class="tsd-signature-type" data-tsd-kind="Class">Model</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">G</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L172">src/recording.ts:172</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L185">src/recording.ts:185</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="data" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>data</span><a href="#data" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">data<span class="tsd-signature-symbol">:</span> <a href="data.Data.html" class="tsd-signature-type" data-tsd-kind="Class">Data</a></div><aside class="tsd-sources">
+<div class="tsd-signature">data<span class="tsd-signature-symbol">:</span> <a href="data.Data.html" class="tsd-signature-type" data-tsd-kind="Class">Data</a></div>
+<div class="tsd-comment tsd-typography"><p>The data object to format input.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L166">src/recording.ts:166</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L179">src/recording.ts:179</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="loadingPath" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>loading<wbr/>Path</span><a href="#loadingPath" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">loading<wbr/>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<div class="tsd-signature">loading<wbr/>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+<div class="tsd-comment tsd-typography"><p>The way to load the model with <a href="recording.Model.html#getModel">getModel</a>, once loaded this field
+is never used again.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L165">src/recording.ts:165</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L173">src/recording.ts:173</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="model" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>model</span><a href="#model" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">model<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type" data-tsd-kind="Type parameter">G</span></div><aside class="tsd-sources">
+<div class="tsd-signature">model<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type" data-tsd-kind="Type parameter">G</span></div>
+<div class="tsd-comment tsd-typography"><p>The model field or null if <a href="recording.Model.html#getModel">getModel</a> has never been called.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L163">src/recording.ts:163</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L166">src/recording.ts:166</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getData" class="tsd-anchor"></a>
@@ -112,44 +118,61 @@ this class multiple times without troubles.</p>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="getData.getData-1">get<wbr/>Data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="data.Data.html" class="tsd-signature-type" data-tsd-kind="Class">Data</a><a href="#getData.getData-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography">
+<h3>Return</h3><p>The private field <a href="../modules/data.html">data</a>.</p>
+</div>
 <h4 class="tsd-returns-title">Returns <a href="data.Data.html" class="tsd-signature-type" data-tsd-kind="Class">Data</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L178">src/recording.ts:178</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L194">src/recording.ts:194</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getLoadedModel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Loaded<wbr/>Model</span><a href="#getLoadedModel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="getLoadedModel.getLoadedModel-1">get<wbr/>Loaded<wbr/>Model<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">G</span><a href="#getLoadedModel.getLoadedModel-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get the model instance after at least one call of <a href="recording.Model.html#getModel">getModel</a> that loads it once.</p>
+<div class="tsd-comment tsd-typography">
+<h3>Return</h3><p>The loaded model instance. If there was no call of <a href="recording.Model.html#getModel">getModel</a>, throw an error instead.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">G</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L185">src/recording.ts:185</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L201">src/recording.ts:201</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getModel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagAbstract">Abstract</code> <span>get<wbr/>Model</span><a href="#getModel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="getModel.getModel-1">get<wbr/>Model<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">G</span><span class="tsd-signature-symbol">&gt;</span><a href="#getModel.getModel-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Loads the model if it has never been done before, then returns it.</p>
+<div class="tsd-comment tsd-typography"><p>Loads the model (if it has never been done before) and returns it.</p>
 
-<h3>Returns</h3><p>A promise of the loaded layer model.</p>
+<h3>Returns</h3><p>A promise of the loaded model.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">G</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L198">src/recording.ts:198</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L212">src/recording.ts:212</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="predict" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagAbstract">Abstract</code> <span>predict</span><a href="#predict" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="predict.predict-1">predict<span class="tsd-signature-symbol">(</span>record<span class="tsd-signature-symbol">: </span><a href="recording.Recorder.html" class="tsd-signature-type" data-tsd-kind="Class">Recorder</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#predict.predict-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="predict.predict-1">predict<span class="tsd-signature-symbol">(</span>record<span class="tsd-signature-symbol">: </span><a href="recording.Recorder.html" class="tsd-signature-type" data-tsd-kind="Class">Recorder</a>, uniqueDataset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#predict.predict-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Given a record of mouse features, use both <a href="../modules/data.html">data</a> and <a href="recording.Model.html#model">model</a> fields to
+format the record and predict a list of values, each element is a probability corresponding to
+an element of the dataset to be a bot trajectory.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>record: <a href="recording.Recorder.html" class="tsd-signature-type" data-tsd-kind="Class">Recorder</a></h5></li></ul></div>
+<h5>record: <a href="recording.Recorder.html" class="tsd-signature-type" data-tsd-kind="Class">Recorder</a></h5>
+<div class="tsd-comment tsd-typography"><p>The record object with computed mouse features.</p>
+</div></li>
+<li>
+<h5>uniqueDataset: <span class="tsd-signature-type">boolean</span></h5>
+<div class="tsd-comment tsd-typography"><p>An optional boolean, if true then we reshape the dataset to have a single
+                     element with all our data, so the returned list should have a single element
+                     (a single prediction), otherwise the model predict element by element and returns
+                     the prediction array. All models do not support modified input shape.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L192">src/recording.ts:192</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L224">src/recording.ts:224</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

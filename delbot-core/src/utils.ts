@@ -1,5 +1,4 @@
 import {readFile, writeFile} from "fs";
-import * as tf from "@tensorflow/tfjs";
 
 /**
  * Check if the code is run through the browser or with Node.js. Used to
@@ -24,7 +23,7 @@ function isBrowser(): boolean {
 }
 
 /**
- * Write a string, like json stringify, to a local file. If used
+ * Write a string, like JSON stringify, to a local file. If used
  * in browser, download it instead.
  * @param content
  * @param fileName
@@ -71,7 +70,7 @@ export async function loadFile(filePath: string): Promise<string> {
       };
       xhr.send();
     } else {
-      // TODO: Node with URL here
+      // TODO: support Node with URL here
       readFile(filePath, 'utf8', function (err, data) {
         if (err) {
           reject(err);
@@ -81,4 +80,3 @@ export async function loadFile(filePath: string): Promise<string> {
     }
   });
 }
-

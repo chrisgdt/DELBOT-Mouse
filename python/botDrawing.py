@@ -222,6 +222,7 @@ def circle_automated(driver, move_type=5):
                     export_button.click()
 
     elif move_type == 5:  # Java program with NaturalMouseMovement
+        """
         for radius in [280]:#[100, 200, 250]:
             for step in [3, 5, 8]:#[6, 13, 18, 30, 50, 80]:
                 for motion in [0,1,2,3]:  # default, GrannyMotion, FastGamerMotion, AverageComputerUserMotion
@@ -233,6 +234,21 @@ def circle_automated(driver, move_type=5):
                     # Need to put the screen scale to 100%, otherwise NaturalMouseMotion doesn't work
                     # The code of this jar is simply json parsing then factory.build(x, y).move();
                     subprocess.run(f"java -jar NaturalMouseMotionUsage-jar-with-dependencies.jar {motion} {json.dumps(points[1:])}")
+                    pyHM.mouse.up()
+
+                    export_button.click()
+        """
+        get_points_function = get_random_points
+        for _ in range(50):
+            for motion in [2]:
+                    points = get_points_function(x_range=(885, 3036), y_range=(504, 1423), number_points_range=(10,20))
+                    pyautogui.moveTo(*points[0])
+                    points.append(points[0])
+
+                    pyHM.mouse.down()
+                    # Need to put the screen scale to 100%, otherwise NaturalMouseMotion doesn't work
+                    # The code of this jar is simply json parsing then factory.build(x, y).move();
+                    subprocess.run(f"java -jar NaturalMouseMotionUsage-jar-with-dependencies.jar {motion} {json.dumps(list(map(lambda x: [x[0]/2.5,x[1]/2.5], points[1:])))}")
                     pyHM.mouse.up()
 
                     export_button.click()

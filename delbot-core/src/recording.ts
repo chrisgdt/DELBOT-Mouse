@@ -5,7 +5,7 @@ import { loadFile } from "./utils";
 
 /**
  * Represent a generic instance of a single recorded mouse action. It must contain at least
- * three datas : time, x and y. Other features are calculated from these three datas
+ * three data : time, x and y. Other features are calculated from these three data
  * in the Recorder class.
  */
 export interface SingleRecord {
@@ -70,7 +70,7 @@ export interface SingleRecord {
   accelY?: number;
 
   /**
-   * The total euclidean distance between the current point and the previous one.
+   * The total Euclidean distance between the current point and the previous one.
    */
   distance?: number;
 
@@ -128,7 +128,7 @@ export interface SingleRecord {
 
 /**
  * Represents the result of the model to decide whether the record was human or not.
- * It's simply a boolean with a reason.
+ * It's simply a boolean with a reason, i.e. small description of the result.
  */
 export interface Result {
 
@@ -143,30 +143,43 @@ export interface Result {
    * <ul>
    *   <li>{@link Recorder.success} if the record was considered as human.</li>
    *   <li>{@link Recorder.fail} if the record was considered as bot.</li>
-   *   <li>{@link Recorder.notEnoughProvidedDatas} if there were not enough provided datas.</li>
+   *   <li>{@link Recorder.notEnoughProvidedData} if there were not enough provided data.</li>
    * </ul>
    */
   reason: Symbol;
 }
 
 /**
- * A class that represents a model with its associated data used during the
+ * An abstract class that represents a model with its associated data used during the
  * training. Concretely, you can give to the constructor a way to load a
- * Tensorflow.js model from {@link tf.loadLayersModel}, like a URL to the
- * model.json file. Then the data object is only used to format the raw datas
- * from {@link Recorder} and reshape the input tensors.
+ * model with {@link getModel} and describe how to use this model to in method
+ * {@link predict} with parsed data from the given record and {@link data}.
  * <br>
  * The model never loads if you never call {@link getModel}, so you can instantiate
  * this class multiple times without troubles.
  */
 export abstract class Model<G> {
+  /**
+   * The model field or null if {@link getModel} has never been called.
+   * @protected
+   */
   protected model: null | G;
 
+  /**
+   * The way to load the model with {@link getModel}, once loaded this field
+   * is never used again.
+   * @protected
+   */
   protected readonly loadingPath: string;
+
+  /**
+   * The data object to format input.
+   * @protected
+   */
   protected readonly data: Data;
 
   /**
-   * @param loadingPath The loadingPath (url, localstorage, indexeddb, ...) to load with {@link tf.loadLayersModel}.
+   * @param loadingPath The loadingPath (url, localstorage, indexeddb, ...) to load the model.
    * @param data The {@link data!Data} instance related to this model.
    */
   constructor(loadingPath: string, data: Data) {
@@ -175,12 +188,15 @@ export abstract class Model<G> {
     this.data = data;
   }
 
+  /**
+   * @Return The private field {@link data}.
+   */
   getData(): Data {
     return this.data;
   }
 
   /**
-   * Get the model instance after at least one call of {@link getModel} that loads it once.
+   * @Return The loaded model instance. If there was no call of {@link getModel}, throw an error instead.
    */
   getLoadedModel(): G {
     if (this.model == null) {
@@ -189,17 +205,32 @@ export abstract class Model<G> {
     return this.model
   }
 
-  abstract predict(record: Recorder): Promise<number[]>;
-
   /**
-   * Loads the model if it has never been done before, then returns it.
-   * @return A promise of the loaded layer model.
+   * Loads the model (if it has never been done before) and returns it.
+   * @return A promise of the loaded model.
    */
   abstract getModel(): Promise<G>;
+
+  /**
+   * Given a record of mouse features, use both {@link data} and {@link model} fields to
+   * format the record and predict a list of values, each element is a probability corresponding to
+   * an element of the dataset to be a bot trajectory.
+   * @param record The record object with computed mouse features.
+   * @param uniqueDataset An optional boolean, if true then we reshape the dataset to have a single
+   *                      element with all our data, so the returned list should have a single element
+   *                      (a single prediction), otherwise the model predict element by element and returns
+   *                      the prediction array. All models do not support modified input shape.
+   */
+  abstract predict(record: Recorder, uniqueDataset: boolean): Promise<number[]>;
 }
 
-export class TensorflowModel extends Model<tf.LayersModel> {
-
+/**
+ * An implementation of {@link Model} for TensorFlow layers models.
+ * The loadingPath is directly sent to {@link tf.loadLayersModel} and leads to
+ * the json file of the model.
+ * @see Model
+ */
+export class TensorFlowModel extends Model<tf.LayersModel> {
   async getModel(): Promise<tf.LayersModel> {
     if (this.model === null) {
       this.model = await tf.loadLayersModel(this.loadingPath);
@@ -207,7 +238,7 @@ export class TensorflowModel extends Model<tf.LayersModel> {
     return this.model;
   }
 
-  async predict(record: Recorder): Promise<number[]> {
+  async predict(record: Recorder, uniqueDataset: boolean = false): Promise<number[]> {
     const dataset = this.getData().loadDataSet(record).datasetData;
 
     if (dataset.length === 0) {
@@ -215,12 +246,20 @@ export class TensorflowModel extends Model<tf.LayersModel> {
     }
 
     const tfjsModel = await this.getModel();
+    let datasetTensor = tf.tensor3d(dataset);
 
-    // We could reshape to have one batch and more time-steps if the model accepts a variable number of
-    // time steps, but we may lose some accuracy since the model trained on a fix time-step.
-    const datasetTensor = tf.tensor3d(dataset).reshape(tfjsModel.inputs[0].shape.length === 4
-      ? [dataset.length, this.getData().getXSize(), this.getData().getYSize(), 1]
-      : [dataset.length, this.getData().getXSize(), this.getData().getYSize()]);
+    if (uniqueDataset) {
+      // Put a single element with large chunk, we may lose some accuracy since the model trained on a fixed time-step
+      datasetTensor = datasetTensor.reshape([1, dataset.length*this.getData().getXSize(), this.getData().getYSize()]);
+    } else {
+      datasetTensor = datasetTensor.reshape([dataset.length, this.getData().getXSize(), this.getData().getYSize()]);
+    }
+
+    // For convolutional models, input needs to be in 4 dimensions, replace every number n by 1d tensor [n]
+    if (tfjsModel.inputs[0].shape.length === 4) {
+      datasetTensor = datasetTensor.expandDims(3);
+    }
+
     let predictions = tfjsModel.predict(datasetTensor) as tf.Tensor;
     if (predictions.shape[1] === 1) {
       predictions = tf.reshape(predictions, [predictions.size]);//.round();
@@ -242,8 +281,13 @@ export class TensorflowModel extends Model<tf.LayersModel> {
   }
 }
 
+/**
+ * An implementation of {@link Model} for Random Forest classifiers.
+ * The loadingPath is directly sent to {@link loadFile} then parsed to
+ * JSON format and loaded with {@link RandomForestClassifier.load}.
+ * @see Model
+ */
 export class RandomForestModel extends Model<RandomForestClassifier> {
-
   async getModel(): Promise<RandomForestClassifier> {
     if (this.model === null) {
       if (this.data.numClasses !== 1) {
@@ -255,7 +299,7 @@ export class RandomForestModel extends Model<RandomForestClassifier> {
     return this.model;
   }
 
-  async predict(record: Recorder): Promise<number[]> {
+  async predict(record: Recorder, uniqueDataset: boolean): Promise<number[]> {
     const dataset = this.getData().loadDataSet(record).datasetData;
 
     if (dataset.length === 0) {
@@ -263,8 +307,13 @@ export class RandomForestModel extends Model<RandomForestClassifier> {
     }
 
     const randomForest = await this.getModel();
-    const reshapedDataset = await tf.reshape(dataset, [dataset.length, dataset[0].length*dataset[0][0].length]).array() as number[][];
-    return randomForest.predict(reshapedDataset);
+    const reshapedDataset = await tf.reshape(dataset, uniqueDataset
+      ? [1, dataset.length*dataset[0].length*dataset[0][0].length]
+      : [dataset.length, dataset[0].length*dataset[0][0].length]
+    ).array() as number[][];
+
+    // randomForest.predict(reshapedDataset) -> returns 0 or 1 for the label, we want the probability for average
+    return randomForest.predictProbability(reshapedDataset, 1);
   }
 }
 
@@ -275,7 +324,7 @@ export class RandomForestModel extends Model<RandomForestClassifier> {
  * A simple usage would be to
  * <ol>
  *     <li>add an event listener for mousemove or touchmove event;</li>
- *     <li>call {@link addRecord} with the timestamp and (x,y) coordinates everytime the event fires;</li>
+ *     <li>call {@link addRecord} with the timestamp and (x,y) coordinates every time the event fires;</li>
  *     <li>call {@link isHuman} with a preloaded model to know if the trajectory is from human or not.</li>
  * </ol>
  * Which gives something like :
@@ -300,17 +349,71 @@ export class RandomForestModel extends Model<RandomForestClassifier> {
  * configurations.
  */
 export class Recorder {
+
+  /**
+   * Static field describing a success for {@link isHuman}.
+   */
   public static readonly success: Symbol = Symbol(1);
+
+  /**
+   * Static field describing a fail for {@link isHuman}.
+   */
   public static readonly fail: Symbol = Symbol(0);
-  public static readonly notEnoughProvidedDatas: Symbol = Symbol(0);
 
+  /**
+   * Static field describing an error for {@link isHuman}.
+   */
+  public static readonly notEnoughProvidedData: Symbol = Symbol(0);
+
+  /**
+   * A 2-array with two numbers (a,b). When a new line with (x,y) is added
+   * to the current record, we compute features with (x/a, y/b).
+   */
   public normalizer: number[];
-  public currentRecord: SingleRecord[];
 
+  /**
+   * The list of calculated mouse features from the beginning of this record.
+   * @private
+   */
+  private currentRecord: SingleRecord[];
+
+  /**
+   * The accumulated distance from the beginning of this record, used to compute average values of mouse features.
+   * @private
+   */
   private totalDistance: number;
+
+  /**
+   * The accumulated acceleration from the beginning of this record, used to compute average values of mouse features.
+   * @private
+   */
   private totalAccel: number;
+
+  /**
+   * The accumulated speed from the beginning of this record, used to compute average values of mouse features.
+   * @private
+   */
   private totalSpeed: number;
+
+  /**
+   * The length of the trajectory, it will always be equals to `currentRecord.length`
+   * unless maxSize is defined and the current record is already reached.
+   * @private
+   */
+  private totalLength: number;
+
+  /**
+   * The previous line used to compute the next mouse features, e.g. time diff = current time - previous time.
+   * @private
+   */
   private previousLine: SingleRecord;
+
+  /**
+   * The max size of the record, default to -1 (unlimited size), to prevent high memory usage.
+   * If the maxSize is reached, new elements shift the entire array and are added to the end.
+   * @private
+   */
+  private maxSize: number;
 
   /**
    * Create an empty recorder.
@@ -319,7 +422,19 @@ export class Recorder {
    */
   constructor(scaleX: number=1, scaleY: number=1) {
     this.clearRecord();
+    if (scaleX === 0 || scaleY === 0) {
+      throw Error("Cannot use a normalizer with value 0.")
+    }
     this.normalizer = [scaleX, scaleY];
+    this.maxSize = -1;
+  }
+
+  /**
+   * Set the max size of record. When reached, it shifts all elements.
+   * @param maxSize The new max size value.
+   */
+  setMaxSize(maxSize) {
+    this.maxSize = maxSize;
   }
 
   /**
@@ -333,6 +448,7 @@ export class Recorder {
     this.totalDistance = 0;
     this.totalSpeed = 0;
     this.totalAccel = 0;
+    this.totalLength = 0;
 
     return this;
   }
@@ -390,8 +506,8 @@ export class Recorder {
     line.speedYAgainstDistance = line.speed / line.dy;
     line.accelYAgainstDistance = line.accel / line.dy;
 
-    line.averageSpeedAgainstDistance = (this.totalSpeed / (this.getRecords().length+1)) / this.totalDistance;
-    line.averageAccelAgainstDistance = (this.totalAccel / (this.getRecords().length+1)) / this.totalDistance;
+    line.averageSpeedAgainstDistance = (this.totalSpeed / (this.totalLength+1)) / this.totalDistance;
+    line.averageAccelAgainstDistance = (this.totalAccel / (this.totalLength+1)) / this.totalDistance;
 
     line.angle = Math.atan2(line.dy, line.dx); // atan(dy/dx)
     line.jerk = line.accel - this.previousLine.accel / line.timeDiff;
@@ -399,21 +515,25 @@ export class Recorder {
     // Remove all NaN and +-Infinite of datas, replaced by 0
     for (const [key, value] of Object.entries(line)) {
       if (typeof value === "number" && (!Number.isFinite(value) || Number.isNaN(value))) {
-        // @ts-ignore - we checked that is it number
         line[key] = 0;
       }
     }
 
     this.previousLine = line;
 
+    if (this.currentRecord.length == this.maxSize) {
+      this.currentRecord.shift();
+    }
     this.currentRecord.push(line);
+    this.totalLength++;
+
     return this;
   }
 
   /**
    * Load an entire trajectory as string or string array into this {@link Recorder}
    * instance. If the given input is a string, we split it with the separator `\n`.
-   * The string array must be of the form
+   * The string array must be of the following format :
    *  ```
    *  ["resolution:1536,864",
    *  "9131.1,Pressed,717,361",
@@ -424,13 +544,13 @@ export class Recorder {
    *  "10419.1,Move,718,358",
    *  "10425.8,Released,717,360]"
    * ```
-   * were, as first line we have the screen resolution to normalize
-   * X and Y and the following lines are `timestamp,actionType,x,y`.
+   * As first line we have the screen resolution to normalize
+   * X and Y and all other lines are `timestamp,actionType,x,y`.
    * We then add each line with {@link addRecord}.
    * <br>
-   * Notice that the instance is cleared when calling this method and
-   * the first line with resolution is optional, if absent, we keep the
-   * previous normalizers (1 if unspecified in constructor).
+   * Notice that the instance is cleared with {@link clearRecord} when calling
+   * this method and the first line with resolution is optional, if absent,
+   * we keep the previous normalizers (1 if unspecified in constructor).
    * @param recordString The string describing the trajectory.
    * @param xScale If specified and > 0, the x normalization will be this value.
    * @param yScale If specified and > 0, the y normalization will be this value.
@@ -468,21 +588,24 @@ export class Recorder {
   }
 
   /**
-   * This function takes a model {@link Model} containing a Tensorflow.js layer model
+   * This function takes a model {@link Model} containing a TensorFlow.js layer model
    * and a {@link data!Data} instance and returns the list of probabilities for each batch
    * element to be a bot trajectory. The batch is obtained from {@link currentRecord}.
    * <br>
    * This function may be heavy for smaller configurations, be careful not to call it too often.
    * @param model A {@link Model} instance, with at least `predict()`.
+   * @param uniqueDataset Default to false, if true then all datasets are merged into one unique,
+   *                      so there is one prediction and the average is its unique value.
+   *                      Might throw error if the classifier doesn't support it.
    * @return A list of probabilities, empty list if is not enough datas.
    * @see isHuman
    */
-  async getPrediction(model: Model<any>): Promise<number[]> {
-    return model.predict(this);
+  async getPrediction(model: Model<any>, uniqueDataset: boolean = false): Promise<number[]> {
+    return model.predict(this, uniqueDataset);
   }
 
   /**
-   * This function takes a model {@link Model} containing a Tensorflow.js layer model
+   * This function takes a model {@link Model} containing a TensorFlow.js layer model
    * and a {@link data!Data} instance and returns whether the trajectory stored in
    * {@link currentRecord} is considered as human or bot for the model.
    * <br>
@@ -490,25 +613,28 @@ export class Recorder {
    * one probability `p` for the sample to be a bot. It consequently takes the average
    * of those probabilities and returns `true` if the average is less than a given threshold.
    * <br>
-   * If there is not enough input datas, so we have a batch size of 0, it returns
-   * `false` and a reason {@link Recorder.notEnoughProvidedDatas}.
+   * If there is not enough input data, so we have a batch size of 0, it returns
+   * `false` and a reason {@link Recorder.notEnoughProvidedData}.
    * <br>
    * This function may be heavy for smaller configurations, be careful not to call it too often.
    * @param model A {@link Model} instance, with at least `getData()` and `getModel()`.
    * @param threshold A number between 0 and 1, if the average probability to be a bot is less
    *                  than this value, we consider the trajectory as human.
+   * @param uniqueDataset Default to false, if true then all datasets are merged into one unique,
+   *                      so there one prediction and the average is its unique value.
+   *                      Might throw error if the classifier doesn't support it.
    * @param consoleInfo Default to false, if true then it prints the prediction to console.
    * @return A promise of an instance of {@link Result} with two fields:
    * <ul>
    *     <li>result, the boolean `true` iff it is a human trajectory</li>
-   *     <li>reason of the return, set to {@link Recorder.notEnoughProvidedDatas} if there is not enough datas.</li>
+   *     <li>reason of the return, set to {@link Recorder.notEnoughProvidedData} if there is not enough data.</li>
    * </ul>
    * @see getPrediction
    */
-  async isHuman(model: Model<any>, threshold: number = 0.2, consoleInfo: boolean = false): Promise<Result> {
-    const predictions = await this.getPrediction(model);
+  async isHuman(model: Model<any>, threshold: number = 0.2, uniqueDataset: boolean = false, consoleInfo: boolean = false): Promise<Result> {
+    const predictions = await this.getPrediction(model, uniqueDataset);
     if (predictions.length === 0) {
-      return { result: false, reason: Recorder.notEnoughProvidedDatas };
+      return { result: false, reason: Recorder.notEnoughProvidedData };
     }
     const average = tf.mean(predictions).arraySync();
 

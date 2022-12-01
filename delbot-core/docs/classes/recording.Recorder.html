@@ -23,7 +23,7 @@ It automatically computes all mouse features needed for <a href="data.Data.html"
 A simple usage would be to</p>
 <ol>
     <li>add an event listener for mousemove or touchmove event;</li>
-    <li>call [addRecord](recording.Recorder.html#addRecord) with the timestamp and (x,y) coordinates everytime the event fires;</li>
+    <li>call [addRecord](recording.Recorder.html#addRecord) with the timestamp and (x,y) coordinates every time the event fires;</li>
     <li>call [isHuman](recording.Recorder.html#isHuman) with a preloaded model to know if the trajectory is from human or not.</li>
 </ol>
 Which gives something like :
@@ -52,7 +52,7 @@ configurations.</p>
 <ul class="tsd-hierarchy">
 <li><span class="target">Recorder</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L302">src/recording.ts:302</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L351">src/recording.ts:351</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -64,14 +64,16 @@ configurations.</p>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Properties</h3>
-<div class="tsd-index-list"><a href="recording.Recorder.html#currentRecord" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>current<wbr/>Record</span></a>
+<div class="tsd-index-list"><a href="recording.Recorder.html#currentRecord" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>current<wbr/>Record</span></a>
+<a href="recording.Recorder.html#maxSize" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>max<wbr/>Size</span></a>
 <a href="recording.Recorder.html#normalizer" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>normalizer</span></a>
 <a href="recording.Recorder.html#previousLine" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>previous<wbr/>Line</span></a>
 <a href="recording.Recorder.html#totalAccel" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>total<wbr/>Accel</span></a>
 <a href="recording.Recorder.html#totalDistance" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>total<wbr/>Distance</span></a>
+<a href="recording.Recorder.html#totalLength" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>total<wbr/>Length</span></a>
 <a href="recording.Recorder.html#totalSpeed" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>total<wbr/>Speed</span></a>
 <a href="recording.Recorder.html#fail" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>fail</span></a>
-<a href="recording.Recorder.html#notEnoughProvidedDatas" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>not<wbr/>Enough<wbr/>Provided<wbr/>Datas</span></a>
+<a href="recording.Recorder.html#notEnoughProvidedData" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>not<wbr/>Enough<wbr/>Provided<wbr/>Data</span></a>
 <a href="recording.Recorder.html#success" class="tsd-index-link tsd-kind-property tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>success</span></a>
 </div></section>
 <section class="tsd-index-section">
@@ -82,6 +84,7 @@ configurations.</p>
 <a href="recording.Recorder.html#getRecords" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Records</span></a>
 <a href="recording.Recorder.html#isHuman" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>is<wbr/>Human</span></a>
 <a href="recording.Recorder.html#loadRecordsFromString" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>load<wbr/>Records<wbr/>From<wbr/>String</span></a>
+<a href="recording.Recorder.html#setMaxSize" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>set<wbr/>Max<wbr/>Size</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
@@ -105,54 +108,89 @@ configurations.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="recording.Recorder.html" class="tsd-signature-type" data-tsd-kind="Class">Recorder</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L320">src/recording.ts:320</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L423">src/recording.ts:423</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
-<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="currentRecord" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>current<wbr/>Record</span><a href="#currentRecord" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">current<wbr/>Record<span class="tsd-signature-symbol">:</span> <a href="../interfaces/recording.SingleRecord.html" class="tsd-signature-type" data-tsd-kind="Interface">SingleRecord</a><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="currentRecord" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>current<wbr/>Record</span><a href="#currentRecord" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">current<wbr/>Record<span class="tsd-signature-symbol">:</span> <a href="../interfaces/recording.SingleRecord.html" class="tsd-signature-type" data-tsd-kind="Interface">SingleRecord</a><span class="tsd-signature-symbol">[]</span></div>
+<div class="tsd-comment tsd-typography"><p>The list of calculated mouse features from the beginning of this record.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L308">src/recording.ts:308</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L378">src/recording.ts:378</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="maxSize" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>max<wbr/>Size</span><a href="#maxSize" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">max<wbr/>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography"><p>The max size of the record, default to -1 (unlimited size), to prevent high memory usage.
+If the maxSize is reached, new elements shift the entire array and are added to the end.</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L416">src/recording.ts:416</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="normalizer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>normalizer</span><a href="#normalizer" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">normalizer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<div class="tsd-signature">normalizer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
+<div class="tsd-comment tsd-typography"><p>A 2-array with two numbers (a,b). When a new line with (x,y) is added
+to the current record, we compute features with (x/a, y/b).</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L307">src/recording.ts:307</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L372">src/recording.ts:372</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="previousLine" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>previous<wbr/>Line</span><a href="#previousLine" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">previous<wbr/>Line<span class="tsd-signature-symbol">:</span> <a href="../interfaces/recording.SingleRecord.html" class="tsd-signature-type" data-tsd-kind="Interface">SingleRecord</a></div><aside class="tsd-sources">
+<div class="tsd-signature">previous<wbr/>Line<span class="tsd-signature-symbol">:</span> <a href="../interfaces/recording.SingleRecord.html" class="tsd-signature-type" data-tsd-kind="Interface">SingleRecord</a></div>
+<div class="tsd-comment tsd-typography"><p>The previous line used to compute the next mouse features, e.g. time diff = current time - previous time.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L313">src/recording.ts:313</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L409">src/recording.ts:409</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="totalAccel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>total<wbr/>Accel</span><a href="#totalAccel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">total<wbr/>Accel<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<div class="tsd-signature">total<wbr/>Accel<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography"><p>The accumulated acceleration from the beginning of this record, used to compute average values of mouse features.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L311">src/recording.ts:311</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L390">src/recording.ts:390</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="totalDistance" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>total<wbr/>Distance</span><a href="#totalDistance" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">total<wbr/>Distance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<div class="tsd-signature">total<wbr/>Distance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography"><p>The accumulated distance from the beginning of this record, used to compute average values of mouse features.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L310">src/recording.ts:310</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L384">src/recording.ts:384</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="totalLength" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>total<wbr/>Length</span><a href="#totalLength" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">total<wbr/>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography"><p>The length of the trajectory, it will always be equals to <code>currentRecord.length</code>
+unless maxSize is defined and the current record is already reached.</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L403">src/recording.ts:403</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="totalSpeed" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>total<wbr/>Speed</span><a href="#totalSpeed" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">total<wbr/>Speed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<div class="tsd-signature">total<wbr/>Speed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography"><p>The accumulated speed from the beginning of this record, used to compute average values of mouse features.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L312">src/recording.ts:312</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L396">src/recording.ts:396</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="fail" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>fail</span><a href="#fail" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">fail<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Symbol</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
+<div class="tsd-signature">fail<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Symbol</span><span class="tsd-signature-symbol"> = ...</span></div>
+<div class="tsd-comment tsd-typography"><p>Static field describing a fail for <a href="recording.Recorder.html#isHuman">isHuman</a>.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L304">src/recording.ts:304</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="notEnoughProvidedDatas" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>not<wbr/>Enough<wbr/>Provided<wbr/>Datas</span><a href="#notEnoughProvidedDatas" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">not<wbr/>Enough<wbr/>Provided<wbr/>Datas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Symbol</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L361">src/recording.ts:361</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="notEnoughProvidedData" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>not<wbr/>Enough<wbr/>Provided<wbr/>Data</span><a href="#notEnoughProvidedData" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">not<wbr/>Enough<wbr/>Provided<wbr/>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Symbol</span><span class="tsd-signature-symbol"> = ...</span></div>
+<div class="tsd-comment tsd-typography"><p>Static field describing an error for <a href="recording.Recorder.html#isHuman">isHuman</a>.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L305">src/recording.ts:305</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L366">src/recording.ts:366</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="success" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>success</span><a href="#success" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">success<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Symbol</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
+<div class="tsd-signature">success<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Symbol</span><span class="tsd-signature-symbol"> = ...</span></div>
+<div class="tsd-comment tsd-typography"><p>Static field describing a success for <a href="recording.Recorder.html#isHuman">isHuman</a>.</p>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L303">src/recording.ts:303</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L356">src/recording.ts:356</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="addRecord" class="tsd-anchor"></a>
@@ -175,7 +213,7 @@ with the normalizer from the constructor.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="recording.Recorder.html" class="tsd-signature-type" data-tsd-kind="Class">Recorder</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L355">src/recording.ts:355</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L471">src/recording.ts:471</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="clearRecord" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>clear<wbr/>Record</span><a href="#clearRecord" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -187,13 +225,13 @@ with the normalizer from the constructor.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="recording.Recorder.html" class="tsd-signature-type" data-tsd-kind="Class">Recorder</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L329">src/recording.ts:329</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L444">src/recording.ts:444</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getPrediction" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Prediction</span><a href="#getPrediction" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="getPrediction.getPrediction-1">get<wbr/>Prediction<span class="tsd-signature-symbol">(</span>model<span class="tsd-signature-symbol">: </span><a href="recording.Model.html" class="tsd-signature-type" data-tsd-kind="Class">Model</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#getPrediction.getPrediction-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="getPrediction.getPrediction-1">get<wbr/>Prediction<span class="tsd-signature-symbol">(</span>model<span class="tsd-signature-symbol">: </span><a href="recording.Model.html" class="tsd-signature-type" data-tsd-kind="Class">Model</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, uniqueDataset<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#getPrediction.getPrediction-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>This function takes a model <a href="recording.Model.html">Model</a> containing a Tensorflow.js layer model
+<div class="tsd-comment tsd-typography"><p>This function takes a model <a href="recording.Model.html">Model</a> containing a TensorFlow.js layer model
 and a <a href="data.Data.html">Data</a> instance and returns the list of probabilities for each batch
 element to be a bot trajectory. The batch is obtained from <a href="recording.Recorder.html#currentRecord">currentRecord</a>.
 <br>
@@ -209,10 +247,16 @@ This function may be heavy for smaller configurations, be careful not to call it
 <li>
 <h5>model: <a href="recording.Model.html" class="tsd-signature-type" data-tsd-kind="Class">Model</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 <div class="tsd-comment tsd-typography"><p>A <a href="recording.Model.html">Model</a> instance, with at least <code>predict()</code>.</p>
+</div></li>
+<li>
+<h5>uniqueDataset: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+<div class="tsd-comment tsd-typography"><p>Default to false, if true then all datasets are merged into one unique,
+                     so there is one prediction and the average is its unique value.
+                     Might throw error if the classifier doesn&#39;t support it.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L480">src/recording.ts:480</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L603">src/recording.ts:603</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getRecords" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Records</span><a href="#getRecords" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -223,13 +267,13 @@ type with their calculated features.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/recording.SingleRecord.html" class="tsd-signature-type" data-tsd-kind="Interface">SingleRecord</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L344">src/recording.ts:344</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L460">src/recording.ts:460</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="isHuman" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Human</span><a href="#isHuman" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="isHuman.isHuman-1">is<wbr/>Human<span class="tsd-signature-symbol">(</span>model<span class="tsd-signature-symbol">: </span><a href="recording.Model.html" class="tsd-signature-type" data-tsd-kind="Class">Model</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, threshold<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, consoleInfo<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/recording.Result.html" class="tsd-signature-type" data-tsd-kind="Interface">Result</a><span class="tsd-signature-symbol">&gt;</span><a href="#isHuman.isHuman-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="isHuman.isHuman-1">is<wbr/>Human<span class="tsd-signature-symbol">(</span>model<span class="tsd-signature-symbol">: </span><a href="recording.Model.html" class="tsd-signature-type" data-tsd-kind="Class">Model</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, threshold<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, uniqueDataset<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, consoleInfo<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/recording.Result.html" class="tsd-signature-type" data-tsd-kind="Interface">Result</a><span class="tsd-signature-symbol">&gt;</span><a href="#isHuman.isHuman-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>This function takes a model <a href="recording.Model.html">Model</a> containing a Tensorflow.js layer model
+<div class="tsd-comment tsd-typography"><p>This function takes a model <a href="recording.Model.html">Model</a> containing a TensorFlow.js layer model
 and a <a href="data.Data.html">Data</a> instance and returns whether the trajectory stored in
 <a href="recording.Recorder.html#currentRecord">currentRecord</a> is considered as human or bot for the model.
 <br>
@@ -237,15 +281,15 @@ There may be more than one input batch for the prediction, leading to more than
 one probability <code>p</code> for the sample to be a bot. It consequently takes the average
 of those probabilities and returns <code>true</code> if the average is less than a given threshold.
 <br>
-If there is not enough input datas, so we have a batch size of 0, it returns
-<code>false</code> and a reason <a href="recording.Recorder.html#notEnoughProvidedDatas">notEnoughProvidedDatas</a>.
+If there is not enough input data, so we have a batch size of 0, it returns
+<code>false</code> and a reason <a href="recording.Recorder.html#notEnoughProvidedData">notEnoughProvidedData</a>.
 <br>
 This function may be heavy for smaller configurations, be careful not to call it too often.</p>
 
 <h3>Returns</h3><p>A promise of an instance of <a href="../interfaces/recording.Result.html">Result</a> with two fields:</p>
 <ul>
     <li>result, the boolean `true` iff it is a human trajectory</li>
-    <li>reason of the return, set to [notEnoughProvidedDatas](recording.Recorder.html#notEnoughProvidedDatas) if there is not enough datas.</li>
+    <li>reason of the return, set to [notEnoughProvidedData](recording.Recorder.html#notEnoughProvidedData) if there is not enough data.</li>
 </ul>
 <h3>See</h3><p>getPrediction</p>
 </div>
@@ -262,12 +306,18 @@ This function may be heavy for smaller configurations, be careful not to call it
                  than this value, we consider the trajectory as human.</p>
 </div></li>
 <li>
+<h5>uniqueDataset: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+<div class="tsd-comment tsd-typography"><p>Default to false, if true then all datasets are merged into one unique,
+                     so there one prediction and the average is its unique value.
+                     Might throw error if the classifier doesn&#39;t support it.</p>
+</div></li>
+<li>
 <h5>consoleInfo: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
 <div class="tsd-comment tsd-typography"><p>Default to false, if true then it prints the prediction to console.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/recording.Result.html" class="tsd-signature-type" data-tsd-kind="Interface">Result</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L508">src/recording.ts:508</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L634">src/recording.ts:634</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="loadRecordsFromString" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>load<wbr/>Records<wbr/>From<wbr/>String</span><a href="#loadRecordsFromString" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -275,16 +325,16 @@ This function may be heavy for smaller configurations, be careful not to call it
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Load an entire trajectory as string or string array into this <a href="recording.Recorder.html">Recorder</a>
 instance. If the given input is a string, we split it with the separator <code>\n</code>.
-The string array must be of the form</p>
-<pre><code><span class="hl-1">[</span><span class="hl-7">&quot;resolution:1536,864&quot;</span><span class="hl-1">,</span><br/><span class="hl-7">&quot;9131.1,Pressed,717,361&quot;</span><span class="hl-1">,</span><br/><span class="hl-7">&quot;9134.8,Move,717,361&quot;</span><span class="hl-1">,</span><br/><span class="hl-7">&quot;9151.8,Move,717,361&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">...</span><br/><span class="hl-7">&quot;10402.3,Move,722,360&quot;</span><span class="hl-1">,</span><br/><span class="hl-7">&quot;10419.1,Move,718,358&quot;</span><span class="hl-1">,</span><br/><span class="hl-7">&quot;10425.8,Released,717,360]&quot;</span>
+The string array must be of the following format :</p>
+<pre><code><span class="hl-1">[</span><span class="hl-9">&quot;resolution:1536,864&quot;</span><span class="hl-1">,</span><br/><span class="hl-9">&quot;9131.1,Pressed,717,361&quot;</span><span class="hl-1">,</span><br/><span class="hl-9">&quot;9134.8,Move,717,361&quot;</span><span class="hl-1">,</span><br/><span class="hl-9">&quot;9151.8,Move,717,361&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">...</span><br/><span class="hl-9">&quot;10402.3,Move,722,360&quot;</span><span class="hl-1">,</span><br/><span class="hl-9">&quot;10419.1,Move,718,358&quot;</span><span class="hl-1">,</span><br/><span class="hl-9">&quot;10425.8,Released,717,360]&quot;</span>
 </code></pre>
-<p>were, as first line we have the screen resolution to normalize
-X and Y and the following lines are <code>timestamp,actionType,x,y</code>.
+<p>As first line we have the screen resolution to normalize
+X and Y and all other lines are <code>timestamp,actionType,x,y</code>.
 We then add each line with <a href="recording.Recorder.html#addRecord">addRecord</a>.
 <br>
-Notice that the instance is cleared when calling this method and
-the first line with resolution is optional, if absent, we keep the
-previous normalizers (1 if unspecified in constructor).</p>
+Notice that the instance is cleared with <a href="recording.Recorder.html#clearRecord">clearRecord</a> when calling
+this method and the first line with resolution is optional, if absent,
+we keep the previous normalizers (1 if unspecified in constructor).</p>
 
 <h3>Returns</h3><p>The same recorder instance for chain calls.</p>
 </div>
@@ -305,7 +355,24 @@ previous normalizers (1 if unspecified in constructor).</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="recording.Recorder.html" class="tsd-signature-type" data-tsd-kind="Class">Recorder</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/a4b1e4d/delbot-core/src/recording.ts#L439">src/recording.ts:439</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L559">src/recording.ts:559</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="setMaxSize" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>set<wbr/>Max<wbr/>Size</span><a href="#setMaxSize" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="setMaxSize.setMaxSize-1">set<wbr/>Max<wbr/>Size<span class="tsd-signature-symbol">(</span>maxSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#setMaxSize.setMaxSize-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Set the max size of record. When reached, it shifts all elements.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>maxSize: <span class="tsd-signature-type">any</span></h5>
+<div class="tsd-comment tsd-typography"><p>The new max size value.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-core/src/recording.ts#L436">src/recording.ts:436</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -336,21 +403,24 @@ previous normalizers (1 if unspecified in constructor).</p>
 <li class="current tsd-kind-class tsd-parent-kind-module"><a href="recording.Recorder.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-class)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-128-path"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)" id="icon-128-text"></path></svg><span>Recorder</span></a>
 <ul>
 <li class="tsd-kind-constructor tsd-parent-kind-class"><a href="recording.Recorder.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-512-path"></use><use href="#icon-512-text"></use></svg>constructor</a></li>
-<li class="tsd-kind-property tsd-parent-kind-class"><a href="recording.Recorder.html#currentRecord" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>current<wbr/>Record</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="recording.Recorder.html#currentRecord" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>current<wbr/>Record</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="recording.Recorder.html#maxSize" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>max<wbr/>Size</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class"><a href="recording.Recorder.html#normalizer" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>normalizer</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="recording.Recorder.html#previousLine" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>previous<wbr/>Line</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="recording.Recorder.html#totalAccel" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>total<wbr/>Accel</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="recording.Recorder.html#totalDistance" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>total<wbr/>Distance</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="recording.Recorder.html#totalLength" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>total<wbr/>Length</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="recording.Recorder.html#totalSpeed" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>total<wbr/>Speed</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class"><a href="recording.Recorder.html#fail" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>fail</a></li>
-<li class="tsd-kind-property tsd-parent-kind-class"><a href="recording.Recorder.html#notEnoughProvidedDatas" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>not<wbr/>Enough<wbr/>Provided<wbr/>Datas</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class"><a href="recording.Recorder.html#notEnoughProvidedData" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>not<wbr/>Enough<wbr/>Provided<wbr/>Data</a></li>
 <li class="tsd-kind-property tsd-parent-kind-class"><a href="recording.Recorder.html#success" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>success</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="recording.Recorder.html#addRecord" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>add<wbr/>Record</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="recording.Recorder.html#clearRecord" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>clear<wbr/>Record</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="recording.Recorder.html#getPrediction" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Prediction</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="recording.Recorder.html#getRecords" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Records</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="recording.Recorder.html#isHuman" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>is<wbr/>Human</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="recording.Recorder.html#loadRecordsFromString" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>load<wbr/>Records<wbr/>From<wbr/>String</a></li></ul></li></ul></nav></div></div>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="recording.Recorder.html#loadRecordsFromString" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>load<wbr/>Records<wbr/>From<wbr/>String</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="recording.Recorder.html#setMaxSize" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>set<wbr/>Max<wbr/>Size</a></li></ul></li></ul></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>

@@ -113,12 +113,10 @@ class DrawElement {
 
   drawTouch(event) {
     event.preventDefault();
-    //this.records.push(`${event.timeStamp},${event.timeStamp},NoButton,MoveTouch,${event.touches[0].clientX},${event.touches[0].clientY}`);
     this.draw(event.touches[0].clientX, event.touches[0].clientY, event.timeStamp,"MoveTouch");
   }
 
   drawMouse(event) {
-    //this.records.push(`${event.timeStamp},${event.timeStamp},NoButton,Move,${event.clientX},${event.clientY}`);
     this.draw(event.clientX, event.clientY, event.timeStamp, "Move");
   }
 
@@ -187,7 +185,7 @@ export class DrawElementTesting extends DrawElement {
         this.clearDraw();
         this.records.clearRecord();
 
-        if (v.reason === delbot.Recorder.notEnoughProvidedDatas) {
+        if (v.reason === delbot.Recorder.notEnoughProvidedData) {
           alert("DrawCaptcha échoué : Merci de dessiner davantage.");
         } else if (!v.result) {
           alert("DrawCaptcha échoué : Trop ressemblant à un bot.");
@@ -199,6 +197,6 @@ export class DrawElementTesting extends DrawElement {
   }
 
   async validate() {
-    return this.records.isHuman(this.model, .3, true);
+    return this.records.isHuman(this.model, .3, false, true);
   }
 }

@@ -16,15 +16,22 @@
 <li><a href="../modules/models.html">models</a></li>
 <li><a href="models.Model.html">Model</a></li></ul>
 <h1>Class Model<code class="tsd-tag ts-flagAbstract">Abstract</code> </h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography"><p>An abstract class to represent a model that we can train from a DataTraining instance.
+This model is originally meant to be used as a classifier. There are two main implementations
+: <a href="models.RandomForestModel.html">RandomForestModel</a> for Random Forest and <a href="models.TensorFlowModel.html">TensorFlowModel</a> for Neural Networks.
+<br>
+You can extend this class to create a brand-new classifier architecture.</p>
+</div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">Model</span>
 <ul class="tsd-hierarchy">
 <li><a href="models.RandomForestModel.html" class="tsd-signature-type" data-tsd-kind="Class">RandomForestModel</a></li>
-<li><a href="models.TensorflowModel.html" class="tsd-signature-type" data-tsd-kind="Class">TensorflowModel</a></li></ul></li></ul></section><aside class="tsd-sources">
+<li><a href="models.TensorFlowModel.html" class="tsd-signature-type" data-tsd-kind="Class">TensorFlowModel</a></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L17">models.ts:17</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L24">models.ts:24</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -69,44 +76,44 @@
 <h5>args: <a href="dataTraining.DataTraining.html" class="tsd-signature-type" data-tsd-kind="Class">DataTraining</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/models.ModelProperties.html" class="tsd-signature-type" data-tsd-kind="Interface">ModelProperties</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="models.Model.html" class="tsd-signature-type" data-tsd-kind="Class">Model</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L26">models.ts:26</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L33">models.ts:33</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="batchSize" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>batch<wbr/>Size</span><a href="#batchSize" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">batch<wbr/>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L24">models.ts:24</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L31">models.ts:31</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="consoleInfo" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>console<wbr/>Info</span><a href="#consoleInfo" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">console<wbr/>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L22">models.ts:22</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L29">models.ts:29</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="data" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>data</span><a href="#data" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">data<span class="tsd-signature-symbol">:</span> <a href="dataTraining.DataTraining.html" class="tsd-signature-type" data-tsd-kind="Class">DataTraining</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L18">models.ts:18</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L25">models.ts:25</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="epoch" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>epoch</span><a href="#epoch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">epoch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L23">models.ts:23</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L30">models.ts:30</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="nameToLoad" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>name<wbr/>To<wbr/>Load</span><a href="#nameToLoad" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">name<wbr/>To<wbr/>Load<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L20">models.ts:20</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L27">models.ts:27</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="nameToSave" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>name<wbr/>To<wbr/>Save</span><a href="#nameToSave" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">name<wbr/>To<wbr/>Save<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L19">models.ts:19</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L26">models.ts:26</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="useTfjsVis" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>use<wbr/>Tfjs<wbr/>Vis</span><a href="#useTfjsVis" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">use<wbr/>Tfjs<wbr/>Vis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L21">models.ts:21</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L28">models.ts:28</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="doPredictionBatch" class="tsd-anchor"></a>
@@ -114,7 +121,7 @@
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="doPredictionBatch.doPredictionBatch-1">do<wbr/>Prediction<wbr/>Batch<span class="tsd-signature-symbol">(</span>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor1D</span><span class="tsd-signature-symbol">[]</span><a href="#doPredictionBatch.doPredictionBatch-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Gets a sample of test datas and returns the model output, with some basic operations
+<div class="tsd-comment tsd-typography"><p>Gets a sample of test data and returns the model output, with some basic operations
 to reshape the output as 1d tensor.</p>
 
 <h3>Returns</h3><p>A list of two elements that are 1d tensors corresponding to a list [b1, b2, ...].
@@ -129,43 +136,49 @@ to reshape the output as 1d tensor.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Tensor1D</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L92">models.ts:92</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L110">models.ts:110</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getClassAccuracy" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Class<wbr/>Accuracy</span><a href="#getClassAccuracy" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="getClassAccuracy.getClassAccuracy-1">get<wbr/>Class<wbr/>Accuracy<span class="tsd-signature-symbol">(</span>predicts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor1D</span>, labels<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor1D</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span><br/><span>    </span>accuracy<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>count<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#getClassAccuracy.getClassAccuracy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Call <a href="models.Model.html#doPredictionBatch">doPredictionBatch</a> and compare the model output with the
-real data labels, then show the accuracy with tfjs-vis or directly to the console.</p>
+<div class="tsd-comment tsd-typography"><p>Get prediction and labels and return the accuracy per class.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>predicts: <span class="tsd-signature-type">Tensor1D</span></h5></li>
+<h5>predicts: <span class="tsd-signature-type">Tensor1D</span></h5>
+<div class="tsd-comment tsd-typography"><p>The model prediction reshaped as 1D tensor of 0 (human) or 1 (bot).</p>
+</div></li>
 <li>
-<h5>labels: <span class="tsd-signature-type">Tensor1D</span></h5></li></ul></div>
+<h5>labels: <span class="tsd-signature-type">Tensor1D</span></h5>
+<div class="tsd-comment tsd-typography"><p>The true labels, 1d tensor of 0 or 1.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span><br/><span>    </span>accuracy<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span>count<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L63">models.ts:63</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L77">models.ts:77</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getConfusionMatrix" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Confusion<wbr/>Matrix</span><a href="#getConfusionMatrix" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="getConfusionMatrix.getConfusionMatrix-1">get<wbr/>Confusion<wbr/>Matrix<span class="tsd-signature-symbol">(</span>predicts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor1D</span>, labels<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor1D</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#getConfusionMatrix.getConfusionMatrix-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Call <a href="models.Model.html#doPredictionBatch">doPredictionBatch</a> and compare the model output with the
-real data labels, then show the confusion matrix with tfjs-vis or directly to the console.</p>
+<div class="tsd-comment tsd-typography"><p>Get prediction and labels and return the confusion matrix.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>predicts: <span class="tsd-signature-type">Tensor1D</span></h5></li>
+<h5>predicts: <span class="tsd-signature-type">Tensor1D</span></h5>
+<div class="tsd-comment tsd-typography"><p>The model prediction reshaped as 1D tensor of 0 (human) or 1 (bot).</p>
+</div></li>
 <li>
-<h5>labels: <span class="tsd-signature-type">Tensor1D</span></h5></li></ul></div>
+<h5>labels: <span class="tsd-signature-type">Tensor1D</span></h5>
+<div class="tsd-comment tsd-typography"><p>The true labels, 1d tensor of 0 or 1.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L73">models.ts:73</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L86">models.ts:86</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="loadExistingModel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagAbstract">Abstract</code> <span>load<wbr/>Existing<wbr/>Model</span><a href="#loadExistingModel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -173,15 +186,19 @@ real data labels, then show the confusion matrix with tfjs-vis or directly to th
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L83">models.ts:83</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L101">models.ts:101</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="run" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagAbstract">Abstract</code> <span>run</span><a href="#run" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="run.run-1">run<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><a href="#run.run-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Run the entire model logic, including loading (if <a href="models.Model.html#nameToLoad">nameToLoad</a> is not null), load all data,
+train the model, save it (if <a href="models.Model.html#nameToSave">nameToSave</a> is not null), test it and show all additional information
+with tfjs-vis or in the console.</p>
+</div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L77">models.ts:77</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L95">models.ts:95</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="saveModel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagAbstract">Abstract</code> <span>save<wbr/>Model</span><a href="#saveModel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -189,24 +206,34 @@ real data labels, then show the confusion matrix with tfjs-vis or directly to th
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L81">models.ts:81</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L99">models.ts:99</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="testingModel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>testing<wbr/>Model</span><a href="#testingModel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="testingModel.testingModel-1">testing<wbr/>Model<span class="tsd-signature-symbol">(</span>predicts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor1D</span>, labels<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Tensor1D</span>, name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#testingModel.testingModel-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get the model prediction batch and its corresponding labels as 1D tensors and
+show with tfjs-vis or in console (according to <a href="models.Model.html#useTfjsVis">useTfjsVis</a> and <a href="models.Model.html#consoleInfo">consoleInfo</a>)
+the accuracy of each class and the confusion matrix.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>predicts: <span class="tsd-signature-type">Tensor1D</span></h5></li>
+<h5>predicts: <span class="tsd-signature-type">Tensor1D</span></h5>
+<div class="tsd-comment tsd-typography"><p>The model prediction reshaped as 1D tensor of 0 (human) or 1 (bot).</p>
+</div></li>
 <li>
-<h5>labels: <span class="tsd-signature-type">Tensor1D</span></h5></li>
+<h5>labels: <span class="tsd-signature-type">Tensor1D</span></h5>
+<div class="tsd-comment tsd-typography"><p>The true labels, 1d tensor of 0 or 1.</p>
+</div></li>
 <li>
-<h5>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;validation&quot;</span></h5></li></ul></div>
+<h5>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;validation&quot;</span></h5>
+<div class="tsd-comment tsd-typography"><p>Default to &quot;validation&quot;, used in the container name of tfjs-vis.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L39">models.ts:39</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L54">models.ts:54</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="train" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagAbstract">Abstract</code> <span>train</span><a href="#train" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -214,7 +241,7 @@ real data labels, then show the confusion matrix with tfjs-vis or directly to th
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/010be04/delbot-training/src/models.ts#L79">models.ts:79</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/chrisgdt/DELBOT-Mouse/blob/07090c3/delbot-training/src/models.ts#L97">models.ts:97</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

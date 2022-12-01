@@ -17,26 +17,32 @@
   <h1>DEep Learning for BOT detection by Mouse movements (DELBOT Mouse)</h1>
 </a>
 <p>This repository is a small TypeScript library to distinguish humans and bots from their mouse movements with
-the usage of TensorFlow.js. It was initiated by an internship with the <a href="https://www.bureau404.fr">Bureau404</a> company
-as part of the Master&#39;s in Mathematics: Specialist Focus on Careers in Computer Science and Artificial Intelligence
-(<a href="https://web.umons.ac.be/fr/">University of Mons</a>)</p>
-<p>Author : Christophe Grandmont, University of Mons.</p>
+the usage of <a href="https://www.tensorflow.org/js">TensorFlow.js</a>. It was initiated by an internship with the
+<a href="https://www.bureau404.fr">Bureau404</a> company as part of the Master&#39;s in Mathematics:
+Specialist Focus on Careers in Computer Science and Artificial Intelligence (<a href="https://web.umons.ac.be/fr/">University of Mons</a>)</p>
+<ul>
+<li>Author : Christophe Grandmont.</li>
+<li>Internship supervisor (Bureau404) : Loïc Jean-Fulcrand (<a href="https://www.malt.ch/profile/loicjeanfulcrand">website</a>)</li>
+<li>Internship supervisor (UMONS) : Christophe Troestler (<a href="https://staff.umons.ac.be/christophe.troestler/">website</a>)</li>
+</ul>
 
 <a href="#about" id="about" style="color: inherit; text-decoration: none;">
   <h2>About</h2>
 </a>
-<p>Delbot Mouse is a prototype open-source tool using TensorFlow.js and its DeepLearning models to develop a generic way
-to distinguish humans and bots from their mouse movements on internet. The repository contains three distinct
-Javascript or Typescript modules:</p>
+<p>Delbot Mouse is a prototype open-source tool using <a href="https://www.tensorflow.org/js">TensorFlow.js</a> and some more
+other libraries like RandomForest to develop a generic way to distinguish humans and bots from their mouse movements on
+a web page. The repository contains three distinct JavaScript or Typescript modules:</p>
 <ol>
 <li>delbot-core: the core of the library that contains everything to load an existing model and use it.</li>
 <li>delbot-training: the part of the code using delbot-core to train new models from scratch. It also contains a 
-Generative Adversarial Network (GAN) implementation.</li>
+Generative Adversarial Network (GAN) implementation to generate bot trajectories.</li>
 <li>delbot-example: example of usage of delbot-core and delbot-training to train new models or use one.</li>
 </ol>
-<p>We also have a <code>python/</code> folder being the script location to manipulate datas.</p>
-<p>Delbot-core: <a href="https://www.npmjs.com/package/@chrisgdt/delbot-mouse"><img src="https://img.shields.io/npm/v/@chrisgdt/delbot-mouse?color=33cd56&logo=npm" alt="npm version"></a></p>
-<p>Delbot-training: <a href="https://www.npmjs.com/package/@chrisgdt/delbot-training"><img src="https://img.shields.io/npm/v/@chrisgdt/delbot-training?color=33cd56&logo=npm" alt="npm version"></a></p>
+<p>We also have a <code>python/</code> folder being the script location to manipulate data.</p>
+<p>Delbot-core:
+<a href="https://www.npmjs.com/package/@chrisgdt/delbot-mouse"><img src="https://img.shields.io/npm/v/@chrisgdt/delbot-mouse?color=33cd56&logo=npm" alt="npm version"></a></p>
+<p>Delbot-training:
+<a href="https://www.npmjs.com/package/@chrisgdt/delbot-training"><img src="https://img.shields.io/npm/v/@chrisgdt/delbot-training?color=33cd56&logo=npm" alt="npm version"></a></p>
 
 <a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
   <h2>How to install</h2>
@@ -50,40 +56,90 @@ Generative Adversarial Network (GAN) implementation.</li>
 </code></pre>
 <pre><code><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-0">install</span><span class="hl-1"> @</span><span class="hl-0">chrisgdt</span><span class="hl-1">/</span><span class="hl-0">delbot</span><span class="hl-1">-</span><span class="hl-0">training</span>
 </code></pre>
-<p>You will also need to install Tensorflow, we let you chose the version.</p>
+<p>You will also need to install TensorFlow, we let you chose the version.</p>
 <pre><code><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-0">install</span><span class="hl-1"> @</span><span class="hl-0">tensorflow</span><span class="hl-1">/</span><span class="hl-0">tfjs</span>
 </code></pre>
 <p><strong>Notice that Delbot Mouse is initially meant to be used in the web browser</strong>. Using Node.js or other
-JavaScript engines might lead to some unknown errors that you can report as issue.</p>
+JavaScript engines might lead to some unknown errors that you can report here as issue.</p>
 
 <a href="#for-the-browser" id="for-the-browser" style="color: inherit; text-decoration: none;">
   <h3>For the browser</h3>
 </a>
-<p>For a browser usage, you can simply add some script tags. To load delbot-mouse, you need Tensorflow.js.</p>
+<p>For a browser usage, you can simply add some script tags. To load delbot-mouse, you need TensorFlow.js.</p>
 <pre><code class="language-html"><span class="hl-2">&lt;</span><span class="hl-3">script</span><span class="hl-4"> </span><span class="hl-5">src</span><span class="hl-4">=</span><span class="hl-6">&quot;https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.0.0/dist/tf.min.js&quot;</span><span class="hl-2">&gt;&lt;/</span><span class="hl-3">script</span><span class="hl-2">&gt;</span><br/><span class="hl-2">&lt;</span><span class="hl-3">script</span><span class="hl-4"> </span><span class="hl-5">src</span><span class="hl-4">=</span><span class="hl-6">&quot;https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.1.2/dist/delbot.js&quot;</span><span class="hl-2">&gt;&lt;/</span><span class="hl-3">script</span><span class="hl-2">&gt;</span>
 </code></pre>
 <p>To load  delbot-training, you need both Tensorflow.js and delbot-training, and it is highly encouraged to load tfjs-vis
 for training visualization.</p>
-<pre><code class="language-html"><span class="hl-2">&lt;</span><span class="hl-3">script</span><span class="hl-4"> </span><span class="hl-5">src</span><span class="hl-4">=</span><span class="hl-6">&quot;https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.0.0/dist/tf.min.js&quot;</span><span class="hl-2">&gt;&lt;/</span><span class="hl-3">script</span><span class="hl-2">&gt;</span><br/><span class="hl-2">&lt;</span><span class="hl-3">script</span><span class="hl-4"> </span><span class="hl-5">src</span><span class="hl-4">=</span><span class="hl-6">&quot;https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js&quot;</span><span class="hl-2">&gt;&lt;/</span><span class="hl-3">script</span><span class="hl-2">&gt;</span><br/><span class="hl-2">&lt;</span><span class="hl-3">script</span><span class="hl-4"> </span><span class="hl-5">src</span><span class="hl-4">=</span><span class="hl-6">&quot;https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.1.2/dist/delbot.js&quot;</span><span class="hl-2">&gt;&lt;/</span><span class="hl-3">script</span><span class="hl-2">&gt;</span><br/><span class="hl-2">&lt;</span><span class="hl-3">script</span><span class="hl-4"> </span><span class="hl-5">src</span><span class="hl-4">=</span><span class="hl-6">&quot;https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-training@1.1.2/dist/delbot-training.js&quot;</span><span class="hl-2">&gt;&lt;/</span><span class="hl-3">script</span><span class="hl-2">&gt;</span>
+<pre><code class="language-html"><span class="hl-2">&lt;</span><span class="hl-3">script</span><span class="hl-4"> </span><span class="hl-5">src</span><span class="hl-4">=</span><span class="hl-6">&quot;https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.0.0/dist/tf.min.js&quot;</span><span class="hl-2">&gt;&lt;/</span><span class="hl-3">script</span><span class="hl-2">&gt;</span><br/><span class="hl-2">&lt;</span><span class="hl-3">script</span><span class="hl-4"> </span><span class="hl-5">src</span><span class="hl-4">=</span><span class="hl-6">&quot;https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js&quot;</span><span class="hl-2">&gt;&lt;/</span><span class="hl-3">script</span><span class="hl-2">&gt;</span><br/><span class="hl-2">&lt;</span><span class="hl-3">script</span><span class="hl-4"> </span><span class="hl-5">src</span><span class="hl-4">=</span><span class="hl-6">&quot;https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.1.2/dist/delbot.js&quot;</span><span class="hl-2">&gt;&lt;/</span><span class="hl-3">script</span><span class="hl-2">&gt;</span><br/><span class="hl-2">&lt;</span><span class="hl-3">script</span><span class="hl-4"> </span><span class="hl-5">src</span><span class="hl-4">=</span><span class="hl-6">&quot; https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-training@1.1.2/dist/delbot-training.js&quot;</span><span class="hl-2">&gt;&lt;/</span><span class="hl-3">script</span><span class="hl-2">&gt;</span>
 </code></pre>
 
-<a href="#how-to-use-with-node" id="how-to-use-with-node" style="color: inherit; text-decoration: none;">
-  <h2>How to use with Node</h2>
+<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+  <h2>How to use</h2>
 </a>
-<p>Import delbot with <code>import * as delbot from &quot;@chrisgdt/delbot-mouse&quot;;</code>.</p>
-<p>If needed, you can also import tensorflow with <code>import * as tf from &#39;@tensorflow/tfjs&#39;;</code>.</p>
+<p>With Node, you can import delbot with <code>import * as delbot from &quot;@chrisgdt/delbot-mouse&quot;;</code>.</p>
+<p>If needed, you can also import tensorFlow with <code>import * as tf from &#39;@tensorflow/tfjs&#39;;</code>.</p>
 <p>To import delbot-training, use <code>import * as delbotrain from &quot;@chrisgdt/delbot-training&quot;;</code>.</p>
-
-<a href="#how-to-use-from-browser" id="how-to-use-from-browser" style="color: inherit; text-decoration: none;">
-  <h2>How to use from Browser</h2>
-</a>
-<p>Once you have loaded delbot mouse in your browser, everything is packed in the single variable <code>delbot</code>, same for
-the variable <code>delbotrain</code> with delbot-training. Everything is exported from <code>src/index.ts</code>, check the
+<hr>
+<p>For browser, once you have loaded delbot mouse with the script tag, everything is packed in the single variable
+<code>delbot</code>, same for the variable <code>delbotrain</code> with delbot-training. Everything is exported from <code>src/index.ts</code>, check the
 <a href="https://chrisgdt.github.io/DELBOT-Mouse/delbot-core/docs/modules/index.html">doc of delbot-core</a> or the
 <a href="https://chrisgdt.github.io/DELBOT-Mouse/delbot-training/docs/modules/index.html">doc of delbot-training</a> for more information.</p>
 <p>The folder <code>trained-models/</code> contains some pre-trained models that you can use easily from delbot-core with, for example,
 <code>delbot.Models.rnn3</code>.</p>
 <p>Otherwise, you have an entire example of usage without the training in <code>/delbot-example/</code> <a href="https://chrisgdt.github.io/DELBOT-Mouse/delbot-example/src/index.html">here</a>.</p>
+
+<a href="#basic-usage---example" id="basic-usage---example" style="color: inherit; text-decoration: none;">
+  <h2>Basic usage - Example</h2>
+</a>
+<pre><code class="language-ts"><span class="hl-7">import</span><span class="hl-1"> </span><span class="hl-8">*</span><span class="hl-1"> </span><span class="hl-7">as</span><span class="hl-1"> </span><span class="hl-0">delbot</span><span class="hl-1"> </span><span class="hl-7">from</span><span class="hl-1"> </span><span class="hl-9">&quot;@chrisgdt/delbot-mouse&quot;</span><span class="hl-1">; </span><span class="hl-10">// not needed in browser</span><br/><br/><span class="hl-10">// Create an empty recorder to store and compute mouse features</span><br/><span class="hl-10">// Set the screen size to normalize (x,y) positions in [0,1]^2</span><br/><span class="hl-0">recorder</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-11">Recorder</span><span class="hl-1">(</span><span class="hl-0">window</span><span class="hl-1">.</span><span class="hl-0">screen</span><span class="hl-1">.</span><span class="hl-0">width</span><span class="hl-1">, </span><span class="hl-0">window</span><span class="hl-1">.</span><span class="hl-0">screen</span><span class="hl-1">.</span><span class="hl-0">height</span><span class="hl-1">);</span><br/><br/><span class="hl-10">// Set max size to prevent high memory usage</span><br/><span class="hl-0">recorder</span><span class="hl-1">.</span><span class="hl-11">setMaxSize</span><span class="hl-1">(</span><span class="hl-12">1e6</span><span class="hl-1">);</span><br/><br/><span class="hl-10">// For each small movement, store it in the recorder</span><br/><span class="hl-0">document</span><span class="hl-1">.</span><span class="hl-11">addEventListener</span><span class="hl-1">(</span><span class="hl-9">&quot;mousemove&quot;</span><span class="hl-1">, </span><span class="hl-0">event</span><span class="hl-1"> </span><span class="hl-8">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-0">recorder</span><span class="hl-1">.</span><span class="hl-11">addRecord</span><span class="hl-1">({</span><br/><span class="hl-1">    </span><span class="hl-0">time:</span><span class="hl-1"> </span><span class="hl-0">event</span><span class="hl-1">.</span><span class="hl-0">timeStamp</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">x:</span><span class="hl-1"> </span><span class="hl-0">event</span><span class="hl-1">.</span><span class="hl-0">clientX</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">y:</span><span class="hl-1"> </span><span class="hl-0">event</span><span class="hl-1">.</span><span class="hl-0">clientY</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">type:</span><span class="hl-1"> </span><span class="hl-9">&quot;Move&quot;</span><span class="hl-1"> </span><span class="hl-10">// optional</span><br/><span class="hl-1">  });</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-0">myVerifyElement</span><span class="hl-1">.</span><span class="hl-11">addEventListener</span><span class="hl-1">(</span><span class="hl-9">&quot;click&quot;</span><span class="hl-1">, </span><span class="hl-0">event</span><span class="hl-1"> </span><span class="hl-8">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-7">if</span><span class="hl-1"> (</span><span class="hl-0">recorder</span><span class="hl-1">.</span><span class="hl-11">getRecords</span><span class="hl-1">().</span><span class="hl-0">length</span><span class="hl-1"> &gt; </span><span class="hl-12">100</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-10">// Models are obtained from delbot.Models</span><br/><span class="hl-1">    </span><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-13">isHuman</span><span class="hl-1"> = </span><span class="hl-0">recorder</span><span class="hl-1">.</span><span class="hl-11">isHuman</span><span class="hl-1">(</span><span class="hl-0">delbot</span><span class="hl-1">.</span><span class="hl-0">Models</span><span class="hl-1">.</span><span class="hl-0">rnn1</span><span class="hl-1">);</span><br/><span class="hl-1">    </span><span class="hl-0">recorder</span><span class="hl-1">.</span><span class="hl-11">clearRecord</span><span class="hl-1">();</span><br/><span class="hl-1">    </span><span class="hl-10">// ...</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">});</span>
+</code></pre>
+
+<a href="#training" id="training" style="color: inherit; text-decoration: none;">
+  <h2>Training</h2>
+</a>
+<p>Here some example and explanations about the training of new models.</p>
+
+<a href="#models" id="models" style="color: inherit; text-decoration: none;">
+  <h3>Models</h3>
+</a>
+<p>Some pre-trained models are available through <code>delbot.Models</code> :</p>
+<ul>
+<li>rnn1 : a neural network with two LSTM layers, the most efficient so far.</li>
+<li>rrn1faster : same, but with less LSTM cells, slightly less efficient.</li>
+<li>rnn2 : same, but the second LSTM layer is replaced by a dense layer.</li>
+<li>rnn3 : a model between rnn1 and rnn3, two LSTM layers then one dense.</li>
+<li>denseMatrix : a neural network with only dense layers and that takes a movement matrix.</li>
+<li>convolutional : a convolutional model that takes a movement matrix.</li>
+<li>randomForest : a random forest machine learning model.</li>
+</ul>
+<p>To train your own model with custom tfjs layers, you can look at <code>delbot-training/src/models.ts</code> and read
+the documentation. You only have to extend a class and define a single method.</p>
+<p>You also have a GAN architecture in <code>delbot-training/src/GANtrain.ts</code>.</p>
+
+<a href="#dataset" id="dataset" style="color: inherit; text-decoration: none;">
+  <h3>Dataset</h3>
+</a>
+<p>To manipulate the dataset, you can use <code>python/</code> folder, here is a short description of each python script.</p>
+<ul>
+<li>parseSample.py : takes some folders with text files of either bot or human trajectories and parse them to a single
+          session.json file containing all relative paths to those text files. This JSON file is the entry
+          of an instance of dataTraining.</li>
+<li>redraw.py : verifies that text trajectories in a folder is what we except by drawing them with matplotlib.</li>
+<li>botDrawing.py : starts python selenium and draw same shapes from arbitrary heuristics and multiple librairies.</li>
+<li>ganParser.py : takes some GAN folder of generator ouputs and parse them to something readable by <code>parseSample.py</code>.</li>
+</ul>
+<p>For the dataset usage in the training itself, unzip the file <code>dataset.tar.gz</code> to obtain multiple data folder inside
+<code>python/</code>, then run <code>parseSample.py</code> to get <code>sessions.json</code> (for normal training) and <code>sessions_human_only.json</code> (for GAN).</p>
+
+<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+  <h3>Example</h3>
+</a>
+<p>The code of a basic training looks like this :</p>
+<pre><code class="language-ts"><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-13">data</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-0">delbot</span><span class="hl-1">.</span><span class="hl-0">data</span><span class="hl-1">.</span><span class="hl-11">DataFeatures2</span><span class="hl-1">({</span><span class="hl-0">xSize:</span><span class="hl-1"> </span><span class="hl-12">24</span><span class="hl-1">, </span><span class="hl-0">numClasses:</span><span class="hl-1"> </span><span class="hl-12">2</span><span class="hl-1">});</span><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-13">filePath</span><span class="hl-1"> = </span><span class="hl-9">&quot;../../python/sessions.json&quot;</span><span class="hl-1">; </span><span class="hl-10">// path from code to session.json</span><br/><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-13">datatraining</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-0">delbotrain</span><span class="hl-1">.</span><span class="hl-11">DataTraining</span><span class="hl-1">({</span><span class="hl-0">filePath:</span><span class="hl-1"> </span><span class="hl-0">filePath</span><span class="hl-1">, </span><span class="hl-0">data:</span><span class="hl-1"> </span><span class="hl-0">data</span><span class="hl-1">});</span><br/><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-13">rnn1Features2</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-0">delbotrain</span><span class="hl-1">.</span><span class="hl-11">ModelRNN</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-0">dataTraining:</span><span class="hl-1"> </span><span class="hl-0">datatraining</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-0">nameToSave:</span><span class="hl-1"> </span><span class="hl-9">&quot;downloads://model-rnn1-features2&quot;</span><span class="hl-1">, </span><span class="hl-10">// directly use layerModel.save(nameToSave)</span><br/><span class="hl-1">  </span><span class="hl-0">epoch:</span><span class="hl-1"> </span><span class="hl-12">25</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-0">batchSize:</span><span class="hl-1"> </span><span class="hl-12">256</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-0">useTfjsVis:</span><span class="hl-1"> </span><span class="hl-8">true</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-0">consoleInfo:</span><span class="hl-1"> </span><span class="hl-8">true</span><br/><span class="hl-1">});</span><br/><span class="hl-10">// or simply &#39;rfFeature2.run()&#39;</span><br/><span class="hl-0">document</span><span class="hl-1">.</span><span class="hl-11">addEventListener</span><span class="hl-1">(</span><span class="hl-9">&#39;DOMContentLoaded&#39;</span><span class="hl-1">, () </span><span class="hl-8">=&gt;</span><span class="hl-1"> {</span><span class="hl-0">rfFeature2</span><span class="hl-1">.</span><span class="hl-11">run</span><span class="hl-1">()});</span>
+</code></pre>
+<p>And for a GAN training :</p>
+<pre><code class="language-ts"><span class="hl-10">// DataSimplePosition: output (x,y) for each movement</span><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-13">data</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-0">delbot</span><span class="hl-1">.</span><span class="hl-0">data</span><span class="hl-1">.</span><span class="hl-11">DataSimplePosition</span><span class="hl-1">({</span><span class="hl-0">xSize:</span><span class="hl-1"> </span><span class="hl-12">35</span><span class="hl-1">, </span><span class="hl-0">numClasses:</span><span class="hl-1"> </span><span class="hl-12">1</span><span class="hl-1">});</span><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-13">filePath</span><span class="hl-1"> = </span><span class="hl-9">&quot;../../python/sessions_human_only.json&quot;</span><span class="hl-1">; </span><span class="hl-10">// path from code to sessions_human_only.json</span><br/><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-13">datatraining</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-0">delbotrain</span><span class="hl-1">.</span><span class="hl-11">DataTraining</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-0">filePath:</span><span class="hl-1"> </span><span class="hl-0">filePath</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-0">data:</span><span class="hl-1"> </span><span class="hl-0">data</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-0">trainingRatio:</span><span class="hl-1"> </span><span class="hl-12">.9</span><span class="hl-1"> </span><span class="hl-10">// use 90% of the dataset as training set and 10% as validation</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-10">// Delay for tfjs-vis used in constructor</span><br/><span class="hl-0">document</span><span class="hl-1">.</span><span class="hl-11">addEventListener</span><span class="hl-1">(</span><span class="hl-9">&#39;DOMContentLoaded&#39;</span><span class="hl-1">, () </span><span class="hl-8">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-13">gan</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-0">delbotrain</span><span class="hl-1">.</span><span class="hl-11">GAN</span><span class="hl-1">({</span><br/><span class="hl-1">    </span><span class="hl-0">dataTraining:</span><span class="hl-1"> </span><span class="hl-0">datatraining</span><span class="hl-1">, </span><span class="hl-10">// xSize is 35 so the generator outputs 35 movements per trajectories</span><br/><span class="hl-1">    </span><span class="hl-0">epoch:</span><span class="hl-1"> </span><span class="hl-12">1000</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">batchSize:</span><span class="hl-1"> </span><span class="hl-12">64</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">generatorSeedSize:</span><span class="hl-1"> </span><span class="hl-12">100</span><span class="hl-1">, </span><span class="hl-10">// generator input is 100 random numbers</span><br/><span class="hl-1">    </span><span class="hl-0">useTfjsVis:</span><span class="hl-1"> </span><span class="hl-8">true</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">consoleInfo:</span><span class="hl-1"> </span><span class="hl-8">true</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">downloadModels:</span><span class="hl-1"> </span><span class="hl-12">50</span><span class="hl-1">, </span><span class="hl-10">// save models every 50 epochs</span><br/><span class="hl-1">    </span><span class="hl-0">downloadSample:</span><span class="hl-1"> </span><span class="hl-8">true</span><br/><span class="hl-1">  });</span><br/><br/><span class="hl-1">  </span><span class="hl-0">gan</span><span class="hl-1">.</span><span class="hl-11">train</span><span class="hl-1">(</span><span class="hl-12">1</span><span class="hl-1">); </span><span class="hl-10">// training number 1 to have unique ID per GAN train</span><br/><span class="hl-1">});</span>
+</code></pre>
 </div></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">

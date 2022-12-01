@@ -8,12 +8,12 @@ export interface Session {
 
 export interface DataTrainingProperties {
   /**
-   * The data objet to parse raw datas with {@link delbot.data.Data.loadDataSet}.
+   * The data object to parse raw data with {@link delbot.data.Data.loadDataSet}.
    */
   data: delbot.data.Data;
 
   /**
-   * The path to a json file containing an object {@link Session}. Default to "../../python/sessions.json".
+   * The path to a JSON file containing an object {@link Session}. Default to "../../python/sessions.json".
    */
   filePath?: string;
 
@@ -24,9 +24,9 @@ export interface DataTrainingProperties {
 }
 
 /**
- *  Utility class to load raw datas from your computer, parse them with a Data objet and get final
- *  tensors for a model. You first need a json file that represents a {@link Session} object, with
- *  a list of files containing human or bot trajectories. Each files must be something like:
+ *  Utility class to load raw data from your computer, parse them with a Data object and get final
+ *  tensors for a model. You first need a JSON file that represents a {@link Session} object, with
+ *  a list of files containing human or bot trajectories. Each file must be something like:
  *  ```
  *  resolution:1536,864
  *  9131.1,Pressed,717,361
@@ -37,17 +37,28 @@ export interface DataTrainingProperties {
  *  10419.1,Move,718,358
  *  10425.8,Released,717,360
  * ```
- * were, as first line, the resolution to normalize X and Y and
+ * Were, as first line, the resolution to normalize X and Y and
  * the following lines are `timestamp,actionType,x,y`.
  * <br>
- * A part of the dataset if used as training datas and the other part for testing.
+ * A part of the dataset if used as training data and the other part for testing.
  * <br>
- * To use this class, just call {@link DataTraining.load} then you can call
+ * To use this class, just call {@link DataTraining.load}, then you can call
  * {@link DataTraining.nextTrainBatch} and {@link DataTraining.nextTestBatch}.
  */
 export class DataTraining {
+  /**
+   * The data object to parse raw data with {@link delbot.data.Data.loadDataSet}.
+   */
   public readonly data: delbot.data.Data;
+
+  /**
+   * The path to a JSON file containing an object {@link Session}. Default to "../../python/sessions.json".
+   */
   public readonly filePath: string;
+
+  /**
+   * A number between 0 and 1, the %/100 of the training set compared to the whole dataset, default to 0.8 for 80%.
+   */
   public readonly trainingRatio: number;
 
   public nbrTrainElements: number = -1;
@@ -56,16 +67,16 @@ export class DataTraining {
   private shuffledTestIndex: number = 0;
   private shuffledTrainIndex: number = 0;
 
-  private trainImages: number[][][] = [];
-  private trainLabels: number[][] = [];
-  private testImages: number[][][] = [];
-  private testLabels: number[][] = [];
+  private trainData: number[][][] = [];
+  private trainLabel: number[][] = [];
+  private testData: number[][][] = [];
+  private testLabel: number[][] = [];
 
   /**
    * Constructor of the DataTraining object, it takes parameters :
    * <ul>
-   *   <li>data : The data objet to parse raw datas with {@link delbot.data.Data.loadDataSet}.</li>
-   *   <li>filePath : The path to a json file containing an object {@link Session},
+   *   <li>data : The data object to parse raw data with {@link delbot.data.Data.loadDataSet}.</li>
+   *   <li>filePath : The path to a JSON file containing an object {@link Session},
    *                  default to "../../python/sessions.json"</li>
    *   <li>trainingRatio : A number between 0 and 1, the %/100 of the training set
    *                       compared to the whole dataset, default to 0.8 for 80%.</li>
@@ -80,15 +91,15 @@ export class DataTraining {
   }
 
   /**
-   * Return whether datas have been loaded.
+   * Return whether data have been loaded.
    */
   isLoaded(): boolean {
     return this.nbrTrainElements > 0;
   }
 
   /**
-   * Loads the json file {@link Session} containing every mouse trajectories and
-   * their labels according to the {@link data} objet and separate the dataset into
+   * Loads the JSON file {@link Session} containing every mouse trajectories and
+   * their labels according to the {@link data} object and separate the dataset into
    * training data set and testing dataset, with a shuffle.
    */
   async load(consoleInfo: boolean=false) {
@@ -97,7 +108,7 @@ export class DataTraining {
 
     const sessions: Session = JSON.parse(await delbot.utils.loadFile(this.filePath));
     if (sessions == null) {
-      throw Error(`The json file ${this.filePath} does not exist !`);
+      throw Error(`The JSON file ${this.filePath} does not exist !`);
     }
     const recorder = new delbot.Recorder();
 
@@ -107,11 +118,11 @@ export class DataTraining {
       //if (userIndex >= this.numClasses) continue;
       for (let sess of sessions[user]) {
         recorder.loadRecordsFromString(await delbot.utils.loadFile(sess), this.data.mayNormalize() ? -1 : 1, this.data.mayNormalize() ? -1 : 1);
-        const datas = this.data.loadDataSet(recorder, userIndex);
-        datasetData = datasetData.concat(datas.datasetData);
-        datasetLabels = datasetLabels.concat(datas.datasetLabels);
+        const data = this.data.loadDataSet(recorder, userIndex);
+        datasetData = datasetData.concat(data.datasetData);
+        datasetLabels = datasetLabels.concat(data.datasetLabels);
       }
-      if (consoleInfo) console.log(`debug: total length of data set with ${user}=${datasetData.length}`);
+      if (consoleInfo) console.log(`debug: total length of dataset with ${user}=${datasetData.length}`);
     }
 
     const nbrDatasetElements = datasetData.length;
@@ -124,33 +135,33 @@ export class DataTraining {
 
     let index = trainIndices.next();
     while (!index.done) {
-      this.trainImages.push(datasetData[index.value]);
-      this.trainLabels.push(datasetLabels[index.value]);
+      this.trainData.push(datasetData[index.value]);
+      this.trainLabel.push(datasetLabels[index.value]);
       index = trainIndices.next()
     }
 
     index = testIndices.next();
     while (!index.done) {
-      this.testImages.push(datasetData[index.value]);
-      this.testLabels.push(datasetLabels[index.value]);
+      this.testData.push(datasetData[index.value]);
+      this.testLabel.push(datasetLabels[index.value]);
       index = testIndices.next()
     }
 
-    if (consoleInfo) console.log(`debug: trainSize=${this.trainImages.length}, testSize=${this.testImages.length}`);
+    if (consoleInfo) console.log(`debug: trainSize=${this.trainData.length}, testSize=${this.testData.length}`);
   }
 
   /**
-   * Get a batch of datas and labels as number array from the training set.
+   * Get a batch of data and labels as number array from the training set.
    * @param batchSize
    */
   nextTrainBatchRaw(batchSize: number): { xs: number[][][]; ys: number[][]; } {
-    const result = this.nextBatchRaw(batchSize, this.trainImages, this.trainLabels, this.shuffledTrainIndex);
-    this.shuffledTrainIndex = (this.shuffledTrainIndex + batchSize) % this.trainImages.length;
+    const result = this.nextBatchRaw(batchSize, this.trainData, this.trainLabel, this.shuffledTrainIndex);
+    this.shuffledTrainIndex = (this.shuffledTrainIndex + batchSize) % this.trainData.length;
     return result;
   }
 
   /**
-   * Get a batch of tensor datas and labels from the training set.
+   * Get a batch of tensor data and labels from the training set.
    * @param batchSize The batch size.
    */
   nextTrainBatch(batchSize: number): { xs: tf.Tensor<tf.Rank>; ys: tf.Tensor<tf.Rank>; } {
@@ -162,17 +173,17 @@ export class DataTraining {
   }
 
   /**
-   * Get a batch of datas and labels as number array from the testing set.
+   * Get a batch of data and labels as number array from the testing set.
    * @param batchSize The batch size.
    */
   nextTestBatchRaw(batchSize: number): { xs: number[][][]; ys: number[][]; } {
-    const result = this.nextBatchRaw(batchSize, this.testImages, this.testLabels, this.shuffledTestIndex);
-    this.shuffledTestIndex = (this.shuffledTestIndex + batchSize) % this.testImages.length;
+    const result = this.nextBatchRaw(batchSize, this.testData, this.testLabel, this.shuffledTestIndex);
+    this.shuffledTestIndex = (this.shuffledTestIndex + batchSize) % this.testData.length;
     return result;
   }
 
   /**
-   * Get a batch of tensor datas and labels from the testing set.
+   * Get a batch of tensor data and labels from the testing set.
    * @param batchSize The batch size.
    */
   nextTestBatch(batchSize: number): { xs: tf.Tensor<tf.Rank>; ys: tf.Tensor<tf.Rank>; } {
@@ -185,7 +196,7 @@ export class DataTraining {
 
   private nextBatchRaw(batchSize: number, images: number[][][], labels: number[][], shuffledIndex: number): { xs: number[][][]; ys: number[][]; } {
     if (!this.isLoaded()) {
-      throw new Error("Cannot get a train batch when the training datas are not loaded !");
+      throw new Error("Cannot get a train batch when the training data are not loaded !");
     }
     const xs = [];
     const ys = [];

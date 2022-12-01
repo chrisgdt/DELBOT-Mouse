@@ -17,12 +17,12 @@
   <!--script src="../../delbot-training/dist/delbot-training.js"></script-->
 
   <script>
-    const filepath = "../../python/sessions_human_only.json";
+    const filePath = "../../python/sessions.json";
     const numClasses = 2;
-    const dataMatrix = new delbotrain.DataTraining({filepath, data: new delbot.data.DataMovementMatrix({numClasses})});
-    const dataSimplePos = new delbotrain.DataTraining({filepath, data: new delbot.data.DataSimplePosition({numClasses})});
-    const dataOffsetPos = new delbotrain.DataTraining({filepath, data: new delbot.data.DataOffsetPosition({numClasses})});
-    const dataFeatures2 = new delbotrain.DataTraining({filepath, data: new delbot.data.DataFeatures2({xSize: 24, numClasses})});
+    const dataMatrix = new delbotrain.DataTraining({filePath, data: new delbot.data.DataMovementMatrix({numClasses})});
+    const dataSimplePos = new delbotrain.DataTraining({filePath, data: new delbot.data.DataSimplePosition({numClasses})});
+    const dataOffsetPos = new delbotrain.DataTraining({filePath, data: new delbot.data.DataOffsetPosition({numClasses})});
+    const dataFeatures2 = new delbotrain.DataTraining({filePath, data: new delbot.data.DataFeatures2({xSize: 24, numClasses})});
 
     const modelConvMovement = new delbotrain.ModelConvolutional({
       dataTraining: dataMatrix,
@@ -77,42 +77,98 @@
       consoleInfo: true
     }); // don't converge (100% bot)
 
+    class ModelRNN1Smaller extends delbotrain.TensorFlowModel {
+      initModel() {
+        const model = tf.sequential();
+
+        model.add(tf.layers.lstm({
+          inputShape: [null, this.data.data.getYSize()],
+          units: 64,
+          returnSequences: true,
+          recurrentDropout : .5,
+        }));
+        model.add(tf.layers.batchNormalization());
+        model.add(tf.layers.leakyReLU({alpha: .1}));
+        model.add(tf.layers.dropout({rate:0.3}));
+
+        model.add(tf.layers.lstm({
+          units: 32,
+          returnSequences: false,
+          recurrentDropout : .8,
+        }));
+        model.add(tf.layers.leakyReLU({alpha: .1}));
+        model.add(tf.layers.dropout({rate:0.1}));
+
+        return model;
+      }
+    }
+
+    class DataFeatures3 extends delbot.data.DataFeatures {
+      constructor(args={}) {
+        super(args);
+        this.ySize = 13;
+      }
+
+      getChunkElement(line) {
+        return [
+          line.dx, line.dy,
+          line.speedX, line.speedY,
+          line.speed, line.accel,
+          line.distance, line.angle,
+          line.jerk,
+          line.averageSpeedAgainstDistance,
+          line.averageAccelAgainstDistance,
+          line.speedXAgainstDistance, line.speedYAgainstDistance
+        ]
+      }
+    }
+
     const rnn1Features2 = new delbotrain.ModelRNN({
       dataTraining: dataFeatures2,
-      nameToSave: "downloads://model-rnn1-features2",
-      epoch: 20,
+      nameToSave: "downloads://model-rnn1-features3",
+      epoch: 35,
       useTfjsVis: true,
-      consoleInfo: true
-    }); // human 0.9438 463, bot 0.9683 537 -> 95.7%
+      consoleInfo: true,
+      batchSize: 256
+    }); // human 0.9965 284, bot 0.9846 716 -> 98.8%
     const rnn2Features2 = new delbotrain.ModelRNN2({
       dataTraining: dataFeatures2,
       nameToSave: "downloads://model-rnn2-features2",
       epoch: 25,
       useTfjsVis: true,
-      consoleInfo: false
+      consoleInfo: false,
+      batchSize: 256
     }); // human 0.7954 479, bot 0.453 521 -> 61.7%
     const rnn3Features2 = new delbotrain.ModelRNN3({
       dataTraining: dataFeatures2,
       nameToSave: "downloads://model-rnn3-features2",
-      epoch: 25,
+      epoch: 35,
       optimizer: tf.train.adam(2e-4, .5, .99, 1e-8),
       useTfjsVis: true,
-      consoleInfo: true
-    }); // human 0.9493 296, bot 0.9531 704 -> 95.2%
+      consoleInfo: true,
+      batchSize: 256
+    }); // human 0.9617 287, bot 0.9621 713 -> 96.2%
+
+
+    const rnn1SmallerFeatures2 = new ModelRNN1Smaller({
+      dataTraining: dataFeatures2,
+      nameToSave: "downloads://model-rnn1-faster-features2",
+      epoch: 30,
+      useTfjsVis: true,
+      consoleInfo: true,
+      batchSize: 256
+    }); // human	0.9964	278, bot	0.9681	722
+
 
     const rfFeature2 = new delbotrain.RandomForestModel({
-      dataTraining: new delbotrain.DataTraining({filepath, data: new delbot.data.DataFeatures2({numClasses:1})}),
+      dataTraining: new delbotrain.DataTraining({filePath, data: new delbot.data.DataFeatures2({numClasses:1})}),
       nameToSave: "random-forest-features2",
       useTfjsVis: true,
       consoleInfo: true,
       epoch: 1,
-      batchSize: 1024
+      batchSize: 4096
     }); // batch 1024 : human 0.9017 346, bot 0.9587 654 -> 93.9%
 
-    //dataFeatures2.data.getChunkElement = (line) => {
-    //    return [line.dx, line.dy, line.speedX, line.speedY, line.speed, line.accel, line.distance, line.angle, line.jerk];
-    //};
-    //dataFeatures2.data.ySize = 9;
 
     const rnn3Testing = new delbotrain.ModelRNN3({
       dataTraining: dataFeatures2,
@@ -121,7 +177,7 @@
       consoleInfo: true
     });
     const rfTesting = new delbotrain.RandomForestModel({
-      dataTraining: new delbotrain.DataTraining({filepath, data: new delbot.data.DataFeatures2({xSize: 24, numClasses: 1})}),
+      dataTraining: new delbotrain.DataTraining({filePath, data: new delbot.data.DataFeatures2({xSize: 24, numClasses: 1})}),
       nameToLoad: "https://raw.githubusercontent.com/chrisgdt/DELBOT-Mouse/master/trained-models/random-forest/random-forest-features2_1024.txt",
       useTfjsVis: true,
       consoleInfo: true
@@ -129,7 +185,7 @@
 
 
     // Delay for tfjs-vis
-    document.addEventListener('DOMContentLoaded', () => {rnn3Features2.run()});
+    document.addEventListener('DOMContentLoaded', () => {rfFeature2.run()});
   </script>
 
 </head>
