@@ -17,7 +17,6 @@
   <h2>Pour tester :</h2>
   <button id="circle_rnn3" style="margin-bottom: 50px">Modèle LSTM 3</button>
   <button id="circle_rnn1" style="margin-bottom: 50px">Modèle LSTM 1</button>
-  <button id="circle_rnn1_faster" style="margin-bottom: 50px">Modèle LSTM 1 (faster)</button>
   <button id="circle_rf" style="margin-bottom: 50px">Random Forest</button>
 
   <p>Christophe Grandmont, stagiaire au Bureau404, étudiant de l'université de Mons.</p>
@@ -29,8 +28,8 @@
   <!-- Import Tensorflow.js to use tf variable -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.0.0/dist/tf.min.js"></script>
 
-  <!--script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.2.1/dist/delbot.js"></script-->
-  <script src="../../delbot-core/dist/delbot.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.3.3/dist/delbot.js"></script>
+  <!--script src="../../delbot-core/dist/delbot.js"></script-->
 
   <script type="module">
     import {DrawElementSample, DrawElementTesting} from "./drawing.js";
@@ -39,7 +38,6 @@
 
     new DrawElementTesting('circle_rnn3', 'Dessinez un cercle.', 'circleCanvasTest1', 'circleTestHide1', delbot.Models.rnn3);
     new DrawElementTesting('circle_rnn1', 'Dessinez un cercle.', 'circleCanvasTest2', 'circleTestHide2', delbot.Models.rnn1);
-    new DrawElementTesting('circle_rnn1_faster', 'Dessinez un cercle.', 'circleCanvasTest3', 'circleTestHide3', delbot.Models.rnn1Faster);
     new DrawElementTesting('circle_rf', 'Dessinez un cercle.', 'circleCanvasTestRF', 'circleTestHideRF', delbot.Models.randomForest);
   </script>
 </body>

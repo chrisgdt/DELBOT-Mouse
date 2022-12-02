@@ -30,7 +30,7 @@ export abstract class Model {
   protected readonly epoch: number;
   protected readonly batchSize: number;
 
-  protected constructor(args: ModelProperties | DataTraining) {
+  protected constructor(args: Partial<ModelProperties> | DataTraining) {
     if (args instanceof DataTraining) args = {dataTraining: args};
 
     this.data = args.dataTraining;
@@ -110,14 +110,19 @@ export abstract class Model {
   abstract doPredictionBatch(size: number): tf.Tensor1D[];
 }
 
-
-export interface RandomForestProperties extends ModelProperties {
-  nEstimators?: number;
-  maxDepth?: number;
-  maxFeatures?: 'auto' | 'sqrt' | 'log2' | number;
-  minSampleLeaf?: number;
-  minInfoGain?: 0;
-}
+/**
+ * Default values :
+ * <ul>
+ *   <li>maxFeatures: 1.0,</li>
+ *   <li>replacement: true,</li>
+ *   <li>nEstimators: 50,</li>
+ *   <li>seed: 42,</li>
+ *   <li>useSampleBagging: true,</li>
+ *   <li>noOOB: false</li>
+ * </ul>
+ * @see {@link delbot.RandomForestBaseOptions}
+ */
+export interface RandomForestProperties extends ModelProperties, delbot.RandomForestBaseOptions {}
 
 /**
  * A class that represents a RandomForest factory, for training and saving.
@@ -129,10 +134,10 @@ export interface RandomForestProperties extends ModelProperties {
 export class RandomForestModel extends Model {
   private randomForest: delbot.RandomForestClassifier;
 
-  constructor(args: RandomForestProperties | DataTraining) {
+  constructor(args: Partial<RandomForestProperties> | DataTraining) {
+    if (args instanceof DataTraining) args = {dataTraining: args};
     super(args);
-    this.randomForest = new delbot.RandomForestClassifier({
-    });
+    this.randomForest = new delbot.RandomForestClassifier(args);
     if (this.data.data.numClasses !== 1) {
       throw Error("Random Forest should have one class as 'numClasses' !");
     }
@@ -498,7 +503,7 @@ export class ModelRNN extends TensorFlowModel {
     model.add(tf.layers.lstm({
       units: 64,
       returnSequences: false,
-      recurrentDropout : .8,
+      recurrentDropout : .3,
     }));
     model.add(tf.layers.leakyReLU({alpha: .1}));
     model.add(tf.layers.dropout({rate:0.1}));
@@ -515,9 +520,10 @@ export class ModelRNN2 extends TensorFlowModel {
       inputShape: [null, this.data.data.getYSize()],
       units: 128,
       returnSequences: false,
+      recurrentDropout : .5,
       activation: 'relu'
     }));
-    model.add(tf.layers.dropout({rate:0.4}));
+    model.add(tf.layers.dropout({rate:0.3}));
     model.add(tf.layers.batchNormalization());
     model.add(tf.layers.dense({
       units: 64,

@@ -3,7 +3,7 @@ import {RandomForestModel, TensorFlowModel, Model, Recorder} from "./recording";
 
 // TODO: Something is causing a compile error on ml-random-forest, modify type.d.ts
 //       manually works as temporary solution (https://github.com/mljs/random-forest/issues/33)
-export { RandomForestClassifier } from 'ml-random-forest';
+export { RandomForestClassifier, RandomForestBaseOptions } from 'ml-random-forest';
 export * as utils from "./utils";
 export * as data from "./data";
 export * from "./recording";
@@ -29,13 +29,6 @@ export const Models = Object.freeze({
     })),
   rnn1: new TensorFlowModel(
     "https://raw.githubusercontent.com/chrisgdt/DELBOT-Mouse/master/trained-models/rnn1/model-rnn1-features2.json",
-    new DataFeatures2({
-      numClasses: 2,
-      xSize: 24,
-      shouldCompleteXSize: false
-    })),
-  rnn1Faster: new TensorFlowModel(
-    "https://raw.githubusercontent.com/chrisgdt/DELBOT-Mouse/master/trained-models/rnn1-faster/model-rnn1-smaller-features2.json",
     new DataFeatures2({
       numClasses: 2,
       xSize: 24,

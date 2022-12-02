@@ -10,16 +10,16 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.0.0/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.2.0/dist/delbot.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.3.3/dist/delbot.js"></script>
   <!--script src="../../delbot-core/dist/delbot.js"></script-->
 
-  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-training@1.2.0/dist/delbot-training.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-training@1.3.2/dist/delbot-training.js"></script>
   <!--script src="../../delbot-training/dist/delbot-training.js"></script-->
 
   <script>
     const filePath = "../../python/sessions.json";
     const numClasses = 2;
-    const dataMatrix = new delbotrain.DataTraining({filePath, data: new delbot.data.DataMovementMatrix({numClasses})});
+    const dataMatrix = new delbotrain.DataTraining({trainingRatio: .6, filePath, data: new delbot.data.DataMovementMatrix({numClasses})});
     const dataSimplePos = new delbotrain.DataTraining({filePath, data: new delbot.data.DataSimplePosition({numClasses})});
     const dataOffsetPos = new delbotrain.DataTraining({filePath, data: new delbot.data.DataOffsetPosition({numClasses})});
     const dataFeatures2 = new delbotrain.DataTraining({filePath, data: new delbot.data.DataFeatures2({xSize: 24, numClasses})});
@@ -31,7 +31,7 @@
       useTfjsVis: true,
       consoleInfo: true,
       optimizer: tf.train.adam(.001),
-    }); // human 0.9212 406, bot 0.8047 594 -> 85.1%
+    }); // human 0.6044 273 bot 0.9739 727 -> 87.3%
 
     const modelDenseMatrix = new delbotrain.ModelDense({
       dataTraining: dataMatrix,
@@ -39,106 +39,37 @@
       epoch: 15,
       useTfjsVis: true,
       consoleInfo: true
-    }); // human 0.8839 422, bot 0.8945 578 -> 89%
+    }); // human 0.7641 284 bot	0.9232 716 -> 87.8%
     const modelDenseFeatures = new delbotrain.ModelDense({
       dataTraining: dataFeatures2,
       nameToSave: "downloads://model-features2",
       epoch: 30,
       useTfjsVis: true,
       consoleInfo: true
-    }); // human 0.8817 465, bot 0.6785 535 -> 77.3%
+    }); // human 0.1443 291 bot 0.9859 709 -> 74.1%
     const modelDenseSimplePos = new delbotrain.ModelDense({
       dataTraining: dataSimplePos,
       nameToSave: "downloads://model-dense-simple-pos",
       epoch: 30,
       useTfjsVis: true,
       consoleInfo: true
-    }); // human 0.3924 446, bot 0.7852 554 -> 61%
+    }); // human 0.7333 315 bot 0.7796 685 -> 76.5%
     const modelDenseOffsetPos = new delbotrain.ModelDense({
       dataTraining: dataOffsetPos,
       nameToSave: "downloads://model-dense-offset-pos",
       epoch: 30,
       useTfjsVis: true,
       consoleInfo: true
-    }); // human	0.8546	454, bot 0.3681 546 -> 58.9%
-
-    const rnnSimplePos = new delbotrain.ModelRNN3({
-      dataTraining: dataSimplePos,
-      nameToSave: "downloads://model-rnn-simple-pos",
-      epoch: 15,
-      useTfjsVis: true,
-      consoleInfo: true
-    }); // human 0.3493 458, bot 0.8948 542 -> 64.5%
-    const rnnOffsetPos = new delbotrain.ModelRNN3({
-      dataTraining: dataOffsetPos,
-      nameToSave: "downloads://model-rnn-offset-pos",
-      epoch: 15,
-      useTfjsVis: true,
-      consoleInfo: true
-    }); // don't converge (100% bot)
-
-    class ModelRNN1Smaller extends delbotrain.TensorFlowModel {
-      initModel() {
-        const model = tf.sequential();
-
-        model.add(tf.layers.lstm({
-          inputShape: [null, this.data.data.getYSize()],
-          units: 64,
-          returnSequences: true,
-          recurrentDropout : .5,
-        }));
-        model.add(tf.layers.batchNormalization());
-        model.add(tf.layers.leakyReLU({alpha: .1}));
-        model.add(tf.layers.dropout({rate:0.3}));
-
-        model.add(tf.layers.lstm({
-          units: 32,
-          returnSequences: false,
-          recurrentDropout : .8,
-        }));
-        model.add(tf.layers.leakyReLU({alpha: .1}));
-        model.add(tf.layers.dropout({rate:0.1}));
-
-        return model;
-      }
-    }
-
-    class DataFeatures3 extends delbot.data.DataFeatures {
-      constructor(args={}) {
-        super(args);
-        this.ySize = 13;
-      }
-
-      getChunkElement(line) {
-        return [
-          line.dx, line.dy,
-          line.speedX, line.speedY,
-          line.speed, line.accel,
-          line.distance, line.angle,
-          line.jerk,
-          line.averageSpeedAgainstDistance,
-          line.averageAccelAgainstDistance,
-          line.speedXAgainstDistance, line.speedYAgainstDistance
-        ]
-      }
-    }
+    }); // human 0.6523 279 bot 0.8613 721 -> 80.3%
 
     const rnn1Features2 = new delbotrain.ModelRNN({
       dataTraining: dataFeatures2,
-      nameToSave: "downloads://model-rnn1-features3",
+      nameToSave: "downloads://model-rnn1-features2",
       epoch: 35,
       useTfjsVis: true,
       consoleInfo: true,
       batchSize: 256
-    }); // human 0.9965 284, bot 0.9846 716 -> 98.8%
-    const rnn2Features2 = new delbotrain.ModelRNN2({
-      dataTraining: dataFeatures2,
-      nameToSave: "downloads://model-rnn2-features2",
-      epoch: 25,
-      useTfjsVis: true,
-      consoleInfo: false,
-      batchSize: 256
-    }); // human 0.7954 479, bot 0.453 521 -> 61.7%
+    }); // human 0.9835 303 bot 0.9914 697 -> 98.9%
     const rnn3Features2 = new delbotrain.ModelRNN3({
       dataTraining: dataFeatures2,
       nameToSave: "downloads://model-rnn3-features2",
@@ -147,32 +78,20 @@
       useTfjsVis: true,
       consoleInfo: true,
       batchSize: 256
-    }); // human 0.9617 287, bot 0.9621 713 -> 96.2%
-
-
-    const rnn1SmallerFeatures2 = new ModelRNN1Smaller({
-      dataTraining: dataFeatures2,
-      nameToSave: "downloads://model-rnn1-faster-features2",
-      epoch: 30,
-      useTfjsVis: true,
-      consoleInfo: true,
-      batchSize: 256
-    }); // human	0.9964	278, bot	0.9681	722
-
+    }); // human 0.917 277 bot 0.9668 723 -> 95.3%
 
     const rfFeature2 = new delbotrain.RandomForestModel({
       dataTraining: new delbotrain.DataTraining({filePath, data: new delbot.data.DataFeatures2({numClasses:1})}),
-      nameToSave: "random-forest-features2",
+      nameToSave: "random-forest-simple-pos",
       useTfjsVis: true,
       consoleInfo: true,
       epoch: 1,
-      batchSize: 4096
-    }); // batch 1024 : human 0.9017 346, bot 0.9587 654 -> 93.9%
+      batchSize: 1024
+    });
 
-
-    const rnn3Testing = new delbotrain.ModelRNN3({
+    const rnn1Testing = new delbotrain.ModelRNN({
       dataTraining: dataFeatures2,
-      nameToLoad: "https://raw.githubusercontent.com/chrisgdt/DELBOT-Mouse/master/trained-models/rnn3/model-rnn3-features2.json",
+      nameToLoad: "https://raw.githubusercontent.com/chrisgdt/DELBOT-Mouse/master/trained-models/rnn1/model-rnn1-features2.json",
       useTfjsVis: true,
       consoleInfo: true
     });
@@ -185,7 +104,7 @@
 
 
     // Delay for tfjs-vis
-    document.addEventListener('DOMContentLoaded', () => {rfFeature2.run()});
+    document.addEventListener('DOMContentLoaded', () => {rfTesting.run()});
   </script>
 
 </head>
