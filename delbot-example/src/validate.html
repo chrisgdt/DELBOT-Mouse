@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TensorFlow.js Model mouse</title>
+
+  <!-- Import TensorFlow.js and tfjs-vis -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.0.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-mouse@1.3.3/dist/delbot.js"></script>
+  <!--script src="../../delbot-core/dist/delbot.js"></script-->
+
+  <script src="https://cdn.jsdelivr.net/npm/@chrisgdt/delbot-training@1.3.2/dist/delbot-training.js"></script>
+  <!--script src="../../delbot-training/dist/delbot-training.js"></script-->
+
+  <script>
+    const filePath = "../../python/sessions.json";
+    const numClasses = 2;
+    const dataFeatures2 = new delbotrain.DataTraining({filePath, data: new delbot.data.DataFeatures2({xSize: 24, numClasses})});
+
+    const rnn1Testing = new delbotrain.ModelRNN({
+      dataTraining: dataFeatures2,
+      nameToLoad: "https://raw.githubusercontent.com/chrisgdt/DELBOT-Mouse/master/trained-models/rnn1/model-rnn1-features2.json",
+      useTfjsVis: true,
+      consoleInfo: true
+    });
+
+    // Delay for tfjs-vis
+    document.addEventListener('DOMContentLoaded', () => {rnn1Testing.run()});
+  </script>
+
+</head>
+
+<body>
+</body>
+</html>
