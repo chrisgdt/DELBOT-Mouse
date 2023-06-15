@@ -197,6 +197,6 @@ export class DrawElementTesting extends DrawElement {
   }
 
   async validate() {
-    return this.records.isHuman(this.model, .3, false, true);
+    return this.records.isHuman(this.model, .45, false, true);
   }
 }
